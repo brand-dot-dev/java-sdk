@@ -8,7 +8,7 @@ repositories {
 }
 
 allprojects {
-    group = "com.CONFIGURE_ME_branddev.api"
+    group = "com.branddev.api"
     version = "0.0.1-alpha.0" // x-release-please-version
 }
 

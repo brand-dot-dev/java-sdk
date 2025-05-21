@@ -17,5 +17,5 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    mainClass = "com.configure_me_branddev.api.example.Main"
+    mainClass = "com.branddev.api.example.Main"
 }

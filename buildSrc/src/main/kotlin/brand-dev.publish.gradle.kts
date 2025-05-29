@@ -25,9 +25,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/brand.dev-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/brand.dev-java.git")
-                    url.set("https://github.com/stainless-sdks/brand.dev-java")
+                    connection.set("scm:git:git://github.com/brand-dot-dev/java-sdk.git")
+                    developerConnection.set("scm:git:git://github.com/brand-dot-dev/java-sdk.git")
+                    url.set("https://github.com/brand-dot-dev/java-sdk")
                 }
 
                 versionMapping {

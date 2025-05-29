@@ -1,31 +1,43 @@
 # Brand Dev Java API Library
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.configure_me_branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.configure_me_branddev.api/brand-dev-java/0.0.1-alpha.0)
-[![javadoc](https://javadoc.io/badge2/com.configure_me_branddev.api/brand-dev-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.configure_me_branddev.api/brand-dev-java/0.0.1-alpha.0)
+<!-- x-release-please-start-version -->
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.1)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.1/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.1)
+
+<!-- x-release-please-end -->
 
 The Brand Dev Java SDK provides convenient access to the Brand Dev REST API from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.configure_me_branddev.api/brand-dev-java/0.0.1-alpha.0).
+<!-- x-release-please-start-version -->
+
+Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.1).
+
+<!-- x-release-please-end -->
 
 ## Installation
+
+<!-- x-release-please-start-version -->
 
 ### Gradle
 
 ```kotlin
-implementation("com.CONFIGURE_ME_branddev.api:brand-dev-java:0.0.1-alpha.0")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.1")
 ```
 
 ### Maven
 
 ```xml
 <dependency>
-  <groupId>com.CONFIGURE_ME_branddev.api</groupId>
+  <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.0.1-alpha.0</version>
+  <version>0.1.0-alpha.1</version>
 </dependency>
 ```
+
+<!-- x-release-please-end -->
 
 ## Requirements
 
@@ -34,10 +46,10 @@ This library requires Java 8 or later.
 ## Usage
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveParams;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.models.brand.BrandRetrieveParams;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 
 // Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
 BrandDevClient client = BrandDevOkHttpClient.fromEnv();
@@ -53,8 +65,8 @@ BrandRetrieveResponse brand = client.brand().retrieve(params);
 Configure the client using environment variables:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 // Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
 BrandDevClient client = BrandDevOkHttpClient.fromEnv();
@@ -63,8 +75,8 @@ BrandDevClient client = BrandDevOkHttpClient.fromEnv();
 Or manually:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
     .apiKey("My API Key")
@@ -74,8 +86,8 @@ BrandDevClient client = BrandDevOkHttpClient.builder()
 Or using a combination of the two approaches:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
     // Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
@@ -114,10 +126,10 @@ Because each class is immutable, builder modification will _never_ affect alread
 The default client is synchronous. To switch to asynchronous execution, call the `async()` method:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveParams;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.models.brand.BrandRetrieveParams;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
@@ -132,10 +144,10 @@ CompletableFuture<BrandRetrieveResponse> brand = client.async().brand().retrieve
 Or create an asynchronous client from the beginning:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClientAsync;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClientAsync;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveParams;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.client.BrandDevClientAsync;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync;
+import com.branddev.api.models.brand.BrandRetrieveParams;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
@@ -156,10 +168,10 @@ The SDK defines methods that deserialize responses into instances of Java classe
 To access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:
 
 ```java
-import com.configure_me_branddev.api.core.http.Headers;
-import com.configure_me_branddev.api.core.http.HttpResponseFor;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveParams;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.core.http.Headers;
+import com.branddev.api.core.http.HttpResponseFor;
+import com.branddev.api.models.brand.BrandRetrieveParams;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 
 BrandRetrieveParams params = BrandRetrieveParams.builder()
     .domain("REPLACE_ME")
@@ -173,7 +185,7 @@ Headers headers = brand.headers();
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 
 BrandRetrieveResponse parsedBrand = brand.parse();
 ```
@@ -182,24 +194,24 @@ BrandRetrieveResponse parsedBrand = brand.parse();
 
 The SDK throws custom unchecked exception types:
 
-- [`BrandDevServiceException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/BrandDevServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
+- [`BrandDevServiceException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-  | Status | Exception                                                                                                                                    |
-  | ------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-  | 400    | [`BadRequestException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/BadRequestException.kt)                     |
-  | 401    | [`UnauthorizedException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/UnauthorizedException.kt)                 |
-  | 403    | [`PermissionDeniedException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/PermissionDeniedException.kt)         |
-  | 404    | [`NotFoundException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/NotFoundException.kt)                         |
-  | 422    | [`UnprocessableEntityException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/UnprocessableEntityException.kt)   |
-  | 429    | [`RateLimitException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/RateLimitException.kt)                       |
-  | 5xx    | [`InternalServerException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/InternalServerException.kt)             |
-  | others | [`UnexpectedStatusCodeException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/UnexpectedStatusCodeException.kt) |
+  | Status | Exception                                                                                                                       |
+  | ------ | ------------------------------------------------------------------------------------------------------------------------------- |
+  | 400    | [`BadRequestException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/UnexpectedStatusCodeException.kt) |
 
-- [`BrandDevIoException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/BrandDevIoException.kt): I/O networking errors.
+- [`BrandDevIoException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevIoException.kt): I/O networking errors.
 
-- [`BrandDevInvalidDataException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/BrandDevInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+- [`BrandDevInvalidDataException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
-- [`BrandDevException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/BrandDevException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
+- [`BrandDevException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
 
 ## Logging
 
@@ -223,7 +235,7 @@ The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON seri
 
 The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
 
-If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClient.kt) or [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt).
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClient.kt) or [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt).
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
@@ -247,8 +259,8 @@ The API may also explicitly instruct the SDK to retry or not retry a response.
 To set a custom number of retries, configure the client using the `maxRetries` method:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
     .fromEnv()
@@ -263,7 +275,7 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 
 BrandRetrieveResponse brand = client.brand().retrieve(
   params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
@@ -273,8 +285,8 @@ BrandRetrieveResponse brand = client.brand().retrieve(
 Or configure the default for all method calls at the client level:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 import java.time.Duration;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
@@ -288,8 +300,8 @@ BrandDevClient client = BrandDevOkHttpClient.builder()
 To route requests through a proxy, configure the client using the `proxy` method:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
@@ -310,10 +322,10 @@ The SDK consists of three artifacts:
 - `brand-dev-java-core`
   - Contains core SDK logic
   - Does not depend on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`BrandDevClient`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClient.kt), [`BrandDevClientAsync`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientAsync.kt), [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientImpl.kt), and [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientAsyncImpl.kt), all of which can work with any HTTP client
+  - Exposes [`BrandDevClient`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClient.kt), [`BrandDevClientAsync`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientAsync.kt), [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientImpl.kt), and [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientAsyncImpl.kt), all of which can work with any HTTP client
 - `brand-dev-java-client-okhttp`
   - Depends on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClient.kt) and [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt), which provide a way to construct [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientImpl.kt) and [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientAsyncImpl.kt), respectively, using OkHttp
+  - Exposes [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClient.kt) and [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt), which provide a way to construct [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientImpl.kt) and [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientAsyncImpl.kt), respectively, using OkHttp
 - `brand-dev-java`
   - Depends on and exposes the APIs of both `brand-dev-java-core` and `brand-dev-java-client-okhttp`
   - Does not have its own logic
@@ -328,16 +340,16 @@ This structure allows replacing the SDK's default HTTP client without pulling in
 To use a customized `OkHttpClient`:
 
 1. Replace your [`brand-dev-java` dependency](#installation) with `brand-dev-java-core`
-2. Copy `brand-dev-java-client-okhttp`'s [`OkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
-3. Construct [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientImpl.kt) or [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientAsyncImpl.kt), similarly to [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClient.kt) or [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt), using your customized client
+2. Copy `brand-dev-java-client-okhttp`'s [`OkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientImpl.kt) or [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientAsyncImpl.kt), similarly to [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClient.kt) or [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt), using your customized client
 
 ### Completely custom HTTP client
 
 To use a completely custom HTTP client:
 
 1. Replace your [`brand-dev-java` dependency](#installation) with `brand-dev-java-core`
-2. Write a class that implements the [`HttpClient`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/core/http/HttpClient.kt) interface
-3. Construct [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientImpl.kt) or [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/client/BrandDevClientAsyncImpl.kt), similarly to [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClient.kt) or [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/configure_me_branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt), using your new client class
+2. Write a class that implements the [`HttpClient`](brand-dev-java-core/src/main/kotlin/com/branddev/api/core/http/HttpClient.kt) interface
+3. Construct [`BrandDevClientImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientImpl.kt) or [`BrandDevClientAsyncImpl`](brand-dev-java-core/src/main/kotlin/com/branddev/api/client/BrandDevClientAsyncImpl.kt), similarly to [`BrandDevOkHttpClient`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClient.kt) or [`BrandDevOkHttpClientAsync`](brand-dev-java-client-okhttp/src/main/kotlin/com/branddev/api/client/okhttp/BrandDevOkHttpClientAsync.kt), using your new client class
 
 ## Undocumented API functionality
 
@@ -348,8 +360,8 @@ The SDK is typed for convenient usage of the documented API. However, it also su
 To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or `putAdditionalBodyProperty` methods on any `Params` class:
 
 ```java
-import com.configure_me_branddev.api.core.JsonValue;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveParams;
+import com.branddev.api.core.JsonValue;
+import com.branddev.api.models.brand.BrandRetrieveParams;
 
 BrandRetrieveParams params = BrandRetrieveParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
@@ -360,20 +372,20 @@ BrandRetrieveParams params = BrandRetrieveParams.builder()
 
 These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.
 
-To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/core/Values.kt) object to its setter:
+To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](brand-dev-java-core/src/main/kotlin/com/branddev/api/core/Values.kt) object to its setter:
 
 ```java
-import com.configure_me_branddev.api.models.brand.BrandRetrieveParams;
+import com.branddev.api.models.brand.BrandRetrieveParams;
 
 BrandRetrieveParams params = BrandRetrieveParams.builder()
     .domain("REPLACE_ME")
     .build();
 ```
 
-The most straightforward way to create a [`JsonValue`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/core/Values.kt) is using its `from(...)` method:
+The most straightforward way to create a [`JsonValue`](brand-dev-java-core/src/main/kotlin/com/branddev/api/core/Values.kt) is using its `from(...)` method:
 
 ```java
-import com.configure_me_branddev.api.core.JsonValue;
+import com.branddev.api.core.JsonValue;
 import java.util.List;
 import java.util.Map;
 
@@ -411,11 +423,11 @@ JsonValue complexValue = JsonValue.from(Map.of(
 
 Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
 
-To forcibly omit a required parameter or property, pass [`JsonMissing`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/core/Values.kt):
+To forcibly omit a required parameter or property, pass [`JsonMissing`](brand-dev-java-core/src/main/kotlin/com/branddev/api/core/Values.kt):
 
 ```java
-import com.configure_me_branddev.api.core.JsonMissing;
-import com.configure_me_branddev.api.models.brand.BrandRetrieveParams;
+import com.branddev.api.core.JsonMissing;
+import com.branddev.api.models.brand.BrandRetrieveParams;
 
 BrandRetrieveParams params = BrandRetrieveParams.builder()
     .domain(JsonMissing.of())
@@ -427,7 +439,7 @@ BrandRetrieveParams params = BrandRetrieveParams.builder()
 To access undocumented response properties, call the `_additionalProperties()` method:
 
 ```java
-import com.configure_me_branddev.api.core.JsonValue;
+import com.branddev.api.core.JsonValue;
 import java.util.Map;
 
 Map<String, JsonValue> additionalProperties = client.brand().retrieve(params)._additionalProperties();
@@ -457,7 +469,7 @@ String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
 To access a property's raw JSON value, which may be undocumented, call its `_` prefixed method:
 
 ```java
-import com.configure_me_branddev.api.core.JsonField;
+import com.branddev.api.core.JsonField;
 import java.util.Optional;
 
 JsonField<Object> field = client.brand().retrieve(params)._field();
@@ -480,12 +492,12 @@ if (field.isMissing()) {
 
 In rare cases, the API may return a response that doesn't match the expected type. For example, the SDK may expect a property to contain a `String`, but the API could return something else.
 
-By default, the SDK will not throw an exception in this case. It will throw [`BrandDevInvalidDataException`](brand-dev-java-core/src/main/kotlin/com/configure_me_branddev/api/errors/BrandDevInvalidDataException.kt) only if you directly access the property.
+By default, the SDK will not throw an exception in this case. It will throw [`BrandDevInvalidDataException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevInvalidDataException.kt) only if you directly access the property.
 
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 
 BrandRetrieveResponse brand = client.brand().retrieve(params).validate();
 ```
@@ -493,7 +505,7 @@ BrandRetrieveResponse brand = client.brand().retrieve(params).validate();
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.configure_me_branddev.api.models.brand.BrandRetrieveResponse;
+import com.branddev.api.models.brand.BrandRetrieveResponse;
 
 BrandRetrieveResponse brand = client.brand().retrieve(
   params, RequestOptions.builder().responseValidation(true).build()
@@ -503,8 +515,8 @@ BrandRetrieveResponse brand = client.brand().retrieve(
 Or configure the default for all method calls at the client level:
 
 ```java
-import com.configure_me_branddev.api.client.BrandDevClient;
-import com.configure_me_branddev.api.client.okhttp.BrandDevOkHttpClient;
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
     .fromEnv()
@@ -550,4 +562,4 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/brand.dev-java/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/brand-dot-dev/java-sdk/issues) with questions, bugs, or suggestions.

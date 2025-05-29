@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.0.1-alpha.0)
-[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.0.1-alpha.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.1)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.1/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.1)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.0.1-alpha.0).
+Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.1).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/b
 ### Gradle
 
 ```kotlin
-implementation("com.branddev.api:brand-dev-java:0.0.1-alpha.0")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.1")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.branddev.api:brand-dev-java:0.0.1-alpha.0")
 <dependency>
   <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.0.1-alpha.0</version>
+  <version>0.1.0-alpha.1</version>
 </dependency>
 ```
 

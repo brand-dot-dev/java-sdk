@@ -14,7 +14,6 @@ import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface BrandServiceAsync {
@@ -89,14 +88,12 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/retrieve`, but is otherwise the same as
          * [BrandServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             params: BrandRetrieveParams
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: BrandRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -106,14 +103,12 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/transaction_identifier`, but is otherwise the
          * same as [BrandServiceAsync.identifyFromTransaction].
          */
-        @MustBeClosed
         fun identifyFromTransaction(
             params: BrandIdentifyFromTransactionParams
         ): CompletableFuture<HttpResponseFor<BrandIdentifyFromTransactionResponse>> =
             identifyFromTransaction(params, RequestOptions.none())
 
         /** @see [identifyFromTransaction] */
-        @MustBeClosed
         fun identifyFromTransaction(
             params: BrandIdentifyFromTransactionParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -123,14 +118,12 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/retrieve-by-ticker`, but is otherwise the
          * same as [BrandServiceAsync.retrieveByTicker].
          */
-        @MustBeClosed
         fun retrieveByTicker(
             params: BrandRetrieveByTickerParams
         ): CompletableFuture<HttpResponseFor<BrandRetrieveByTickerResponse>> =
             retrieveByTicker(params, RequestOptions.none())
 
         /** @see [retrieveByTicker] */
-        @MustBeClosed
         fun retrieveByTicker(
             params: BrandRetrieveByTickerParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -140,14 +133,12 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/naics`, but is otherwise the same as
          * [BrandServiceAsync.retrieveNaics].
          */
-        @MustBeClosed
         fun retrieveNaics(
             params: BrandRetrieveNaicsParams
         ): CompletableFuture<HttpResponseFor<BrandRetrieveNaicsResponse>> =
             retrieveNaics(params, RequestOptions.none())
 
         /** @see [retrieveNaics] */
-        @MustBeClosed
         fun retrieveNaics(
             params: BrandRetrieveNaicsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -157,14 +148,12 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/search`, but is otherwise the same as
          * [BrandServiceAsync.search].
          */
-        @MustBeClosed
         fun search(
             params: BrandSearchParams
         ): CompletableFuture<HttpResponseFor<List<BrandSearchResponse>>> =
             search(params, RequestOptions.none())
 
         /** @see [search] */
-        @MustBeClosed
         fun search(
             params: BrandSearchParams,
             requestOptions: RequestOptions = RequestOptions.none(),

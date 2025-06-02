@@ -4,6 +4,7 @@ package com.branddev.api.services.async
 
 import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
+import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
@@ -36,6 +37,36 @@ internal class BrandServiceAsyncTest {
 
         val brand = brandFuture.get()
         brand.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun aiQuery() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.aiQuery(
+                BrandAiQueryParams.builder()
+                    .addDataToExtract(
+                        BrandAiQueryParams.DataToExtract.builder()
+                            .datapointDescription("datapoint_description")
+                            .datapointExample("datapoint_example")
+                            .datapointName("datapoint_name")
+                            .datapointType(BrandAiQueryParams.DataToExtract.DatapointType.TEXT)
+                            .build()
+                    )
+                    .domain("domain")
+                    .addSpecificPage("string")
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 
     @Disabled("skipped: tests are disabled for the time being")

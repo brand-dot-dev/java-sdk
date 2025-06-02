@@ -12,8 +12,11 @@ import com.branddev.api.core.http.HttpMethod
 import com.branddev.api.core.http.HttpRequest
 import com.branddev.api.core.http.HttpResponse.Handler
 import com.branddev.api.core.http.HttpResponseFor
+import com.branddev.api.core.http.json
 import com.branddev.api.core.http.parseable
 import com.branddev.api.core.prepare
+import com.branddev.api.models.brand.BrandAiQueryParams
+import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
@@ -40,6 +43,13 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
     ): BrandRetrieveResponse =
         // get /brand/retrieve
         withRawResponse().retrieve(params, requestOptions).parse()
+
+    override fun aiQuery(
+        params: BrandAiQueryParams,
+        requestOptions: RequestOptions,
+    ): BrandAiQueryResponse =
+        // post /brand/ai/query
+        withRawResponse().aiQuery(params, requestOptions).parse()
 
     override fun identifyFromTransaction(
         params: BrandIdentifyFromTransactionParams,
@@ -93,6 +103,34 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             return response.parseable {
                 response
                     .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val aiQueryHandler: Handler<BrandAiQueryResponse> =
+            jsonHandler<BrandAiQueryResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun aiQuery(
+            params: BrandAiQueryParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandAiQueryResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("brand", "ai", "query")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { aiQueryHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

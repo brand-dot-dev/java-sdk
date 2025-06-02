@@ -4,6 +4,8 @@ package com.branddev.api.services.async
 
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
+import com.branddev.api.models.brand.BrandAiQueryParams
+import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
@@ -32,6 +34,19 @@ interface BrandServiceAsync {
         params: BrandRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandRetrieveResponse>
+
+    /**
+     * Beta feature: Use AI to extract specific data points from a brand's website. The AI will
+     * crawl the website and extract the requested information based on the provided data points.
+     */
+    fun aiQuery(params: BrandAiQueryParams): CompletableFuture<BrandAiQueryResponse> =
+        aiQuery(params, RequestOptions.none())
+
+    /** @see [aiQuery] */
+    fun aiQuery(
+        params: BrandAiQueryParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandAiQueryResponse>
 
     /**
      * Endpoint specially designed for platforms that want to identify transaction data by the
@@ -98,6 +113,21 @@ interface BrandServiceAsync {
             params: BrandRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as
+         * [BrandServiceAsync.aiQuery].
+         */
+        fun aiQuery(
+            params: BrandAiQueryParams
+        ): CompletableFuture<HttpResponseFor<BrandAiQueryResponse>> =
+            aiQuery(params, RequestOptions.none())
+
+        /** @see [aiQuery] */
+        fun aiQuery(
+            params: BrandAiQueryParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiQueryResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/transaction_identifier`, but is otherwise the

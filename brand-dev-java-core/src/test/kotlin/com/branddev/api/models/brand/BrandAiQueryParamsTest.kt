@@ -2,7 +2,6 @@
 
 package com.branddev.api.models.brand
 
-import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -22,7 +21,18 @@ internal class BrandAiQueryParamsTest {
                     .build()
             )
             .domain("domain")
-            .addSpecificPage("string")
+            .specificPages(
+                BrandAiQueryParams.SpecificPages.builder()
+                    .aboutUs(true)
+                    .blog(true)
+                    .careers(true)
+                    .contactUs(true)
+                    .faq(true)
+                    .homePage(true)
+                    .privacyPolicy(true)
+                    .termsAndConditions(true)
+                    .build()
+            )
             .build()
     }
 
@@ -40,7 +50,18 @@ internal class BrandAiQueryParamsTest {
                         .build()
                 )
                 .domain("domain")
-                .addSpecificPage("string")
+                .specificPages(
+                    BrandAiQueryParams.SpecificPages.builder()
+                        .aboutUs(true)
+                        .blog(true)
+                        .careers(true)
+                        .contactUs(true)
+                        .faq(true)
+                        .homePage(true)
+                        .privacyPolicy(true)
+                        .termsAndConditions(true)
+                        .build()
+                )
                 .build()
 
         val body = params._body()
@@ -55,7 +76,19 @@ internal class BrandAiQueryParamsTest {
                     .build()
             )
         assertThat(body.domain()).isEqualTo("domain")
-        assertThat(body.specificPages().getOrNull()).containsExactly("string")
+        assertThat(body.specificPages())
+            .contains(
+                BrandAiQueryParams.SpecificPages.builder()
+                    .aboutUs(true)
+                    .blog(true)
+                    .careers(true)
+                    .contactUs(true)
+                    .faq(true)
+                    .homePage(true)
+                    .privacyPolicy(true)
+                    .termsAndConditions(true)
+                    .build()
+            )
     }
 
     @Disabled("skipped: tests are disabled for the time being")

@@ -4,8 +4,12 @@ package com.branddev.api.services.async
 
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
+import com.branddev.api.models.brand.BrandAiQueryParams
+import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
+import com.branddev.api.models.brand.BrandPrefetchParams
+import com.branddev.api.models.brand.BrandPrefetchResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerResponse
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
@@ -34,6 +38,19 @@ interface BrandServiceAsync {
     ): CompletableFuture<BrandRetrieveResponse>
 
     /**
+     * Beta feature: Use AI to extract specific data points from a brand's website. The AI will
+     * crawl the website and extract the requested information based on the provided data points.
+     */
+    fun aiQuery(params: BrandAiQueryParams): CompletableFuture<BrandAiQueryResponse> =
+        aiQuery(params, RequestOptions.none())
+
+    /** @see [aiQuery] */
+    fun aiQuery(
+        params: BrandAiQueryParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandAiQueryResponse>
+
+    /**
      * Endpoint specially designed for platforms that want to identify transaction data by the
      * transaction title.
      */
@@ -47,6 +64,20 @@ interface BrandServiceAsync {
         params: BrandIdentifyFromTransactionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandIdentifyFromTransactionResponse>
+
+    /**
+     * Signal that you may fetch brand data for a particular domain soon to improve latency. This
+     * endpoint does not charge credits and is available for paid customers to optimize future
+     * requests. [You must be on a paid plan to use this endpoint]
+     */
+    fun prefetch(params: BrandPrefetchParams): CompletableFuture<BrandPrefetchResponse> =
+        prefetch(params, RequestOptions.none())
+
+    /** @see [prefetch] */
+    fun prefetch(
+        params: BrandPrefetchParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandPrefetchResponse>
 
     /** Retrieve brand data by stock ticker (e.g. AAPL, TSLA, etc.) */
     fun retrieveByTicker(
@@ -100,6 +131,21 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
 
         /**
+         * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as
+         * [BrandServiceAsync.aiQuery].
+         */
+        fun aiQuery(
+            params: BrandAiQueryParams
+        ): CompletableFuture<HttpResponseFor<BrandAiQueryResponse>> =
+            aiQuery(params, RequestOptions.none())
+
+        /** @see [aiQuery] */
+        fun aiQuery(
+            params: BrandAiQueryParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiQueryResponse>>
+
+        /**
          * Returns a raw HTTP response for `get /brand/transaction_identifier`, but is otherwise the
          * same as [BrandServiceAsync.identifyFromTransaction].
          */
@@ -113,6 +159,21 @@ interface BrandServiceAsync {
             params: BrandIdentifyFromTransactionParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandIdentifyFromTransactionResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /brand/prefetch`, but is otherwise the same as
+         * [BrandServiceAsync.prefetch].
+         */
+        fun prefetch(
+            params: BrandPrefetchParams
+        ): CompletableFuture<HttpResponseFor<BrandPrefetchResponse>> =
+            prefetch(params, RequestOptions.none())
+
+        /** @see [prefetch] */
+        fun prefetch(
+            params: BrandPrefetchParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandPrefetchResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/retrieve-by-ticker`, but is otherwise the

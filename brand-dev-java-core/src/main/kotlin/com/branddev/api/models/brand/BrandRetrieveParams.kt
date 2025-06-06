@@ -19,6 +19,7 @@ class BrandRetrieveParams
 private constructor(
     private val domain: String,
     private val forceLanguage: ForceLanguage?,
+    private val maxSpeed: Boolean?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -28,6 +29,12 @@ private constructor(
 
     /** Optional parameter to force the language of the retrieved brand data */
     fun forceLanguage(): Optional<ForceLanguage> = Optional.ofNullable(forceLanguage)
+
+    /**
+     * Optional parameter to optimize the API call for maximum speed. When set to true, the API will
+     * skip time-consuming operations for faster response at the cost of less comprehensive data.
+     */
+    fun maxSpeed(): Optional<Boolean> = Optional.ofNullable(maxSpeed)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -53,6 +60,7 @@ private constructor(
 
         private var domain: String? = null
         private var forceLanguage: ForceLanguage? = null
+        private var maxSpeed: Boolean? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -60,6 +68,7 @@ private constructor(
         internal fun from(brandRetrieveParams: BrandRetrieveParams) = apply {
             domain = brandRetrieveParams.domain
             forceLanguage = brandRetrieveParams.forceLanguage
+            maxSpeed = brandRetrieveParams.maxSpeed
             additionalHeaders = brandRetrieveParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandRetrieveParams.additionalQueryParams.toBuilder()
         }
@@ -75,6 +84,23 @@ private constructor(
         /** Alias for calling [Builder.forceLanguage] with `forceLanguage.orElse(null)`. */
         fun forceLanguage(forceLanguage: Optional<ForceLanguage>) =
             forceLanguage(forceLanguage.getOrNull())
+
+        /**
+         * Optional parameter to optimize the API call for maximum speed. When set to true, the API
+         * will skip time-consuming operations for faster response at the cost of less comprehensive
+         * data.
+         */
+        fun maxSpeed(maxSpeed: Boolean?) = apply { this.maxSpeed = maxSpeed }
+
+        /**
+         * Alias for [Builder.maxSpeed].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun maxSpeed(maxSpeed: Boolean) = maxSpeed(maxSpeed as Boolean?)
+
+        /** Alias for calling [Builder.maxSpeed] with `maxSpeed.orElse(null)`. */
+        fun maxSpeed(maxSpeed: Optional<Boolean>) = maxSpeed(maxSpeed.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -190,6 +216,7 @@ private constructor(
             BrandRetrieveParams(
                 checkRequired("domain", domain),
                 forceLanguage,
+                maxSpeed,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -202,6 +229,7 @@ private constructor(
             .apply {
                 put("domain", domain)
                 forceLanguage?.let { put("force_language", it.toString()) }
+                maxSpeed?.let { put("maxSpeed", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -643,11 +671,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandRetrieveParams && domain == other.domain && forceLanguage == other.forceLanguage && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BrandRetrieveParams && domain == other.domain && forceLanguage == other.forceLanguage && maxSpeed == other.maxSpeed && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(domain, forceLanguage, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(domain, forceLanguage, maxSpeed, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

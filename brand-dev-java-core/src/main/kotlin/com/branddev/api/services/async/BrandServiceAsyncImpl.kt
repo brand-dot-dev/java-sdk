@@ -19,6 +19,8 @@ import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
+import com.branddev.api.models.brand.BrandPrefetchParams
+import com.branddev.api.models.brand.BrandPrefetchResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerResponse
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
@@ -58,6 +60,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandIdentifyFromTransactionResponse> =
         // get /brand/transaction_identifier
         withRawResponse().identifyFromTransaction(params, requestOptions).thenApply { it.parse() }
+
+    override fun prefetch(
+        params: BrandPrefetchParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandPrefetchResponse> =
+        // post /brand/prefetch
+        withRawResponse().prefetch(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveByTicker(
         params: BrandRetrieveByTickerParams,
@@ -167,6 +176,37 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     response.parseable {
                         response
                             .use { identifyFromTransactionHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val prefetchHandler: Handler<BrandPrefetchResponse> =
+            jsonHandler<BrandPrefetchResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun prefetch(
+            params: BrandPrefetchParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandPrefetchResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("brand", "prefetch")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { prefetchHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

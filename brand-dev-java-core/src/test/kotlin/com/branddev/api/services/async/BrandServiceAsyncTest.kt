@@ -6,6 +6,7 @@ import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
+import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveParams
@@ -96,6 +97,23 @@ internal class BrandServiceAsyncTest {
                     .transactionInfo("transaction_info")
                     .build()
             )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun prefetch() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.prefetch(BrandPrefetchParams.builder().domain("domain").build())
 
         val response = responseFuture.get()
         response.validate()

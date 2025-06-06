@@ -32,8 +32,7 @@ private constructor(
 
     /**
      * Optional parameter to optimize the API call for maximum speed. When set to true, the API will
-     * skip social media data extraction and external service calls (like Crunchbase) to return
-     * results faster with basic brand information only.
+     * skip time-consuming operations for faster response at the cost of less comprehensive data.
      */
     fun maxSpeed(): Optional<Boolean> = Optional.ofNullable(maxSpeed)
 
@@ -88,8 +87,8 @@ private constructor(
 
         /**
          * Optional parameter to optimize the API call for maximum speed. When set to true, the API
-         * will skip social media data extraction and external service calls (like Crunchbase) to
-         * return results faster with basic brand information only.
+         * will skip time-consuming operations for faster response at the cost of less comprehensive
+         * data.
          */
         fun maxSpeed(maxSpeed: Boolean?) = apply { this.maxSpeed = maxSpeed }
 

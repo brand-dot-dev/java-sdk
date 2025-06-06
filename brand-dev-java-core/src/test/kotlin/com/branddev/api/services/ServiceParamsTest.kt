@@ -44,6 +44,7 @@ internal class ServiceParamsTest {
             BrandRetrieveParams.builder()
                 .domain("domain")
                 .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                .maxSpeed(true)
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")
                 .build()

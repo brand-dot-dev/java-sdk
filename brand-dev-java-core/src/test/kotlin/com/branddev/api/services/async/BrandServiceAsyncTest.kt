@@ -33,6 +33,7 @@ internal class BrandServiceAsyncTest {
                 BrandRetrieveParams.builder()
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
                     .build()
             )
 

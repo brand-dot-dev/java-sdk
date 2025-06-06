@@ -15,6 +15,7 @@ internal class BrandRetrieveParamsTest {
         BrandRetrieveParams.builder()
             .domain("domain")
             .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+            .maxSpeed(true)
             .build()
     }
 
@@ -25,6 +26,7 @@ internal class BrandRetrieveParamsTest {
             BrandRetrieveParams.builder()
                 .domain("domain")
                 .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                .maxSpeed(true)
                 .build()
 
         val queryParams = params._queryParams()
@@ -34,6 +36,7 @@ internal class BrandRetrieveParamsTest {
                 QueryParams.builder()
                     .put("domain", "domain")
                     .put("force_language", "albanian")
+                    .put("maxSpeed", "true")
                     .build()
             )
     }

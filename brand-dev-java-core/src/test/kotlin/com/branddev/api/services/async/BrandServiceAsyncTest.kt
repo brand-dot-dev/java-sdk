@@ -34,6 +34,7 @@ internal class BrandServiceAsyncTest {
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
+                    .timeoutMs(1L)
                     .build()
             )
 
@@ -75,6 +76,7 @@ internal class BrandServiceAsyncTest {
                             .termsAndConditions(true)
                             .build()
                     )
+                    .timeoutMs(1L)
                     .build()
             )
 
@@ -96,6 +98,7 @@ internal class BrandServiceAsyncTest {
             brandServiceAsync.identifyFromTransaction(
                 BrandIdentifyFromTransactionParams.builder()
                     .transactionInfo("transaction_info")
+                    .timeoutMs(1L)
                     .build()
             )
 
@@ -114,7 +117,9 @@ internal class BrandServiceAsyncTest {
         val brandServiceAsync = client.brand()
 
         val responseFuture =
-            brandServiceAsync.prefetch(BrandPrefetchParams.builder().domain("domain").build())
+            brandServiceAsync.prefetch(
+                BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+            )
 
         val response = responseFuture.get()
         response.validate()
@@ -132,7 +137,7 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.retrieveByTicker(
-                BrandRetrieveByTickerParams.builder().ticker("ticker").build()
+                BrandRetrieveByTickerParams.builder().ticker("ticker").timeoutMs(1L).build()
             )
 
         val response = responseFuture.get()
@@ -151,7 +156,7 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.retrieveNaics(
-                BrandRetrieveNaicsParams.builder().input("input").build()
+                BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
             )
 
         val response = responseFuture.get()
@@ -169,7 +174,9 @@ internal class BrandServiceAsyncTest {
         val brandServiceAsync = client.brand()
 
         val responseFuture =
-            brandServiceAsync.search(BrandSearchParams.builder().query("query").build())
+            brandServiceAsync.search(
+                BrandSearchParams.builder().query("query").timeoutMs(1L).build()
+            )
 
         val response = responseFuture.get()
         response.forEach { it.validate() }

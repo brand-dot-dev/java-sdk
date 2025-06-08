@@ -7,11 +7,14 @@ import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Endpoint to classify any brand into a 2022 NAICS code. */
 class BrandRetrieveNaicsParams
 private constructor(
     private val input: String,
+    private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -22,6 +25,13 @@ private constructor(
      * provided title.
      */
     fun input(): String = input
+
+    /**
+     * Optional timeout in milliseconds for the request. If the request takes longer than this
+     * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+     * minutes).
+     */
+    fun timeoutMs(): Optional<Long> = Optional.ofNullable(timeoutMs)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -46,12 +56,14 @@ private constructor(
     class Builder internal constructor() {
 
         private var input: String? = null
+        private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(brandRetrieveNaicsParams: BrandRetrieveNaicsParams) = apply {
             input = brandRetrieveNaicsParams.input
+            timeoutMs = brandRetrieveNaicsParams.timeoutMs
             additionalHeaders = brandRetrieveNaicsParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandRetrieveNaicsParams.additionalQueryParams.toBuilder()
         }
@@ -62,6 +74,23 @@ private constructor(
          * using the provided title.
          */
         fun input(input: String) = apply { this.input = input }
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         */
+        fun timeoutMs(timeoutMs: Long?) = apply { this.timeoutMs = timeoutMs }
+
+        /**
+         * Alias for [Builder.timeoutMs].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun timeoutMs(timeoutMs: Long) = timeoutMs(timeoutMs as Long?)
+
+        /** Alias for calling [Builder.timeoutMs] with `timeoutMs.orElse(null)`. */
+        fun timeoutMs(timeoutMs: Optional<Long>) = timeoutMs(timeoutMs.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -176,6 +205,7 @@ private constructor(
         fun build(): BrandRetrieveNaicsParams =
             BrandRetrieveNaicsParams(
                 checkRequired("input", input),
+                timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -187,6 +217,7 @@ private constructor(
         QueryParams.builder()
             .apply {
                 put("input", input)
+                timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -196,11 +227,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandRetrieveNaicsParams && input == other.input && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BrandRetrieveNaicsParams && input == other.input && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "BrandRetrieveNaicsParams{input=$input, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveNaicsParams{input=$input, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

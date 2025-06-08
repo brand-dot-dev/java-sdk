@@ -7,6 +7,8 @@ import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Endpoint specially designed for platforms that want to identify transaction data by the
@@ -15,12 +17,20 @@ import java.util.Objects
 class BrandIdentifyFromTransactionParams
 private constructor(
     private val transactionInfo: String,
+    private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     /** Transaction information to identify the brand */
     fun transactionInfo(): String = transactionInfo
+
+    /**
+     * Optional timeout in milliseconds for the request. If the request takes longer than this
+     * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+     * minutes).
+     */
+    fun timeoutMs(): Optional<Long> = Optional.ofNullable(timeoutMs)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -46,6 +56,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var transactionInfo: String? = null
+        private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -53,6 +64,7 @@ private constructor(
         internal fun from(brandIdentifyFromTransactionParams: BrandIdentifyFromTransactionParams) =
             apply {
                 transactionInfo = brandIdentifyFromTransactionParams.transactionInfo
+                timeoutMs = brandIdentifyFromTransactionParams.timeoutMs
                 additionalHeaders = brandIdentifyFromTransactionParams.additionalHeaders.toBuilder()
                 additionalQueryParams =
                     brandIdentifyFromTransactionParams.additionalQueryParams.toBuilder()
@@ -62,6 +74,23 @@ private constructor(
         fun transactionInfo(transactionInfo: String) = apply {
             this.transactionInfo = transactionInfo
         }
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         */
+        fun timeoutMs(timeoutMs: Long?) = apply { this.timeoutMs = timeoutMs }
+
+        /**
+         * Alias for [Builder.timeoutMs].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun timeoutMs(timeoutMs: Long) = timeoutMs(timeoutMs as Long?)
+
+        /** Alias for calling [Builder.timeoutMs] with `timeoutMs.orElse(null)`. */
+        fun timeoutMs(timeoutMs: Optional<Long>) = timeoutMs(timeoutMs.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -176,6 +205,7 @@ private constructor(
         fun build(): BrandIdentifyFromTransactionParams =
             BrandIdentifyFromTransactionParams(
                 checkRequired("transactionInfo", transactionInfo),
+                timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -187,6 +217,7 @@ private constructor(
         QueryParams.builder()
             .apply {
                 put("transaction_info", transactionInfo)
+                timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -196,11 +227,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandIdentifyFromTransactionParams && transactionInfo == other.transactionInfo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BrandIdentifyFromTransactionParams && transactionInfo == other.transactionInfo && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(transactionInfo, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(transactionInfo, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "BrandIdentifyFromTransactionParams{transactionInfo=$transactionInfo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandIdentifyFromTransactionParams{transactionInfo=$transactionInfo, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

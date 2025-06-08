@@ -11,12 +11,23 @@ internal class BrandPrefetchParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        BrandPrefetchParams.builder().domain("domain").build()
+        BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
+        val params = BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+
+        val body = params._body()
+
+        assertThat(body.domain()).isEqualTo("domain")
+        assertThat(body.timeoutMs()).contains(1L)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun bodyWithoutOptionalFields() {
         val params = BrandPrefetchParams.builder().domain("domain").build()
 
         val body = params._body()

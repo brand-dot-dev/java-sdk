@@ -7,17 +7,27 @@ import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieve brand data by stock ticker (e.g. AAPL, TSLA, etc.) */
 class BrandRetrieveByTickerParams
 private constructor(
     private val ticker: String,
+    private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     /** Stock ticker symbol to retrieve brand data for (e.g. AAPL, TSLA, etc.) */
     fun ticker(): String = ticker
+
+    /**
+     * Optional timeout in milliseconds for the request. If the request takes longer than this
+     * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+     * minutes).
+     */
+    fun timeoutMs(): Optional<Long> = Optional.ofNullable(timeoutMs)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -42,18 +52,37 @@ private constructor(
     class Builder internal constructor() {
 
         private var ticker: String? = null
+        private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(brandRetrieveByTickerParams: BrandRetrieveByTickerParams) = apply {
             ticker = brandRetrieveByTickerParams.ticker
+            timeoutMs = brandRetrieveByTickerParams.timeoutMs
             additionalHeaders = brandRetrieveByTickerParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandRetrieveByTickerParams.additionalQueryParams.toBuilder()
         }
 
         /** Stock ticker symbol to retrieve brand data for (e.g. AAPL, TSLA, etc.) */
         fun ticker(ticker: String) = apply { this.ticker = ticker }
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         */
+        fun timeoutMs(timeoutMs: Long?) = apply { this.timeoutMs = timeoutMs }
+
+        /**
+         * Alias for [Builder.timeoutMs].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun timeoutMs(timeoutMs: Long) = timeoutMs(timeoutMs as Long?)
+
+        /** Alias for calling [Builder.timeoutMs] with `timeoutMs.orElse(null)`. */
+        fun timeoutMs(timeoutMs: Optional<Long>) = timeoutMs(timeoutMs.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -168,6 +197,7 @@ private constructor(
         fun build(): BrandRetrieveByTickerParams =
             BrandRetrieveByTickerParams(
                 checkRequired("ticker", ticker),
+                timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -179,6 +209,7 @@ private constructor(
         QueryParams.builder()
             .apply {
                 put("ticker", ticker)
+                timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -188,11 +219,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandRetrieveByTickerParams && ticker == other.ticker && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BrandRetrieveByTickerParams && ticker == other.ticker && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(ticker, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(ticker, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "BrandRetrieveByTickerParams{ticker=$ticker, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveByTickerParams{ticker=$ticker, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

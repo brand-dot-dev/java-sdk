@@ -7,17 +7,27 @@ import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Search brands by query */
 class BrandSearchParams
 private constructor(
     private val query: String,
+    private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     /** Query string to search brands */
     fun query(): String = query
+
+    /**
+     * Optional timeout in milliseconds for the request. If the request takes longer than this
+     * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+     * minutes).
+     */
+    fun timeoutMs(): Optional<Long> = Optional.ofNullable(timeoutMs)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -42,18 +52,37 @@ private constructor(
     class Builder internal constructor() {
 
         private var query: String? = null
+        private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(brandSearchParams: BrandSearchParams) = apply {
             query = brandSearchParams.query
+            timeoutMs = brandSearchParams.timeoutMs
             additionalHeaders = brandSearchParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandSearchParams.additionalQueryParams.toBuilder()
         }
 
         /** Query string to search brands */
         fun query(query: String) = apply { this.query = query }
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         */
+        fun timeoutMs(timeoutMs: Long?) = apply { this.timeoutMs = timeoutMs }
+
+        /**
+         * Alias for [Builder.timeoutMs].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun timeoutMs(timeoutMs: Long) = timeoutMs(timeoutMs as Long?)
+
+        /** Alias for calling [Builder.timeoutMs] with `timeoutMs.orElse(null)`. */
+        fun timeoutMs(timeoutMs: Optional<Long>) = timeoutMs(timeoutMs.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -168,6 +197,7 @@ private constructor(
         fun build(): BrandSearchParams =
             BrandSearchParams(
                 checkRequired("query", query),
+                timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -179,6 +209,7 @@ private constructor(
         QueryParams.builder()
             .apply {
                 put("query", query)
+                timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -188,11 +219,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandSearchParams && query == other.query && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BrandSearchParams && query == other.query && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(query, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(query, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "BrandSearchParams{query=$query, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandSearchParams{query=$query, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

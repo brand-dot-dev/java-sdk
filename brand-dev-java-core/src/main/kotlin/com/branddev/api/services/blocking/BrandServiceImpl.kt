@@ -104,6 +104,7 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "retrieve")
                     .build()
                     .prepare(clientOptions, params)
@@ -131,6 +132,7 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "ai", "query")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -159,6 +161,7 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "transaction_identifier")
                     .build()
                     .prepare(clientOptions, params)
@@ -186,6 +189,7 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "prefetch")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -214,6 +218,7 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "retrieve-by-ticker")
                     .build()
                     .prepare(clientOptions, params)
@@ -241,6 +246,7 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "naics")
                     .build()
                     .prepare(clientOptions, params)
@@ -268,6 +274,7 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "search")
                     .build()
                     .prepare(clientOptions, params)

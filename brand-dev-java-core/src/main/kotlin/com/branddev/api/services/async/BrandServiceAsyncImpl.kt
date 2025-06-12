@@ -105,6 +105,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "retrieve")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -135,6 +136,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "ai", "query")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -166,6 +168,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "transaction_identifier")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -196,6 +199,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "prefetch")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -227,6 +231,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "retrieve-by-ticker")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -257,6 +262,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "naics")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -287,6 +293,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "search")
                     .build()
                     .prepareAsync(clientOptions, params)

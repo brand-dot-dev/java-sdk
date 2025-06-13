@@ -6,6 +6,7 @@ import com.branddev.api.core.ClientOptions
 import com.branddev.api.core.getPackageVersion
 import com.branddev.api.services.blocking.BrandService
 import com.branddev.api.services.blocking.BrandServiceImpl
+import java.util.function.Consumer
 
 class BrandDevClientImpl(private val clientOptions: ClientOptions) : BrandDevClient {
 
@@ -30,6 +31,9 @@ class BrandDevClientImpl(private val clientOptions: ClientOptions) : BrandDevCli
 
     override fun withRawResponse(): BrandDevClient.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandDevClient =
+        BrandDevClientImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun brand(): BrandService = brand
 
     override fun close() = clientOptions.httpClient.close()
@@ -40,6 +44,13 @@ class BrandDevClientImpl(private val clientOptions: ClientOptions) : BrandDevCli
         private val brand: BrandService.WithRawResponse by lazy {
             BrandServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BrandDevClient.WithRawResponse =
+            BrandDevClientImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun brand(): BrandService.WithRawResponse = brand
     }

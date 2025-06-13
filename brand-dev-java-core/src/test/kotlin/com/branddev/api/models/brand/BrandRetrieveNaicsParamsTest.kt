@@ -12,12 +12,23 @@ internal class BrandRetrieveNaicsParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        BrandRetrieveNaicsParams.builder().input("input").build()
+        BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
+        val params = BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("input", "input").put("timeoutMS", "1").build())
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun queryParamsWithoutOptionalFields() {
         val params = BrandRetrieveNaicsParams.builder().input("input").build()
 
         val queryParams = params._queryParams()

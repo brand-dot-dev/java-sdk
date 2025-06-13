@@ -30,6 +30,7 @@ import com.branddev.api.models.brand.BrandRetrieveResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class BrandServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     BrandServiceAsync {
@@ -39,6 +40,9 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): BrandServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandServiceAsync =
+        BrandServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: BrandRetrieveParams,
@@ -94,6 +98,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BrandServiceAsync.WithRawResponse =
+            BrandServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<BrandRetrieveResponse> =
             jsonHandler<BrandRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -105,6 +116,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "retrieve")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -135,6 +147,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "ai", "query")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -166,6 +179,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "transaction_identifier")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -196,6 +210,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "prefetch")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -227,6 +242,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "retrieve-by-ticker")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -257,6 +273,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "naics")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -287,6 +304,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("brand", "search")
                     .build()
                     .prepareAsync(clientOptions, params)

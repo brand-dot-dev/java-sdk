@@ -30,6 +30,7 @@ import com.branddev.api.models.brand.BrandRetrieveResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class BrandServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     BrandServiceAsync {
@@ -39,6 +40,9 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): BrandServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandServiceAsync =
+        BrandServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: BrandRetrieveParams,
@@ -93,6 +97,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
         BrandServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BrandServiceAsync.WithRawResponse =
+            BrandServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<BrandRetrieveResponse> =
             jsonHandler<BrandRetrieveResponse>(clientOptions.jsonMapper)

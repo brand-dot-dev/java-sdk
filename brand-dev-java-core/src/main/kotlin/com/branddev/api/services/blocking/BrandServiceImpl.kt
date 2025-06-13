@@ -29,6 +29,7 @@ import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
+import java.util.function.Consumer
 
 class BrandServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     BrandService {
@@ -38,6 +39,9 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
     }
 
     override fun withRawResponse(): BrandService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandService =
+        BrandServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: BrandRetrieveParams,
@@ -92,6 +96,13 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
         BrandService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BrandService.WithRawResponse =
+            BrandServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<BrandRetrieveResponse> =
             jsonHandler<BrandRetrieveResponse>(clientOptions.jsonMapper)

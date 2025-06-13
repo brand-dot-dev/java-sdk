@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-06-13)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Features
+
+* **api:** manual updates ([54375eb](https://github.com/brand-dot-dev/java-sdk/commit/54375ebc6a0bb8bcbf42b65a82acadf9bd783336))
+* **client:** add a `withOptions` method ([3cfe90c](https://github.com/brand-dot-dev/java-sdk/commit/3cfe90c94543b1c271026eaeed3b4b941a311d81))
+* **client:** implement per-endpoint base URL support ([a01b1d5](https://github.com/brand-dot-dev/java-sdk/commit/a01b1d5539251f6fb2d99b6e5d2b0a3d7ab075cb))
+
 ## 0.1.0-alpha.2 (2025-06-06)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)

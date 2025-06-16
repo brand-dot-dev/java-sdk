@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.2)
-[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.2/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.2)
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.3)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.3/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.3)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.2).
+Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.3).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/b
 ### Gradle
 
 ```kotlin
-implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.2")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.3")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.2")
 <dependency>
   <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.1.0-alpha.2</version>
+  <version>0.1.0-alpha.3</version>
 </dependency>
 ```
 
@@ -106,6 +106,21 @@ See this table for the available options:
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
 > thread pools, which are more efficient to share between requests.
+
+### Modifying configuration
+
+To temporarily use a modified client configuration, while reusing the same connection and thread pools, call `withOptions()` on any client or service:
+
+```java
+import com.branddev.api.client.BrandDevClient;
+
+BrandDevClient clientWithOptions = client.withOptions(optionsBuilder -> {
+    optionsBuilder.baseUrl("https://example.com");
+    optionsBuilder.maxRetries(42);
+});
+```
+
+The `withOptions()` method does not affect the original client or service.
 
 ## Requests and responses
 

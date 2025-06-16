@@ -20,6 +20,7 @@ private constructor(
     private val domain: String,
     private val forceLanguage: ForceLanguage?,
     private val maxSpeed: Boolean?,
+    private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -35,6 +36,13 @@ private constructor(
      * skip time-consuming operations for faster response at the cost of less comprehensive data.
      */
     fun maxSpeed(): Optional<Boolean> = Optional.ofNullable(maxSpeed)
+
+    /**
+     * Optional timeout in milliseconds for the request. If the request takes longer than this
+     * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+     * minutes).
+     */
+    fun timeoutMs(): Optional<Long> = Optional.ofNullable(timeoutMs)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -61,6 +69,7 @@ private constructor(
         private var domain: String? = null
         private var forceLanguage: ForceLanguage? = null
         private var maxSpeed: Boolean? = null
+        private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -69,6 +78,7 @@ private constructor(
             domain = brandRetrieveParams.domain
             forceLanguage = brandRetrieveParams.forceLanguage
             maxSpeed = brandRetrieveParams.maxSpeed
+            timeoutMs = brandRetrieveParams.timeoutMs
             additionalHeaders = brandRetrieveParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandRetrieveParams.additionalQueryParams.toBuilder()
         }
@@ -101,6 +111,23 @@ private constructor(
 
         /** Alias for calling [Builder.maxSpeed] with `maxSpeed.orElse(null)`. */
         fun maxSpeed(maxSpeed: Optional<Boolean>) = maxSpeed(maxSpeed.getOrNull())
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         */
+        fun timeoutMs(timeoutMs: Long?) = apply { this.timeoutMs = timeoutMs }
+
+        /**
+         * Alias for [Builder.timeoutMs].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun timeoutMs(timeoutMs: Long) = timeoutMs(timeoutMs as Long?)
+
+        /** Alias for calling [Builder.timeoutMs] with `timeoutMs.orElse(null)`. */
+        fun timeoutMs(timeoutMs: Optional<Long>) = timeoutMs(timeoutMs.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -217,6 +244,7 @@ private constructor(
                 checkRequired("domain", domain),
                 forceLanguage,
                 maxSpeed,
+                timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -230,6 +258,7 @@ private constructor(
                 put("domain", domain)
                 forceLanguage?.let { put("force_language", it.toString()) }
                 maxSpeed?.let { put("maxSpeed", it.toString()) }
+                timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -671,11 +700,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandRetrieveParams && domain == other.domain && forceLanguage == other.forceLanguage && maxSpeed == other.maxSpeed && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BrandRetrieveParams && domain == other.domain && forceLanguage == other.forceLanguage && maxSpeed == other.maxSpeed && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(domain, forceLanguage, maxSpeed, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(domain, forceLanguage, maxSpeed, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

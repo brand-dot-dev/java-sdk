@@ -2,7 +2,9 @@
 
 package com.branddev.api.client
 
+import com.branddev.api.core.ClientOptions
 import com.branddev.api.services.async.BrandServiceAsync
+import java.util.function.Consumer
 
 /**
  * A client for interacting with the Brand Dev REST API asynchronously. You can also switch to
@@ -33,6 +35,13 @@ interface BrandDevClientAsync {
      */
     fun withRawResponse(): WithRawResponse
 
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandDevClientAsync
+
     fun brand(): BrandServiceAsync
 
     /**
@@ -52,6 +61,15 @@ interface BrandDevClientAsync {
      * A view of [BrandDevClientAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BrandDevClientAsync.WithRawResponse
 
         fun brand(): BrandServiceAsync.WithRawResponse
     }

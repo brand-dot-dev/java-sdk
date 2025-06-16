@@ -34,6 +34,7 @@ internal class BrandServiceTest {
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
+                    .timeoutMs(1L)
                     .build()
             )
 
@@ -74,6 +75,7 @@ internal class BrandServiceTest {
                             .termsAndConditions(true)
                             .build()
                     )
+                    .timeoutMs(1L)
                     .build()
             )
 
@@ -94,6 +96,7 @@ internal class BrandServiceTest {
             brandService.identifyFromTransaction(
                 BrandIdentifyFromTransactionParams.builder()
                     .transactionInfo("transaction_info")
+                    .timeoutMs(1L)
                     .build()
             )
 
@@ -110,7 +113,10 @@ internal class BrandServiceTest {
                 .build()
         val brandService = client.brand()
 
-        val response = brandService.prefetch(BrandPrefetchParams.builder().domain("domain").build())
+        val response =
+            brandService.prefetch(
+                BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+            )
 
         response.validate()
     }
@@ -127,7 +133,7 @@ internal class BrandServiceTest {
 
         val response =
             brandService.retrieveByTicker(
-                BrandRetrieveByTickerParams.builder().ticker("ticker").build()
+                BrandRetrieveByTickerParams.builder().ticker("ticker").timeoutMs(1L).build()
             )
 
         response.validate()
@@ -144,7 +150,9 @@ internal class BrandServiceTest {
         val brandService = client.brand()
 
         val response =
-            brandService.retrieveNaics(BrandRetrieveNaicsParams.builder().input("input").build())
+            brandService.retrieveNaics(
+                BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
+            )
 
         response.validate()
     }
@@ -159,7 +167,8 @@ internal class BrandServiceTest {
                 .build()
         val brandService = client.brand()
 
-        val response = brandService.search(BrandSearchParams.builder().query("query").build())
+        val response =
+            brandService.search(BrandSearchParams.builder().query("query").timeoutMs(1L).build())
 
         response.forEach { it.validate() }
     }

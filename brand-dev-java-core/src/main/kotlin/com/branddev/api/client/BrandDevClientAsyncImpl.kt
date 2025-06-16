@@ -6,6 +6,7 @@ import com.branddev.api.core.ClientOptions
 import com.branddev.api.core.getPackageVersion
 import com.branddev.api.services.async.BrandServiceAsync
 import com.branddev.api.services.async.BrandServiceAsyncImpl
+import java.util.function.Consumer
 
 class BrandDevClientAsyncImpl(private val clientOptions: ClientOptions) : BrandDevClientAsync {
 
@@ -32,6 +33,9 @@ class BrandDevClientAsyncImpl(private val clientOptions: ClientOptions) : BrandD
 
     override fun withRawResponse(): BrandDevClientAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandDevClientAsync =
+        BrandDevClientAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun brand(): BrandServiceAsync = brand
 
     override fun close() = clientOptions.httpClient.close()
@@ -42,6 +46,13 @@ class BrandDevClientAsyncImpl(private val clientOptions: ClientOptions) : BrandD
         private val brand: BrandServiceAsync.WithRawResponse by lazy {
             BrandServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BrandDevClientAsync.WithRawResponse =
+            BrandDevClientAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun brand(): BrandServiceAsync.WithRawResponse = brand
     }

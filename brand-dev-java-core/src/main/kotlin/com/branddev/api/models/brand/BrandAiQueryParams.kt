@@ -59,6 +59,16 @@ private constructor(
     fun specificPages(): Optional<SpecificPages> = body.specificPages()
 
     /**
+     * Optional timeout in milliseconds for the request. If the request takes longer than this
+     * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+     * minutes).
+     *
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun timeoutMs(): Optional<Long> = body.timeoutMs()
+
+    /**
      * Returns the raw JSON value of [dataToExtract].
      *
      * Unlike [dataToExtract], this method doesn't throw if the JSON field has an unexpected type.
@@ -78,6 +88,13 @@ private constructor(
      * Unlike [specificPages], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _specificPages(): JsonField<SpecificPages> = body._specificPages()
+
+    /**
+     * Returns the raw JSON value of [timeoutMs].
+     *
+     * Unlike [timeoutMs], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _timeoutMs(): JsonField<Long> = body._timeoutMs()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -123,6 +140,7 @@ private constructor(
          * - [dataToExtract]
          * - [domain]
          * - [specificPages]
+         * - [timeoutMs]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -177,6 +195,21 @@ private constructor(
         fun specificPages(specificPages: JsonField<SpecificPages>) = apply {
             body.specificPages(specificPages)
         }
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         */
+        fun timeoutMs(timeoutMs: Long) = apply { body.timeoutMs(timeoutMs) }
+
+        /**
+         * Sets [Builder.timeoutMs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.timeoutMs] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun timeoutMs(timeoutMs: JsonField<Long>) = apply { body.timeoutMs(timeoutMs) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -327,6 +360,7 @@ private constructor(
         private val dataToExtract: JsonField<List<DataToExtract>>,
         private val domain: JsonField<String>,
         private val specificPages: JsonField<SpecificPages>,
+        private val timeoutMs: JsonField<Long>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -339,7 +373,8 @@ private constructor(
             @JsonProperty("specific_pages")
             @ExcludeMissing
             specificPages: JsonField<SpecificPages> = JsonMissing.of(),
-        ) : this(dataToExtract, domain, specificPages, mutableMapOf())
+            @JsonProperty("timeoutMS") @ExcludeMissing timeoutMs: JsonField<Long> = JsonMissing.of(),
+        ) : this(dataToExtract, domain, specificPages, timeoutMs, mutableMapOf())
 
         /**
          * Array of data points to extract from the website
@@ -364,6 +399,16 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun specificPages(): Optional<SpecificPages> = specificPages.getOptional("specific_pages")
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun timeoutMs(): Optional<Long> = timeoutMs.getOptional("timeoutMS")
 
         /**
          * Returns the raw JSON value of [dataToExtract].
@@ -391,6 +436,13 @@ private constructor(
         @JsonProperty("specific_pages")
         @ExcludeMissing
         fun _specificPages(): JsonField<SpecificPages> = specificPages
+
+        /**
+         * Returns the raw JSON value of [timeoutMs].
+         *
+         * Unlike [timeoutMs], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("timeoutMS") @ExcludeMissing fun _timeoutMs(): JsonField<Long> = timeoutMs
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -424,6 +476,7 @@ private constructor(
             private var dataToExtract: JsonField<MutableList<DataToExtract>>? = null
             private var domain: JsonField<String>? = null
             private var specificPages: JsonField<SpecificPages> = JsonMissing.of()
+            private var timeoutMs: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -431,6 +484,7 @@ private constructor(
                 dataToExtract = body.dataToExtract.map { it.toMutableList() }
                 domain = body.domain
                 specificPages = body.specificPages
+                timeoutMs = body.timeoutMs
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -488,6 +542,22 @@ private constructor(
                 this.specificPages = specificPages
             }
 
+            /**
+             * Optional timeout in milliseconds for the request. If the request takes longer than
+             * this value, it will be aborted with a 408 status code. Maximum allowed value is
+             * 300000ms (5 minutes).
+             */
+            fun timeoutMs(timeoutMs: Long) = timeoutMs(JsonField.of(timeoutMs))
+
+            /**
+             * Sets [Builder.timeoutMs] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.timeoutMs] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun timeoutMs(timeoutMs: JsonField<Long>) = apply { this.timeoutMs = timeoutMs }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -525,6 +595,7 @@ private constructor(
                     checkRequired("dataToExtract", dataToExtract).map { it.toImmutable() },
                     checkRequired("domain", domain),
                     specificPages,
+                    timeoutMs,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -539,6 +610,7 @@ private constructor(
             dataToExtract().forEach { it.validate() }
             domain()
             specificPages().ifPresent { it.validate() }
+            timeoutMs()
             validated = true
         }
 
@@ -560,24 +632,25 @@ private constructor(
         internal fun validity(): Int =
             (dataToExtract.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (domain.asKnown().isPresent) 1 else 0) +
-                (specificPages.asKnown().getOrNull()?.validity() ?: 0)
+                (specificPages.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (timeoutMs.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Body && dataToExtract == other.dataToExtract && domain == other.domain && specificPages == other.specificPages && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && dataToExtract == other.dataToExtract && domain == other.domain && specificPages == other.specificPages && timeoutMs == other.timeoutMs && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(dataToExtract, domain, specificPages, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(dataToExtract, domain, specificPages, timeoutMs, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{dataToExtract=$dataToExtract, domain=$domain, specificPages=$specificPages, additionalProperties=$additionalProperties}"
+            "Body{dataToExtract=$dataToExtract, domain=$domain, specificPages=$specificPages, timeoutMs=$timeoutMs, additionalProperties=$additionalProperties}"
     }
 
     class DataToExtract

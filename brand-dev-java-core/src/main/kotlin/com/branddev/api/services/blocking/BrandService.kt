@@ -2,6 +2,7 @@
 
 package com.branddev.api.services.blocking
 
+import com.branddev.api.core.ClientOptions
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
 import com.branddev.api.models.brand.BrandAiQueryParams
@@ -19,6 +20,7 @@ import com.branddev.api.models.brand.BrandRetrieveResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface BrandService {
 
@@ -26,6 +28,13 @@ interface BrandService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandService
 
     /** Retrieve brand data by domain */
     fun retrieve(params: BrandRetrieveParams): BrandRetrieveResponse =
@@ -110,6 +119,13 @@ interface BrandService {
 
     /** A view of [BrandService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /brand/retrieve`, but is otherwise the same as

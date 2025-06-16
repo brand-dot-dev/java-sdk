@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 
 /**
  * Signal that you may fetch brand data for a particular domain soon to improve latency. This
@@ -39,11 +40,28 @@ private constructor(
     fun domain(): String = body.domain()
 
     /**
+     * Optional timeout in milliseconds for the request. If the request takes longer than this
+     * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+     * minutes).
+     *
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun timeoutMs(): Optional<Long> = body.timeoutMs()
+
+    /**
      * Returns the raw JSON value of [domain].
      *
      * Unlike [domain], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _domain(): JsonField<String> = body._domain()
+
+    /**
+     * Returns the raw JSON value of [timeoutMs].
+     *
+     * Unlike [timeoutMs], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _timeoutMs(): JsonField<Long> = body._timeoutMs()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -86,6 +104,7 @@ private constructor(
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [domain]
+         * - [timeoutMs]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -99,6 +118,21 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun domain(domain: JsonField<String>) = apply { body.domain(domain) }
+
+        /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         */
+        fun timeoutMs(timeoutMs: Long) = apply { body.timeoutMs(timeoutMs) }
+
+        /**
+         * Sets [Builder.timeoutMs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.timeoutMs] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun timeoutMs(timeoutMs: JsonField<Long>) = apply { body.timeoutMs(timeoutMs) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -246,13 +280,15 @@ private constructor(
     class Body
     private constructor(
         private val domain: JsonField<String>,
+        private val timeoutMs: JsonField<Long>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("domain") @ExcludeMissing domain: JsonField<String> = JsonMissing.of()
-        ) : this(domain, mutableMapOf())
+            @JsonProperty("domain") @ExcludeMissing domain: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("timeoutMS") @ExcludeMissing timeoutMs: JsonField<Long> = JsonMissing.of(),
+        ) : this(domain, timeoutMs, mutableMapOf())
 
         /**
          * Domain name to prefetch brand data for
@@ -263,11 +299,28 @@ private constructor(
         fun domain(): String = domain.getRequired("domain")
 
         /**
+         * Optional timeout in milliseconds for the request. If the request takes longer than this
+         * value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5
+         * minutes).
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun timeoutMs(): Optional<Long> = timeoutMs.getOptional("timeoutMS")
+
+        /**
          * Returns the raw JSON value of [domain].
          *
          * Unlike [domain], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("domain") @ExcludeMissing fun _domain(): JsonField<String> = domain
+
+        /**
+         * Returns the raw JSON value of [timeoutMs].
+         *
+         * Unlike [timeoutMs], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("timeoutMS") @ExcludeMissing fun _timeoutMs(): JsonField<Long> = timeoutMs
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -298,11 +351,13 @@ private constructor(
         class Builder internal constructor() {
 
             private var domain: JsonField<String>? = null
+            private var timeoutMs: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 domain = body.domain
+                timeoutMs = body.timeoutMs
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -317,6 +372,22 @@ private constructor(
              * supported value.
              */
             fun domain(domain: JsonField<String>) = apply { this.domain = domain }
+
+            /**
+             * Optional timeout in milliseconds for the request. If the request takes longer than
+             * this value, it will be aborted with a 408 status code. Maximum allowed value is
+             * 300000ms (5 minutes).
+             */
+            fun timeoutMs(timeoutMs: Long) = timeoutMs(JsonField.of(timeoutMs))
+
+            /**
+             * Sets [Builder.timeoutMs] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.timeoutMs] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun timeoutMs(timeoutMs: JsonField<Long>) = apply { this.timeoutMs = timeoutMs }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -350,7 +421,11 @@ private constructor(
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Body =
-                Body(checkRequired("domain", domain), additionalProperties.toMutableMap())
+                Body(
+                    checkRequired("domain", domain),
+                    timeoutMs,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -361,6 +436,7 @@ private constructor(
             }
 
             domain()
+            timeoutMs()
             validated = true
         }
 
@@ -378,23 +454,27 @@ private constructor(
          *
          * Used for best match union deserialization.
          */
-        @JvmSynthetic internal fun validity(): Int = (if (domain.asKnown().isPresent) 1 else 0)
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (domain.asKnown().isPresent) 1 else 0) +
+                (if (timeoutMs.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Body && domain == other.domain && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && domain == other.domain && timeoutMs == other.timeoutMs && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(domain, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(domain, timeoutMs, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
-        override fun toString() = "Body{domain=$domain, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Body{domain=$domain, timeoutMs=$timeoutMs, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

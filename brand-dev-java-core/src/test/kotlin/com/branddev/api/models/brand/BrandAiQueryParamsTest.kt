@@ -33,6 +33,7 @@ internal class BrandAiQueryParamsTest {
                     .termsAndConditions(true)
                     .build()
             )
+            .timeoutMs(1L)
             .build()
     }
 
@@ -62,6 +63,7 @@ internal class BrandAiQueryParamsTest {
                         .termsAndConditions(true)
                         .build()
                 )
+                .timeoutMs(1L)
                 .build()
 
         val body = params._body()
@@ -89,6 +91,7 @@ internal class BrandAiQueryParamsTest {
                     .termsAndConditions(true)
                     .build()
             )
+        assertThat(body.timeoutMs()).contains(1L)
     }
 
     @Disabled("skipped: tests are disabled for the time being")

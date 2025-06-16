@@ -161,13 +161,7 @@ class BrandDevOkHttpClient private constructor() {
         fun build(): BrandDevClient =
             BrandDevClientImpl(
                 clientOptions
-                    .httpClient(
-                        OkHttpClient.builder()
-                            .baseUrl(clientOptions.baseUrl())
-                            .timeout(timeout)
-                            .proxy(proxy)
-                            .build()
-                    )
+                    .httpClient(OkHttpClient.builder().timeout(timeout).proxy(proxy).build())
                     .build()
             )
     }

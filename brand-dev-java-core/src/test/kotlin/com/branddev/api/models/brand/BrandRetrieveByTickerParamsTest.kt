@@ -12,12 +12,23 @@ internal class BrandRetrieveByTickerParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        BrandRetrieveByTickerParams.builder().ticker("ticker").build()
+        BrandRetrieveByTickerParams.builder().ticker("ticker").timeoutMs(1L).build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
+        val params = BrandRetrieveByTickerParams.builder().ticker("ticker").timeoutMs(1L).build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("ticker", "ticker").put("timeoutMS", "1").build())
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun queryParamsWithoutOptionalFields() {
         val params = BrandRetrieveByTickerParams.builder().ticker("ticker").build()
 
         val queryParams = params._queryParams()

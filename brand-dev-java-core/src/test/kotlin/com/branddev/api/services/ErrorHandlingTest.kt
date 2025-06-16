@@ -77,6 +77,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -104,6 +105,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -131,6 +133,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -158,6 +161,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -185,6 +189,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -212,6 +217,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -239,6 +245,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -266,6 +273,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }
@@ -291,6 +299,7 @@ internal class ErrorHandlingTest {
                         .domain("domain")
                         .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                         .maxSpeed(true)
+                        .timeoutMs(1L)
                         .build()
                 )
             }

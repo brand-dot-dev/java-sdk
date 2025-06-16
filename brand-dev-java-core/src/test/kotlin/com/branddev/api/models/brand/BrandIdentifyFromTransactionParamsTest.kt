@@ -12,12 +12,35 @@ internal class BrandIdentifyFromTransactionParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        BrandIdentifyFromTransactionParams.builder().transactionInfo("transaction_info").build()
+        BrandIdentifyFromTransactionParams.builder()
+            .transactionInfo("transaction_info")
+            .timeoutMs(1L)
+            .build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
+        val params =
+            BrandIdentifyFromTransactionParams.builder()
+                .transactionInfo("transaction_info")
+                .timeoutMs(1L)
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("transaction_info", "transaction_info")
+                    .put("timeoutMS", "1")
+                    .build()
+            )
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun queryParamsWithoutOptionalFields() {
         val params =
             BrandIdentifyFromTransactionParams.builder().transactionInfo("transaction_info").build()
 

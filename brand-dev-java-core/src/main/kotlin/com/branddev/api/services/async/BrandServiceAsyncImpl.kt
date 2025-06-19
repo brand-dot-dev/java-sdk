@@ -27,6 +27,8 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandSearchParams
@@ -89,6 +91,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandRetrieveNaicsResponse> =
         // get /brand/naics
         withRawResponse().retrieveNaics(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveSimplified(
+        params: BrandRetrieveSimplifiedParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandRetrieveSimplifiedResponse> =
+        // get /brand/retrieve-simplified
+        withRawResponse().retrieveSimplified(params, requestOptions).thenApply { it.parse() }
 
     override fun screenshot(
         params: BrandScreenshotParams,
@@ -302,6 +311,37 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     response.parseable {
                         response
                             .use { retrieveNaicsHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveSimplifiedHandler: Handler<BrandRetrieveSimplifiedResponse> =
+            jsonHandler<BrandRetrieveSimplifiedResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveSimplified(
+            params: BrandRetrieveSimplifiedParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveSimplifiedResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-simplified")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveSimplifiedHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

@@ -27,6 +27,8 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandSearchParams
@@ -88,6 +90,13 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
     ): BrandRetrieveNaicsResponse =
         // get /brand/naics
         withRawResponse().retrieveNaics(params, requestOptions).parse()
+
+    override fun retrieveSimplified(
+        params: BrandRetrieveSimplifiedParams,
+        requestOptions: RequestOptions,
+    ): BrandRetrieveSimplifiedResponse =
+        // get /brand/retrieve-simplified
+        withRawResponse().retrieveSimplified(params, requestOptions).parse()
 
     override fun screenshot(
         params: BrandScreenshotParams,
@@ -284,6 +293,34 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             return response.parseable {
                 response
                     .use { retrieveNaicsHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveSimplifiedHandler: Handler<BrandRetrieveSimplifiedResponse> =
+            jsonHandler<BrandRetrieveSimplifiedResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveSimplified(
+            params: BrandRetrieveSimplifiedParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandRetrieveSimplifiedResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-simplified")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveSimplifiedHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

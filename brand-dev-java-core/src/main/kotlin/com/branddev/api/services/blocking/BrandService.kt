@@ -17,6 +17,8 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandSearchParams
@@ -110,6 +112,20 @@ interface BrandService {
         params: BrandRetrieveNaicsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandRetrieveNaicsResponse
+
+    /**
+     * Returns a simplified version of brand data containing only essential information: domain,
+     * title, colors, logos, and backdrops. This endpoint is optimized for faster responses and
+     * reduced data transfer.
+     */
+    fun retrieveSimplified(params: BrandRetrieveSimplifiedParams): BrandRetrieveSimplifiedResponse =
+        retrieveSimplified(params, RequestOptions.none())
+
+    /** @see [retrieveSimplified] */
+    fun retrieveSimplified(
+        params: BrandRetrieveSimplifiedParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandRetrieveSimplifiedResponse
 
     /**
      * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser
@@ -254,6 +270,23 @@ interface BrandService {
             params: BrandRetrieveNaicsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandRetrieveNaicsResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /brand/retrieve-simplified`, but is otherwise the
+         * same as [BrandService.retrieveSimplified].
+         */
+        @MustBeClosed
+        fun retrieveSimplified(
+            params: BrandRetrieveSimplifiedParams
+        ): HttpResponseFor<BrandRetrieveSimplifiedResponse> =
+            retrieveSimplified(params, RequestOptions.none())
+
+        /** @see [retrieveSimplified] */
+        @MustBeClosed
+        fun retrieveSimplified(
+            params: BrandRetrieveSimplifiedParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandRetrieveSimplifiedResponse>
 
         /**
          * Returns a raw HTTP response for `get /brand/screenshot`, but is otherwise the same as

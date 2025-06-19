@@ -17,8 +17,12 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
+import com.branddev.api.models.brand.BrandScreenshotParams
+import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
+import com.branddev.api.models.brand.BrandStyleguideParams
+import com.branddev.api.models.brand.BrandStyleguideResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -111,6 +115,20 @@ interface BrandServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandRetrieveNaicsResponse>
 
+    /**
+     * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser
+     * view) and full-page screenshots. Returns a URL to the uploaded screenshot image hosted on our
+     * CDN.
+     */
+    fun screenshot(params: BrandScreenshotParams): CompletableFuture<BrandScreenshotResponse> =
+        screenshot(params, RequestOptions.none())
+
+    /** @see [screenshot] */
+    fun screenshot(
+        params: BrandScreenshotParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandScreenshotResponse>
+
     /** Search brands by query */
     fun search(params: BrandSearchParams): CompletableFuture<List<BrandSearchResponse>> =
         search(params, RequestOptions.none())
@@ -120,6 +138,20 @@ interface BrandServiceAsync {
         params: BrandSearchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<BrandSearchResponse>>
+
+    /**
+     * Beta feature: Automatically extract comprehensive design system information from a brand's
+     * website including colors, typography, spacing, shadows, and UI components. Uses AI-powered
+     * analysis of website screenshots to identify design patterns and create a reusable styleguide.
+     */
+    fun styleguide(params: BrandStyleguideParams): CompletableFuture<BrandStyleguideResponse> =
+        styleguide(params, RequestOptions.none())
+
+    /** @see [styleguide] */
+    fun styleguide(
+        params: BrandStyleguideParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandStyleguideResponse>
 
     /** A view of [BrandServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -224,6 +256,21 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandRetrieveNaicsResponse>>
 
         /**
+         * Returns a raw HTTP response for `get /brand/screenshot`, but is otherwise the same as
+         * [BrandServiceAsync.screenshot].
+         */
+        fun screenshot(
+            params: BrandScreenshotParams
+        ): CompletableFuture<HttpResponseFor<BrandScreenshotResponse>> =
+            screenshot(params, RequestOptions.none())
+
+        /** @see [screenshot] */
+        fun screenshot(
+            params: BrandScreenshotParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandScreenshotResponse>>
+
+        /**
          * Returns a raw HTTP response for `get /brand/search`, but is otherwise the same as
          * [BrandServiceAsync.search].
          */
@@ -237,5 +284,20 @@ interface BrandServiceAsync {
             params: BrandSearchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<BrandSearchResponse>>>
+
+        /**
+         * Returns a raw HTTP response for `get /brand/styleguide`, but is otherwise the same as
+         * [BrandServiceAsync.styleguide].
+         */
+        fun styleguide(
+            params: BrandStyleguideParams
+        ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>> =
+            styleguide(params, RequestOptions.none())
+
+        /** @see [styleguide] */
+        fun styleguide(
+            params: BrandStyleguideParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>>
     }
 }

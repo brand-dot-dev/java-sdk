@@ -27,8 +27,12 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
+import com.branddev.api.models.brand.BrandScreenshotParams
+import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
+import com.branddev.api.models.brand.BrandStyleguideParams
+import com.branddev.api.models.brand.BrandStyleguideResponse
 import java.util.function.Consumer
 
 class BrandServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -85,12 +89,26 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
         // get /brand/naics
         withRawResponse().retrieveNaics(params, requestOptions).parse()
 
+    override fun screenshot(
+        params: BrandScreenshotParams,
+        requestOptions: RequestOptions,
+    ): BrandScreenshotResponse =
+        // get /brand/screenshot
+        withRawResponse().screenshot(params, requestOptions).parse()
+
     override fun search(
         params: BrandSearchParams,
         requestOptions: RequestOptions,
     ): List<BrandSearchResponse> =
         // get /brand/search
         withRawResponse().search(params, requestOptions).parse()
+
+    override fun styleguide(
+        params: BrandStyleguideParams,
+        requestOptions: RequestOptions,
+    ): BrandStyleguideResponse =
+        // get /brand/styleguide
+        withRawResponse().styleguide(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         BrandService.WithRawResponse {
@@ -274,6 +292,34 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             }
         }
 
+        private val screenshotHandler: Handler<BrandScreenshotResponse> =
+            jsonHandler<BrandScreenshotResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun screenshot(
+            params: BrandScreenshotParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandScreenshotResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "screenshot")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { screenshotHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
         private val searchHandler: Handler<List<BrandSearchResponse>> =
             jsonHandler<List<BrandSearchResponse>>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -297,6 +343,34 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.forEach { it.validate() }
+                        }
+                    }
+            }
+        }
+
+        private val styleguideHandler: Handler<BrandStyleguideResponse> =
+            jsonHandler<BrandStyleguideResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun styleguide(
+            params: BrandStyleguideParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandStyleguideResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "styleguide")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { styleguideHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
                         }
                     }
             }

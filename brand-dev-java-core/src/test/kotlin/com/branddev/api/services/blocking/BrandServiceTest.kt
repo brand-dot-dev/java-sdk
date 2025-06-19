@@ -10,7 +10,9 @@ import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveParams
+import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandSearchParams
+import com.branddev.api.models.brand.BrandStyleguideParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -159,6 +161,27 @@ internal class BrandServiceTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun screenshot() {
+        val client =
+            BrandDevOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.screenshot(
+                BrandScreenshotParams.builder()
+                    .domain("domain")
+                    .fullScreenshot(BrandScreenshotParams.FullScreenshot.TRUE)
+                    .build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun search() {
         val client =
             BrandDevOkHttpClient.builder()
@@ -171,5 +194,23 @@ internal class BrandServiceTest {
             brandService.search(BrandSearchParams.builder().query("query").timeoutMs(1L).build())
 
         response.forEach { it.validate() }
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun styleguide() {
+        val client =
+            BrandDevOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.styleguide(
+                BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
+            )
+
+        response.validate()
     }
 }

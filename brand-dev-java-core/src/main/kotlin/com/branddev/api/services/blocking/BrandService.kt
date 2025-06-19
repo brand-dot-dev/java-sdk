@@ -17,8 +17,12 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
+import com.branddev.api.models.brand.BrandScreenshotParams
+import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
+import com.branddev.api.models.brand.BrandStyleguideParams
+import com.branddev.api.models.brand.BrandStyleguideResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -107,6 +111,20 @@ interface BrandService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandRetrieveNaicsResponse
 
+    /**
+     * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser
+     * view) and full-page screenshots. Returns a URL to the uploaded screenshot image hosted on our
+     * CDN.
+     */
+    fun screenshot(params: BrandScreenshotParams): BrandScreenshotResponse =
+        screenshot(params, RequestOptions.none())
+
+    /** @see [screenshot] */
+    fun screenshot(
+        params: BrandScreenshotParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandScreenshotResponse
+
     /** Search brands by query */
     fun search(params: BrandSearchParams): List<BrandSearchResponse> =
         search(params, RequestOptions.none())
@@ -116,6 +134,20 @@ interface BrandService {
         params: BrandSearchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<BrandSearchResponse>
+
+    /**
+     * Beta feature: Automatically extract comprehensive design system information from a brand's
+     * website including colors, typography, spacing, shadows, and UI components. Uses AI-powered
+     * analysis of website screenshots to identify design patterns and create a reusable styleguide.
+     */
+    fun styleguide(params: BrandStyleguideParams): BrandStyleguideResponse =
+        styleguide(params, RequestOptions.none())
+
+    /** @see [styleguide] */
+    fun styleguide(
+        params: BrandStyleguideParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandStyleguideResponse
 
     /** A view of [BrandService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -224,6 +256,21 @@ interface BrandService {
         ): HttpResponseFor<BrandRetrieveNaicsResponse>
 
         /**
+         * Returns a raw HTTP response for `get /brand/screenshot`, but is otherwise the same as
+         * [BrandService.screenshot].
+         */
+        @MustBeClosed
+        fun screenshot(params: BrandScreenshotParams): HttpResponseFor<BrandScreenshotResponse> =
+            screenshot(params, RequestOptions.none())
+
+        /** @see [screenshot] */
+        @MustBeClosed
+        fun screenshot(
+            params: BrandScreenshotParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandScreenshotResponse>
+
+        /**
          * Returns a raw HTTP response for `get /brand/search`, but is otherwise the same as
          * [BrandService.search].
          */
@@ -237,5 +284,20 @@ interface BrandService {
             params: BrandSearchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<BrandSearchResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /brand/styleguide`, but is otherwise the same as
+         * [BrandService.styleguide].
+         */
+        @MustBeClosed
+        fun styleguide(params: BrandStyleguideParams): HttpResponseFor<BrandStyleguideResponse> =
+            styleguide(params, RequestOptions.none())
+
+        /** @see [styleguide] */
+        @MustBeClosed
+        fun styleguide(
+            params: BrandStyleguideParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandStyleguideResponse>
     }
 }

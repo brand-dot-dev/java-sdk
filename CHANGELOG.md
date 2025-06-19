@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2025-06-19)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Features
+
+* **api:** manual updates ([5d445e8](https://github.com/brand-dot-dev/java-sdk/commit/5d445e85b7a5c05acbdcebaf4f3e2e7ed5c9f909))
+* **api:** manual updates ([8b819ae](https://github.com/brand-dot-dev/java-sdk/commit/8b819ae77d457e0d8cd987f3e83c8070e25e2c13))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([393159f](https://github.com/brand-dot-dev/java-sdk/commit/393159f9bc12a5bb89dd42305ab6601f781a2c29))
+
 ## 0.1.0-alpha.3 (2025-06-13)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)

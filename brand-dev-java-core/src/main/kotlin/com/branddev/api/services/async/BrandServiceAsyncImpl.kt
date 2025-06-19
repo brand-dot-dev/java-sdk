@@ -27,8 +27,14 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveResponse
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
+import com.branddev.api.models.brand.BrandScreenshotParams
+import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandSearchResponse
+import com.branddev.api.models.brand.BrandStyleguideParams
+import com.branddev.api.models.brand.BrandStyleguideResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -86,12 +92,33 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
         // get /brand/naics
         withRawResponse().retrieveNaics(params, requestOptions).thenApply { it.parse() }
 
+    override fun retrieveSimplified(
+        params: BrandRetrieveSimplifiedParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandRetrieveSimplifiedResponse> =
+        // get /brand/retrieve-simplified
+        withRawResponse().retrieveSimplified(params, requestOptions).thenApply { it.parse() }
+
+    override fun screenshot(
+        params: BrandScreenshotParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandScreenshotResponse> =
+        // get /brand/screenshot
+        withRawResponse().screenshot(params, requestOptions).thenApply { it.parse() }
+
     override fun search(
         params: BrandSearchParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<List<BrandSearchResponse>> =
         // get /brand/search
         withRawResponse().search(params, requestOptions).thenApply { it.parse() }
+
+    override fun styleguide(
+        params: BrandStyleguideParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandStyleguideResponse> =
+        // get /brand/styleguide
+        withRawResponse().styleguide(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         BrandServiceAsync.WithRawResponse {
@@ -293,6 +320,68 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 }
         }
 
+        private val retrieveSimplifiedHandler: Handler<BrandRetrieveSimplifiedResponse> =
+            jsonHandler<BrandRetrieveSimplifiedResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveSimplified(
+            params: BrandRetrieveSimplifiedParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveSimplifiedResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-simplified")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveSimplifiedHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val screenshotHandler: Handler<BrandScreenshotResponse> =
+            jsonHandler<BrandScreenshotResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun screenshot(
+            params: BrandScreenshotParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandScreenshotResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "screenshot")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { screenshotHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
         private val searchHandler: Handler<List<BrandSearchResponse>> =
             jsonHandler<List<BrandSearchResponse>>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -318,6 +407,37 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.forEach { it.validate() }
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val styleguideHandler: Handler<BrandStyleguideResponse> =
+            jsonHandler<BrandStyleguideResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun styleguide(
+            params: BrandStyleguideParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "styleguide")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { styleguideHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
                                 }
                             }
                     }

@@ -10,7 +10,10 @@ import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveParams
+import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
+import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandSearchParams
+import com.branddev.api.models.brand.BrandStyleguideParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -165,6 +168,47 @@ internal class BrandServiceAsyncTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun retrieveSimplified() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.retrieveSimplified(
+                BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1L).build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun screenshot() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.screenshot(
+                BrandScreenshotParams.builder()
+                    .domain("domain")
+                    .fullScreenshot(BrandScreenshotParams.FullScreenshot.TRUE)
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun search() {
         val client =
             BrandDevOkHttpClientAsync.builder()
@@ -180,5 +224,24 @@ internal class BrandServiceAsyncTest {
 
         val response = responseFuture.get()
         response.forEach { it.validate() }
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun styleguide() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.styleguide(
+                BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 }

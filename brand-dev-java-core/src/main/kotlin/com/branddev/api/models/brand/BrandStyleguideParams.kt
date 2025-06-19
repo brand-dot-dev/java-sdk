@@ -12,8 +12,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Beta feature: Automatically extract comprehensive design system information from a brand's
- * website including colors, typography, spacing, shadows, and UI components. Uses AI-powered
- * analysis of website screenshots to identify design patterns and create a reusable styleguide.
+ * website including colors, typography, spacing, shadows, and UI components.
  */
 class BrandStyleguideParams
 private constructor(

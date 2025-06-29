@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0-alpha.6 (2025-06-29)
+
+Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
+
+### Features
+
+* **api:** manual updates ([de03eb6](https://github.com/brand-dot-dev/java-sdk/commit/de03eb6b3dd9142a05876e6e41ed82bcdb291fa7))
+
+
+### Bug Fixes
+
+* **ci:** release-doctor — report correct token name ([154c6d8](https://github.com/brand-dot-dev/java-sdk/commit/154c6d888396e0ecf60427616c6d8e0f5780c23e))
+* **client:** bump max requests per host to max requests (5 -&gt; 64) ([c28b4f2](https://github.com/brand-dot-dev/java-sdk/commit/c28b4f2d66f7218e84167a1bbe1fa9fe453e5b25))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([5d874d7](https://github.com/brand-dot-dev/java-sdk/commit/5d874d78212fa1d5b489cffad18401397c1f6261))
+
 ## 0.1.0-alpha.5 (2025-06-19)
 
 Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)

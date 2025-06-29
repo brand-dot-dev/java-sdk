@@ -299,7 +299,8 @@ private constructor(
         fun domain(): Optional<String> = domain.getOptional("domain")
 
         /**
-         * An array of fonts used by the brand's website
+         * An array of fonts used by the brand's website. NOTE: This is deprecated and will be
+         * removed in the future. Please migrate to the styleguide API.
          *
          * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -567,7 +568,10 @@ private constructor(
              */
             fun domain(domain: JsonField<String>) = apply { this.domain = domain }
 
-            /** An array of fonts used by the brand's website */
+            /**
+             * An array of fonts used by the brand's website. NOTE: This is deprecated and will be
+             * removed in the future. Please migrate to the styleguide API.
+             */
             fun fonts(fonts: List<Font>) = fonts(JsonField.of(fonts))
 
             /**

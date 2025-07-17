@@ -17,5 +17,12 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    mainClass = "com.branddev.api.example.Main"
+    // Use `./gradlew :brand-dev-java-example:run` to run `Main`
+    // Use `./gradlew :brand-dev-java-example:run -Dexample=Something` to run `SomethingExample`
+    mainClass = "com.branddev.api.example.${
+        if (project.hasProperty("example"))
+            "${project.property("example")}Example"
+        else
+            "Main"
+    }"
 }

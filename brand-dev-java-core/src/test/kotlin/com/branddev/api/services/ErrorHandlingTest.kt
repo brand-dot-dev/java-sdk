@@ -89,8 +89,64 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun brandRetrieve400WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(400).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<BadRequestException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(400)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun brandRetrieve401() {
         val brandService = client.brand()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(401).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnauthorizedException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(401)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun brandRetrieve401WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -145,8 +201,64 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun brandRetrieve403WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(403).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<PermissionDeniedException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(403)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun brandRetrieve404() {
         val brandService = client.brand()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(404).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<NotFoundException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(404)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun brandRetrieve404WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -201,8 +313,64 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun brandRetrieve422WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(422).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnprocessableEntityException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(422)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun brandRetrieve429() {
         val brandService = client.brand()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(429).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<RateLimitException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(429)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun brandRetrieve429WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -257,8 +425,64 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun brandRetrieve500WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(500).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<InternalServerException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(500)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun brandRetrieve999() {
         val brandService = client.brand()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(999).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnexpectedStatusCodeException> {
+                brandService.retrieve(
+                    BrandRetrieveParams.builder()
+                        .domain("domain")
+                        .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
+                        .maxSpeed(true)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(999)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun brandRetrieve999WithRawResponse() {
+        val brandService = client.brand().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(

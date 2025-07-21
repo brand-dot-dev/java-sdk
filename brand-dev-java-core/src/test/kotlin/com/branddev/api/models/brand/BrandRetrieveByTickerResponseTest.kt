@@ -54,12 +54,6 @@ internal class BrandRetrieveByTickerResponseTest {
                         )
                         .description("description")
                         .domain("domain")
-                        .addFont(
-                            BrandRetrieveByTickerResponse.Brand.Font.builder()
-                                .name("name")
-                                .usage("usage")
-                                .build()
-                        )
                         .addLogo(
                             BrandRetrieveByTickerResponse.Brand.Logo.builder()
                                 .addColor(
@@ -138,12 +132,6 @@ internal class BrandRetrieveByTickerResponseTest {
                     )
                     .description("description")
                     .domain("domain")
-                    .addFont(
-                        BrandRetrieveByTickerResponse.Brand.Font.builder()
-                            .name("name")
-                            .usage("usage")
-                            .build()
-                    )
                     .addLogo(
                         BrandRetrieveByTickerResponse.Brand.Logo.builder()
                             .addColor(
@@ -228,12 +216,6 @@ internal class BrandRetrieveByTickerResponseTest {
                         )
                         .description("description")
                         .domain("domain")
-                        .addFont(
-                            BrandRetrieveByTickerResponse.Brand.Font.builder()
-                                .name("name")
-                                .usage("usage")
-                                .build()
-                        )
                         .addLogo(
                             BrandRetrieveByTickerResponse.Brand.Logo.builder()
                                 .addColor(

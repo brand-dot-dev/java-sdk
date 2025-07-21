@@ -3,13 +3,13 @@
 package com.branddev.api.services.async
 
 import com.branddev.api.core.ClientOptions
-import com.branddev.api.core.JsonValue
 import com.branddev.api.core.RequestOptions
+import com.branddev.api.core.handlers.errorBodyHandler
 import com.branddev.api.core.handlers.errorHandler
 import com.branddev.api.core.handlers.jsonHandler
-import com.branddev.api.core.handlers.withErrorHandler
 import com.branddev.api.core.http.HttpMethod
 import com.branddev.api.core.http.HttpRequest
+import com.branddev.api.core.http.HttpResponse
 import com.branddev.api.core.http.HttpResponse.Handler
 import com.branddev.api.core.http.HttpResponseFor
 import com.branddev.api.core.http.json
@@ -31,8 +31,6 @@ import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
-import com.branddev.api.models.brand.BrandSearchParams
-import com.branddev.api.models.brand.BrandSearchResponse
 import com.branddev.api.models.brand.BrandStyleguideParams
 import com.branddev.api.models.brand.BrandStyleguideResponse
 import java.util.concurrent.CompletableFuture
@@ -106,13 +104,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
         // get /brand/screenshot
         withRawResponse().screenshot(params, requestOptions).thenApply { it.parse() }
 
-    override fun search(
-        params: BrandSearchParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<List<BrandSearchResponse>> =
-        // get /brand/search
-        withRawResponse().search(params, requestOptions).thenApply { it.parse() }
-
     override fun styleguide(
         params: BrandStyleguideParams,
         requestOptions: RequestOptions,
@@ -123,7 +114,8 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         BrandServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -134,7 +126,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveHandler: Handler<BrandRetrieveResponse> =
             jsonHandler<BrandRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieve(
             params: BrandRetrieveParams,
@@ -151,7 +142,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -165,7 +156,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val aiQueryHandler: Handler<BrandAiQueryResponse> =
             jsonHandler<BrandAiQueryResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun aiQuery(
             params: BrandAiQueryParams,
@@ -183,7 +173,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { aiQueryHandler.handle(it) }
                             .also {
@@ -197,7 +187,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val identifyFromTransactionHandler: Handler<BrandIdentifyFromTransactionResponse> =
             jsonHandler<BrandIdentifyFromTransactionResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun identifyFromTransaction(
             params: BrandIdentifyFromTransactionParams,
@@ -214,7 +203,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { identifyFromTransactionHandler.handle(it) }
                             .also {
@@ -228,7 +217,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val prefetchHandler: Handler<BrandPrefetchResponse> =
             jsonHandler<BrandPrefetchResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun prefetch(
             params: BrandPrefetchParams,
@@ -246,7 +234,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { prefetchHandler.handle(it) }
                             .also {
@@ -260,7 +248,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveByTickerHandler: Handler<BrandRetrieveByTickerResponse> =
             jsonHandler<BrandRetrieveByTickerResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveByTicker(
             params: BrandRetrieveByTickerParams,
@@ -277,7 +264,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveByTickerHandler.handle(it) }
                             .also {
@@ -291,7 +278,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveNaicsHandler: Handler<BrandRetrieveNaicsResponse> =
             jsonHandler<BrandRetrieveNaicsResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveNaics(
             params: BrandRetrieveNaicsParams,
@@ -308,7 +294,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveNaicsHandler.handle(it) }
                             .also {
@@ -322,7 +308,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveSimplifiedHandler: Handler<BrandRetrieveSimplifiedResponse> =
             jsonHandler<BrandRetrieveSimplifiedResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveSimplified(
             params: BrandRetrieveSimplifiedParams,
@@ -339,7 +324,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveSimplifiedHandler.handle(it) }
                             .also {
@@ -353,7 +338,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val screenshotHandler: Handler<BrandScreenshotResponse> =
             jsonHandler<BrandScreenshotResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun screenshot(
             params: BrandScreenshotParams,
@@ -370,7 +354,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { screenshotHandler.handle(it) }
                             .also {
@@ -382,40 +366,8 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 }
         }
 
-        private val searchHandler: Handler<List<BrandSearchResponse>> =
-            jsonHandler<List<BrandSearchResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
-
-        override fun search(
-            params: BrandSearchParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<BrandSearchResponse>>> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("brand", "search")
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    response.parseable {
-                        response
-                            .use { searchHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
-                                }
-                            }
-                    }
-                }
-        }
-
         private val styleguideHandler: Handler<BrandStyleguideResponse> =
             jsonHandler<BrandStyleguideResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun styleguide(
             params: BrandStyleguideParams,
@@ -432,7 +384,7 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { styleguideHandler.handle(it) }
                             .also {

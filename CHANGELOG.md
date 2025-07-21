@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2025-07-21)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Features
+
+* **api:** manual updates ([9c7c076](https://github.com/brand-dot-dev/java-sdk/commit/9c7c07621ea16a0b0adeaa57a96d826d9fa6c045))
+* **client:** add https config options ([508033b](https://github.com/brand-dot-dev/java-sdk/commit/508033b672147e010fc171a69fa6d7509acf519c))
+
+
+### Bug Fixes
+
+* **client:** don't close client on `withOptions` usage when original is gc'd ([e245a89](https://github.com/brand-dot-dev/java-sdk/commit/e245a8943102c4fb296c1a6f99171bd827374daa))
+* **client:** ensure error handling always occurs ([be0d357](https://github.com/brand-dot-dev/java-sdk/commit/be0d35783fd23f1d9cffb4ff60857d6e2100769f))
+
+
+### Chores
+
+* **ci:** bump `actions/setup-java` to v4 ([ce1d549](https://github.com/brand-dot-dev/java-sdk/commit/ce1d54940f67278ab37e9a1c95596df5ba9dcc75))
+* **internal:** allow running specific example from cli ([39f74d7](https://github.com/brand-dot-dev/java-sdk/commit/39f74d71d29a9a7cacca25ef0dd472f8c04397ba))
+* **internal:** refactor delegating from client to options ([6682663](https://github.com/brand-dot-dev/java-sdk/commit/66826635fed7d2d03e7d2deaff75b91fe0a7c034))
+
+
+### Refactors
+
+* **internal:** minor `ClientOptionsTest` change ([25962fa](https://github.com/brand-dot-dev/java-sdk/commit/25962facfb9d0e4f9c672d522f12550b7b2cd206))
+
 ## 0.1.0-alpha.6 (2025-06-29)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)

@@ -31,8 +31,6 @@ import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
-import com.branddev.api.models.brand.BrandSearchParams
-import com.branddev.api.models.brand.BrandSearchResponse
 import com.branddev.api.models.brand.BrandStyleguideParams
 import com.branddev.api.models.brand.BrandStyleguideResponse
 import java.util.function.Consumer
@@ -104,13 +102,6 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
     ): BrandScreenshotResponse =
         // get /brand/screenshot
         withRawResponse().screenshot(params, requestOptions).parse()
-
-    override fun search(
-        params: BrandSearchParams,
-        requestOptions: RequestOptions,
-    ): List<BrandSearchResponse> =
-        // get /brand/search
-        withRawResponse().search(params, requestOptions).parse()
 
     override fun styleguide(
         params: BrandStyleguideParams,
@@ -345,33 +336,6 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
-                        }
-                    }
-            }
-        }
-
-        private val searchHandler: Handler<List<BrandSearchResponse>> =
-            jsonHandler<List<BrandSearchResponse>>(clientOptions.jsonMapper)
-
-        override fun search(
-            params: BrandSearchParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<List<BrandSearchResponse>> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("brand", "search")
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return errorHandler.handle(response).parseable {
-                response
-                    .use { searchHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
                         }
                     }
             }

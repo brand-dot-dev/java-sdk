@@ -12,7 +12,6 @@ import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandScreenshotParams
-import com.branddev.api.models.brand.BrandSearchParams
 import com.branddev.api.models.brand.BrandStyleguideParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -205,25 +204,6 @@ internal class BrandServiceAsyncTest {
 
         val response = responseFuture.get()
         response.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun search() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val brandServiceAsync = client.brand()
-
-        val responseFuture =
-            brandServiceAsync.search(
-                BrandSearchParams.builder().query("query").timeoutMs(1L).build()
-            )
-
-        val response = responseFuture.get()
-        response.forEach { it.validate() }
     }
 
     @Disabled("skipped: tests are disabled for the time being")

@@ -10,7 +10,7 @@ configure<PublishingExtension> {
 
             pom {
                 name.set("Brand API")
-                description.set("API for retrieving and searching brand data")
+                description.set("API for retrieving brand data from any website")
 
                 licenses {
                     license {

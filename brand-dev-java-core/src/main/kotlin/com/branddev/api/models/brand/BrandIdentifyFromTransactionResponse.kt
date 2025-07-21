@@ -224,7 +224,6 @@ private constructor(
         private val colors: JsonField<List<Color>>,
         private val description: JsonField<String>,
         private val domain: JsonField<String>,
-        private val fonts: JsonField<List<Font>>,
         private val logos: JsonField<List<Logo>>,
         private val slogan: JsonField<String>,
         private val socials: JsonField<List<Social>>,
@@ -246,7 +245,6 @@ private constructor(
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
             @JsonProperty("domain") @ExcludeMissing domain: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("fonts") @ExcludeMissing fonts: JsonField<List<Font>> = JsonMissing.of(),
             @JsonProperty("logos") @ExcludeMissing logos: JsonField<List<Logo>> = JsonMissing.of(),
             @JsonProperty("slogan") @ExcludeMissing slogan: JsonField<String> = JsonMissing.of(),
             @JsonProperty("socials")
@@ -260,7 +258,6 @@ private constructor(
             colors,
             description,
             domain,
-            fonts,
             logos,
             slogan,
             socials,
@@ -308,14 +305,6 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun domain(): Optional<String> = domain.getOptional("domain")
-
-        /**
-         * An array of fonts used by the brand's website
-         *
-         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun fonts(): Optional<List<Font>> = fonts.getOptional("fonts")
 
         /**
          * An array of logos associated with the brand
@@ -397,13 +386,6 @@ private constructor(
         @JsonProperty("domain") @ExcludeMissing fun _domain(): JsonField<String> = domain
 
         /**
-         * Returns the raw JSON value of [fonts].
-         *
-         * Unlike [fonts], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("fonts") @ExcludeMissing fun _fonts(): JsonField<List<Font>> = fonts
-
-        /**
          * Returns the raw JSON value of [logos].
          *
          * Unlike [logos], this method doesn't throw if the JSON field has an unexpected type.
@@ -464,7 +446,6 @@ private constructor(
             private var colors: JsonField<MutableList<Color>>? = null
             private var description: JsonField<String> = JsonMissing.of()
             private var domain: JsonField<String> = JsonMissing.of()
-            private var fonts: JsonField<MutableList<Font>>? = null
             private var logos: JsonField<MutableList<Logo>>? = null
             private var slogan: JsonField<String> = JsonMissing.of()
             private var socials: JsonField<MutableList<Social>>? = null
@@ -479,7 +460,6 @@ private constructor(
                 colors = brand.colors.map { it.toMutableList() }
                 description = brand.description
                 domain = brand.domain
-                fonts = brand.fonts.map { it.toMutableList() }
                 logos = brand.logos.map { it.toMutableList() }
                 slogan = brand.slogan
                 socials = brand.socials.map { it.toMutableList() }
@@ -577,32 +557,6 @@ private constructor(
              * supported value.
              */
             fun domain(domain: JsonField<String>) = apply { this.domain = domain }
-
-            /** An array of fonts used by the brand's website */
-            fun fonts(fonts: List<Font>) = fonts(JsonField.of(fonts))
-
-            /**
-             * Sets [Builder.fonts] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.fonts] with a well-typed `List<Font>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun fonts(fonts: JsonField<List<Font>>) = apply {
-                this.fonts = fonts.map { it.toMutableList() }
-            }
-
-            /**
-             * Adds a single [Font] to [fonts].
-             *
-             * @throws IllegalStateException if the field was previously set to a non-list.
-             */
-            fun addFont(font: Font) = apply {
-                fonts =
-                    (fonts ?: JsonField.of(mutableListOf())).also {
-                        checkKnown("fonts", it).add(font)
-                    }
-            }
 
             /** An array of logos associated with the brand */
             fun logos(logos: List<Logo>) = logos(JsonField.of(logos))
@@ -726,7 +680,6 @@ private constructor(
                     (colors ?: JsonMissing.of()).map { it.toImmutable() },
                     description,
                     domain,
-                    (fonts ?: JsonMissing.of()).map { it.toImmutable() },
                     (logos ?: JsonMissing.of()).map { it.toImmutable() },
                     slogan,
                     (socials ?: JsonMissing.of()).map { it.toImmutable() },
@@ -748,7 +701,6 @@ private constructor(
             colors().ifPresent { it.forEach { it.validate() } }
             description()
             domain()
-            fonts().ifPresent { it.forEach { it.validate() } }
             logos().ifPresent { it.forEach { it.validate() } }
             slogan()
             socials().ifPresent { it.forEach { it.validate() } }
@@ -778,7 +730,6 @@ private constructor(
                 (colors.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
                 (if (domain.asKnown().isPresent) 1 else 0) +
-                (fonts.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (logos.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (slogan.asKnown().isPresent) 1 else 0) +
                 (socials.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
@@ -1957,183 +1908,6 @@ private constructor(
                 "Color{hex=$hex, name=$name, additionalProperties=$additionalProperties}"
         }
 
-        class Font
-        private constructor(
-            private val name: JsonField<String>,
-            private val usage: JsonField<String>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("usage") @ExcludeMissing usage: JsonField<String> = JsonMissing.of(),
-            ) : this(name, usage, mutableMapOf())
-
-            /**
-             * Name of the font
-             *
-             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun name(): Optional<String> = name.getOptional("name")
-
-            /**
-             * Usage of the font, e.g., 'title', 'body', 'button'
-             *
-             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun usage(): Optional<String> = usage.getOptional("usage")
-
-            /**
-             * Returns the raw JSON value of [name].
-             *
-             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
-
-            /**
-             * Returns the raw JSON value of [usage].
-             *
-             * Unlike [usage], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("usage") @ExcludeMissing fun _usage(): JsonField<String> = usage
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /** Returns a mutable builder for constructing an instance of [Font]. */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [Font]. */
-            class Builder internal constructor() {
-
-                private var name: JsonField<String> = JsonMissing.of()
-                private var usage: JsonField<String> = JsonMissing.of()
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(font: Font) = apply {
-                    name = font.name
-                    usage = font.usage
-                    additionalProperties = font.additionalProperties.toMutableMap()
-                }
-
-                /** Name of the font */
-                fun name(name: String) = name(JsonField.of(name))
-
-                /**
-                 * Sets [Builder.name] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.name] with a well-typed [String] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun name(name: JsonField<String>) = apply { this.name = name }
-
-                /** Usage of the font, e.g., 'title', 'body', 'button' */
-                fun usage(usage: String) = usage(JsonField.of(usage))
-
-                /**
-                 * Sets [Builder.usage] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.usage] with a well-typed [String] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun usage(usage: JsonField<String>) = apply { this.usage = usage }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [Font].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 */
-                fun build(): Font = Font(name, usage, additionalProperties.toMutableMap())
-            }
-
-            private var validated: Boolean = false
-
-            fun validate(): Font = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                name()
-                usage()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: BrandDevInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (name.asKnown().isPresent) 1 else 0) + (if (usage.asKnown().isPresent) 1 else 0)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is Font && name == other.name && usage == other.usage && additionalProperties == other.additionalProperties /* spotless:on */
-            }
-
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(name, usage, additionalProperties) }
-            /* spotless:on */
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "Font{name=$name, usage=$usage, additionalProperties=$additionalProperties}"
-        }
-
         class Logo
         private constructor(
             private val colors: JsonField<List<Color>>,
@@ -3171,17 +2945,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Brand && address == other.address && backdrops == other.backdrops && colors == other.colors && description == other.description && domain == other.domain && fonts == other.fonts && logos == other.logos && slogan == other.slogan && socials == other.socials && stock == other.stock && title == other.title && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Brand && address == other.address && backdrops == other.backdrops && colors == other.colors && description == other.description && domain == other.domain && logos == other.logos && slogan == other.slogan && socials == other.socials && stock == other.stock && title == other.title && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, backdrops, colors, description, domain, fonts, logos, slogan, socials, stock, title, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(address, backdrops, colors, description, domain, logos, slogan, socials, stock, title, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, fonts=$fonts, logos=$logos, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
+            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, logos=$logos, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

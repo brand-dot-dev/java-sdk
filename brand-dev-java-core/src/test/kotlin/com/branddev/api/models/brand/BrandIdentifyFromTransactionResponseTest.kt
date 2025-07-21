@@ -55,12 +55,6 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         )
                         .description("description")
                         .domain("domain")
-                        .addFont(
-                            BrandIdentifyFromTransactionResponse.Brand.Font.builder()
-                                .name("name")
-                                .usage("usage")
-                                .build()
-                        )
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                                 .addColor(
@@ -141,12 +135,6 @@ internal class BrandIdentifyFromTransactionResponseTest {
                     )
                     .description("description")
                     .domain("domain")
-                    .addFont(
-                        BrandIdentifyFromTransactionResponse.Brand.Font.builder()
-                            .name("name")
-                            .usage("usage")
-                            .build()
-                    )
                     .addLogo(
                         BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                             .addColor(
@@ -232,12 +220,6 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         )
                         .description("description")
                         .domain("domain")
-                        .addFont(
-                            BrandIdentifyFromTransactionResponse.Brand.Font.builder()
-                                .name("name")
-                                .usage("usage")
-                                .build()
-                        )
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                                 .addColor(

@@ -53,12 +53,6 @@ internal class BrandRetrieveResponseTest {
                         )
                         .description("description")
                         .domain("domain")
-                        .addFont(
-                            BrandRetrieveResponse.Brand.Font.builder()
-                                .name("name")
-                                .usage("usage")
-                                .build()
-                        )
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
                                 .addColor(
@@ -134,12 +128,6 @@ internal class BrandRetrieveResponseTest {
                     )
                     .description("description")
                     .domain("domain")
-                    .addFont(
-                        BrandRetrieveResponse.Brand.Font.builder()
-                            .name("name")
-                            .usage("usage")
-                            .build()
-                    )
                     .addLogo(
                         BrandRetrieveResponse.Brand.Logo.builder()
                             .addColor(
@@ -220,12 +208,6 @@ internal class BrandRetrieveResponseTest {
                         )
                         .description("description")
                         .domain("domain")
-                        .addFont(
-                            BrandRetrieveResponse.Brand.Font.builder()
-                                .name("name")
-                                .usage("usage")
-                                .build()
-                        )
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
                                 .addColor(

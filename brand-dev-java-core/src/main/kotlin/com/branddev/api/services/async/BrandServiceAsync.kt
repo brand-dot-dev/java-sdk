@@ -21,8 +21,6 @@ import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
-import com.branddev.api.models.brand.BrandSearchParams
-import com.branddev.api.models.brand.BrandSearchResponse
 import com.branddev.api.models.brand.BrandStyleguideParams
 import com.branddev.api.models.brand.BrandStyleguideResponse
 import java.util.concurrent.CompletableFuture
@@ -146,16 +144,6 @@ interface BrandServiceAsync {
         params: BrandScreenshotParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandScreenshotResponse>
-
-    /** Search brands by query */
-    fun search(params: BrandSearchParams): CompletableFuture<List<BrandSearchResponse>> =
-        search(params, RequestOptions.none())
-
-    /** @see [search] */
-    fun search(
-        params: BrandSearchParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<BrandSearchResponse>>
 
     /**
      * Beta feature: Automatically extract comprehensive design system information from a brand's
@@ -301,21 +289,6 @@ interface BrandServiceAsync {
             params: BrandScreenshotParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandScreenshotResponse>>
-
-        /**
-         * Returns a raw HTTP response for `get /brand/search`, but is otherwise the same as
-         * [BrandServiceAsync.search].
-         */
-        fun search(
-            params: BrandSearchParams
-        ): CompletableFuture<HttpResponseFor<List<BrandSearchResponse>>> =
-            search(params, RequestOptions.none())
-
-        /** @see [search] */
-        fun search(
-            params: BrandSearchParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<BrandSearchResponse>>>
 
         /**
          * Returns a raw HTTP response for `get /brand/styleguide`, but is otherwise the same as

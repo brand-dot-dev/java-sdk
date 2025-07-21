@@ -21,8 +21,6 @@ import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
-import com.branddev.api.models.brand.BrandSearchParams
-import com.branddev.api.models.brand.BrandSearchResponse
 import com.branddev.api.models.brand.BrandStyleguideParams
 import com.branddev.api.models.brand.BrandStyleguideResponse
 import com.google.errorprone.annotations.MustBeClosed
@@ -140,16 +138,6 @@ interface BrandService {
         params: BrandScreenshotParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandScreenshotResponse
-
-    /** Search brands by query */
-    fun search(params: BrandSearchParams): List<BrandSearchResponse> =
-        search(params, RequestOptions.none())
-
-    /** @see [search] */
-    fun search(
-        params: BrandSearchParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<BrandSearchResponse>
 
     /**
      * Beta feature: Automatically extract comprehensive design system information from a brand's
@@ -301,21 +289,6 @@ interface BrandService {
             params: BrandScreenshotParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandScreenshotResponse>
-
-        /**
-         * Returns a raw HTTP response for `get /brand/search`, but is otherwise the same as
-         * [BrandService.search].
-         */
-        @MustBeClosed
-        fun search(params: BrandSearchParams): HttpResponseFor<List<BrandSearchResponse>> =
-            search(params, RequestOptions.none())
-
-        /** @see [search] */
-        @MustBeClosed
-        fun search(
-            params: BrandSearchParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<BrandSearchResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/styleguide`, but is otherwise the same as

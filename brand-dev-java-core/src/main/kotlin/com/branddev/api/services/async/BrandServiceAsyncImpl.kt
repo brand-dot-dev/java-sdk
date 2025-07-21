@@ -31,8 +31,6 @@ import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedResponse
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
-import com.branddev.api.models.brand.BrandSearchParams
-import com.branddev.api.models.brand.BrandSearchResponse
 import com.branddev.api.models.brand.BrandStyleguideParams
 import com.branddev.api.models.brand.BrandStyleguideResponse
 import java.util.concurrent.CompletableFuture
@@ -105,13 +103,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandScreenshotResponse> =
         // get /brand/screenshot
         withRawResponse().screenshot(params, requestOptions).thenApply { it.parse() }
-
-    override fun search(
-        params: BrandSearchParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<List<BrandSearchResponse>> =
-        // get /brand/search
-        withRawResponse().search(params, requestOptions).thenApply { it.parse() }
 
     override fun styleguide(
         params: BrandStyleguideParams,
@@ -369,36 +360,6 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
-                                }
-                            }
-                    }
-                }
-        }
-
-        private val searchHandler: Handler<List<BrandSearchResponse>> =
-            jsonHandler<List<BrandSearchResponse>>(clientOptions.jsonMapper)
-
-        override fun search(
-            params: BrandSearchParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<BrandSearchResponse>>> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("brand", "search")
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { searchHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
                                 }
                             }
                     }

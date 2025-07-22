@@ -11,6 +11,7 @@ configure<PublishingExtension> {
             pom {
                 name.set("Brand API")
                 description.set("API for retrieving brand data from any website")
+                url.set("https://www.github.com/brand-dot-dev/java-sdk")
 
                 licenses {
                     license {

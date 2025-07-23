@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2025-07-23)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Features
+
+* **api:** manual updates ([7b4fc3a](https://github.com/brand-dot-dev/java-sdk/commit/7b4fc3a69f6df006100550d34340c0451b508cdd))
+* **client:** add `{QueryParams,Headers}#put(String, JsonValue)` methods ([e97cbca](https://github.com/brand-dot-dev/java-sdk/commit/e97cbca1c60c8d7ed94838f5553787da727c37dc))
+* **client:** allow configuring env via system properties ([6dd2e71](https://github.com/brand-dot-dev/java-sdk/commit/6dd2e71fb4af9920c474b284ba66814f1f74f09b))
+
+
+### Bug Fixes
+
+* **internal:** set maven publish url ([65c2d32](https://github.com/brand-dot-dev/java-sdk/commit/65c2d329bc9990f1aa73827720cd5e9ea626b5c3))
+
 ## 0.1.0-alpha.7 (2025-07-21)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)

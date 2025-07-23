@@ -53,6 +53,7 @@ internal class BrandRetrieveResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .isNsfw(true)
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
                                 .addColor(
@@ -128,6 +129,7 @@ internal class BrandRetrieveResponseTest {
                     )
                     .description("description")
                     .domain("domain")
+                    .isNsfw(true)
                     .addLogo(
                         BrandRetrieveResponse.Brand.Logo.builder()
                             .addColor(
@@ -208,6 +210,7 @@ internal class BrandRetrieveResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .isNsfw(true)
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
                                 .addColor(

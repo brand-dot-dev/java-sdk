@@ -55,6 +55,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .isNsfw(true)
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                                 .addColor(
@@ -135,6 +136,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                     )
                     .description("description")
                     .domain("domain")
+                    .isNsfw(true)
                     .addLogo(
                         BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                             .addColor(
@@ -220,6 +222,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .isNsfw(true)
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                                 .addColor(

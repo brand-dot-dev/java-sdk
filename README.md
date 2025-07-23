@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.7)
-[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.7/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.7)
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.8)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.8/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.8)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.7).
+Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.8).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/b
 ### Gradle
 
 ```kotlin
-implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.7")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.8")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.7")
 <dependency>
   <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.1.0-alpha.7</version>
+  <version>0.1.0-alpha.8</version>
 </dependency>
 ```
 
@@ -51,7 +51,8 @@ import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 import com.branddev.api.models.brand.BrandRetrieveParams;
 import com.branddev.api.models.brand.BrandRetrieveResponse;
 
-// Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
+// Configures using the `branddev.apiKey` and `branddev.baseUrl` system properties
+// Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
 BrandDevClient client = BrandDevOkHttpClient.fromEnv();
 
 BrandRetrieveParams params = BrandRetrieveParams.builder()
@@ -62,13 +63,14 @@ BrandRetrieveResponse brand = client.brand().retrieve(params);
 
 ## Client configuration
 
-Configure the client using environment variables:
+Configure the client using system properties or environment variables:
 
 ```java
 import com.branddev.api.client.BrandDevClient;
 import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
-// Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
+// Configures using the `branddev.apiKey` and `branddev.baseUrl` system properties
+// Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
 BrandDevClient client = BrandDevOkHttpClient.fromEnv();
 ```
 
@@ -90,7 +92,8 @@ import com.branddev.api.client.BrandDevClient;
 import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
-    // Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
+    // Configures using the `branddev.apiKey` and `branddev.baseUrl` system properties
+    Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
@@ -98,10 +101,12 @@ BrandDevClient client = BrandDevOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter    | Environment variable | Required | Default value                |
-| --------- | -------------------- | -------- | ---------------------------- |
-| `apiKey`  | `BRAND_DEV_API_KEY`  | true     | -                            |
-| `baseUrl` | `BRAND_DEV_BASE_URL` | true     | `"https://api.brand.dev/v1"` |
+| Setter    | System property    | Environment variable | Required | Default value                |
+| --------- | ------------------ | -------------------- | -------- | ---------------------------- |
+| `apiKey`  | `branddev.apiKey`  | `BRAND_DEV_API_KEY`  | true     | -                            |
+| `baseUrl` | `branddev.baseUrl` | `BRAND_DEV_BASE_URL` | true     | `"https://api.brand.dev/v1"` |
+
+System properties take precedence over environment variables.
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -147,7 +152,8 @@ import com.branddev.api.models.brand.BrandRetrieveParams;
 import com.branddev.api.models.brand.BrandRetrieveResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
+// Configures using the `branddev.apiKey` and `branddev.baseUrl` system properties
+// Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
 BrandDevClient client = BrandDevOkHttpClient.fromEnv();
 
 BrandRetrieveParams params = BrandRetrieveParams.builder()
@@ -165,7 +171,8 @@ import com.branddev.api.models.brand.BrandRetrieveParams;
 import com.branddev.api.models.brand.BrandRetrieveResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
+// Configures using the `branddev.apiKey` and `branddev.baseUrl` system properties
+// Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
 BrandDevClientAsync client = BrandDevOkHttpClientAsync.fromEnv();
 
 BrandRetrieveParams params = BrandRetrieveParams.builder()

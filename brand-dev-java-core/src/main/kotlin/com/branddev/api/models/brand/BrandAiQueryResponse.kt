@@ -31,22 +31,34 @@ import kotlin.jvm.optionals.getOrNull
 
 class BrandAiQueryResponse
 private constructor(
+    private val code: JsonField<Long>,
     private val dataExtracted: JsonField<List<DataExtracted>>,
     private val domain: JsonField<String>,
+    private val status: JsonField<String>,
     private val urlsAnalyzed: JsonField<List<String>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
+        @JsonProperty("code") @ExcludeMissing code: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("data_extracted")
         @ExcludeMissing
         dataExtracted: JsonField<List<DataExtracted>> = JsonMissing.of(),
         @JsonProperty("domain") @ExcludeMissing domain: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("status") @ExcludeMissing status: JsonField<String> = JsonMissing.of(),
         @JsonProperty("urls_analyzed")
         @ExcludeMissing
         urlsAnalyzed: JsonField<List<String>> = JsonMissing.of(),
-    ) : this(dataExtracted, domain, urlsAnalyzed, mutableMapOf())
+    ) : this(code, dataExtracted, domain, status, urlsAnalyzed, mutableMapOf())
+
+    /**
+     * HTTP status code
+     *
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun code(): Optional<Long> = code.getOptional("code")
 
     /**
      * Array of extracted data points
@@ -65,12 +77,27 @@ private constructor(
     fun domain(): Optional<String> = domain.getOptional("domain")
 
     /**
+     * Status of the response, e.g., 'ok'
+     *
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun status(): Optional<String> = status.getOptional("status")
+
+    /**
      * List of URLs that were analyzed
      *
      * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun urlsAnalyzed(): Optional<List<String>> = urlsAnalyzed.getOptional("urls_analyzed")
+
+    /**
+     * Returns the raw JSON value of [code].
+     *
+     * Unlike [code], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
     /**
      * Returns the raw JSON value of [dataExtracted].
@@ -87,6 +114,13 @@ private constructor(
      * Unlike [domain], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("domain") @ExcludeMissing fun _domain(): JsonField<String> = domain
+
+    /**
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<String> = status
 
     /**
      * Returns the raw JSON value of [urlsAnalyzed].
@@ -118,18 +152,33 @@ private constructor(
     /** A builder for [BrandAiQueryResponse]. */
     class Builder internal constructor() {
 
+        private var code: JsonField<Long> = JsonMissing.of()
         private var dataExtracted: JsonField<MutableList<DataExtracted>>? = null
         private var domain: JsonField<String> = JsonMissing.of()
+        private var status: JsonField<String> = JsonMissing.of()
         private var urlsAnalyzed: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(brandAiQueryResponse: BrandAiQueryResponse) = apply {
+            code = brandAiQueryResponse.code
             dataExtracted = brandAiQueryResponse.dataExtracted.map { it.toMutableList() }
             domain = brandAiQueryResponse.domain
+            status = brandAiQueryResponse.status
             urlsAnalyzed = brandAiQueryResponse.urlsAnalyzed.map { it.toMutableList() }
             additionalProperties = brandAiQueryResponse.additionalProperties.toMutableMap()
         }
+
+        /** HTTP status code */
+        fun code(code: Long) = code(JsonField.of(code))
+
+        /**
+         * Sets [Builder.code] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.code] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         /** Array of extracted data points */
         fun dataExtracted(dataExtracted: List<DataExtracted>) =
@@ -168,6 +217,17 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun domain(domain: JsonField<String>) = apply { this.domain = domain }
+
+        /** Status of the response, e.g., 'ok' */
+        fun status(status: String) = status(JsonField.of(status))
+
+        /**
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun status(status: JsonField<String>) = apply { this.status = status }
 
         /** List of URLs that were analyzed */
         fun urlsAnalyzed(urlsAnalyzed: List<String>) = urlsAnalyzed(JsonField.of(urlsAnalyzed))
@@ -221,8 +281,10 @@ private constructor(
          */
         fun build(): BrandAiQueryResponse =
             BrandAiQueryResponse(
+                code,
                 (dataExtracted ?: JsonMissing.of()).map { it.toImmutable() },
                 domain,
+                status,
                 (urlsAnalyzed ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
@@ -235,8 +297,10 @@ private constructor(
             return@apply
         }
 
+        code()
         dataExtracted().ifPresent { it.forEach { it.validate() } }
         domain()
+        status()
         urlsAnalyzed()
         validated = true
     }
@@ -256,8 +320,10 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (dataExtracted.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+        (if (code.asKnown().isPresent) 1 else 0) +
+            (dataExtracted.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (domain.asKnown().isPresent) 1 else 0) +
+            (if (status.asKnown().isPresent) 1 else 0) +
             (urlsAnalyzed.asKnown().getOrNull()?.size ?: 0)
 
     class DataExtracted
@@ -708,15 +774,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandAiQueryResponse && dataExtracted == other.dataExtracted && domain == other.domain && urlsAnalyzed == other.urlsAnalyzed && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is BrandAiQueryResponse && code == other.code && dataExtracted == other.dataExtracted && domain == other.domain && status == other.status && urlsAnalyzed == other.urlsAnalyzed && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(dataExtracted, domain, urlsAnalyzed, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(code, dataExtracted, domain, status, urlsAnalyzed, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BrandAiQueryResponse{dataExtracted=$dataExtracted, domain=$domain, urlsAnalyzed=$urlsAnalyzed, additionalProperties=$additionalProperties}"
+        "BrandAiQueryResponse{code=$code, dataExtracted=$dataExtracted, domain=$domain, status=$status, urlsAnalyzed=$urlsAnalyzed, additionalProperties=$additionalProperties}"
 }

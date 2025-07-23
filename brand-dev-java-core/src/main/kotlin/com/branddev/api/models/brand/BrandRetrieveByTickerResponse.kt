@@ -216,6 +216,7 @@ private constructor(
         private val colors: JsonField<List<Color>>,
         private val description: JsonField<String>,
         private val domain: JsonField<String>,
+        private val isNsfw: JsonField<Boolean>,
         private val logos: JsonField<List<Logo>>,
         private val slogan: JsonField<String>,
         private val socials: JsonField<List<Social>>,
@@ -237,6 +238,7 @@ private constructor(
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
             @JsonProperty("domain") @ExcludeMissing domain: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("is_nsfw") @ExcludeMissing isNsfw: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("logos") @ExcludeMissing logos: JsonField<List<Logo>> = JsonMissing.of(),
             @JsonProperty("slogan") @ExcludeMissing slogan: JsonField<String> = JsonMissing.of(),
             @JsonProperty("socials")
@@ -250,6 +252,7 @@ private constructor(
             colors,
             description,
             domain,
+            isNsfw,
             logos,
             slogan,
             socials,
@@ -297,6 +300,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun domain(): Optional<String> = domain.getOptional("domain")
+
+        /**
+         * Indicates whether the brand content is not safe for work (NSFW)
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun isNsfw(): Optional<Boolean> = isNsfw.getOptional("is_nsfw")
 
         /**
          * An array of logos associated with the brand
@@ -378,6 +389,13 @@ private constructor(
         @JsonProperty("domain") @ExcludeMissing fun _domain(): JsonField<String> = domain
 
         /**
+         * Returns the raw JSON value of [isNsfw].
+         *
+         * Unlike [isNsfw], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("is_nsfw") @ExcludeMissing fun _isNsfw(): JsonField<Boolean> = isNsfw
+
+        /**
          * Returns the raw JSON value of [logos].
          *
          * Unlike [logos], this method doesn't throw if the JSON field has an unexpected type.
@@ -438,6 +456,7 @@ private constructor(
             private var colors: JsonField<MutableList<Color>>? = null
             private var description: JsonField<String> = JsonMissing.of()
             private var domain: JsonField<String> = JsonMissing.of()
+            private var isNsfw: JsonField<Boolean> = JsonMissing.of()
             private var logos: JsonField<MutableList<Logo>>? = null
             private var slogan: JsonField<String> = JsonMissing.of()
             private var socials: JsonField<MutableList<Social>>? = null
@@ -452,6 +471,7 @@ private constructor(
                 colors = brand.colors.map { it.toMutableList() }
                 description = brand.description
                 domain = brand.domain
+                isNsfw = brand.isNsfw
                 logos = brand.logos.map { it.toMutableList() }
                 slogan = brand.slogan
                 socials = brand.socials.map { it.toMutableList() }
@@ -549,6 +569,18 @@ private constructor(
              * supported value.
              */
             fun domain(domain: JsonField<String>) = apply { this.domain = domain }
+
+            /** Indicates whether the brand content is not safe for work (NSFW) */
+            fun isNsfw(isNsfw: Boolean) = isNsfw(JsonField.of(isNsfw))
+
+            /**
+             * Sets [Builder.isNsfw] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.isNsfw] with a well-typed [Boolean] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun isNsfw(isNsfw: JsonField<Boolean>) = apply { this.isNsfw = isNsfw }
 
             /** An array of logos associated with the brand */
             fun logos(logos: List<Logo>) = logos(JsonField.of(logos))
@@ -672,6 +704,7 @@ private constructor(
                     (colors ?: JsonMissing.of()).map { it.toImmutable() },
                     description,
                     domain,
+                    isNsfw,
                     (logos ?: JsonMissing.of()).map { it.toImmutable() },
                     slogan,
                     (socials ?: JsonMissing.of()).map { it.toImmutable() },
@@ -693,6 +726,7 @@ private constructor(
             colors().ifPresent { it.forEach { it.validate() } }
             description()
             domain()
+            isNsfw()
             logos().ifPresent { it.forEach { it.validate() } }
             slogan()
             socials().ifPresent { it.forEach { it.validate() } }
@@ -722,6 +756,7 @@ private constructor(
                 (colors.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
                 (if (domain.asKnown().isPresent) 1 else 0) +
+                (if (isNsfw.asKnown().isPresent) 1 else 0) +
                 (logos.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (slogan.asKnown().isPresent) 1 else 0) +
                 (socials.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
@@ -2937,17 +2972,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Brand && address == other.address && backdrops == other.backdrops && colors == other.colors && description == other.description && domain == other.domain && logos == other.logos && slogan == other.slogan && socials == other.socials && stock == other.stock && title == other.title && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Brand && address == other.address && backdrops == other.backdrops && colors == other.colors && description == other.description && domain == other.domain && isNsfw == other.isNsfw && logos == other.logos && slogan == other.slogan && socials == other.socials && stock == other.stock && title == other.title && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, backdrops, colors, description, domain, logos, slogan, socials, stock, title, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(address, backdrops, colors, description, domain, isNsfw, logos, slogan, socials, stock, title, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, logos=$logos, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
+            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, isNsfw=$isNsfw, logos=$logos, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -656,9 +656,12 @@ private constructor(
 
                 @JvmStatic fun ofBool(bool: Boolean) = DatapointValue(bool = bool)
 
-                @JvmStatic fun ofStrings(strings: List<String>) = DatapointValue(strings = strings)
+                @JvmStatic
+                fun ofStrings(strings: List<String>) =
+                    DatapointValue(strings = strings.toImmutable())
 
-                @JvmStatic fun ofNumber(number: List<Double>) = DatapointValue(number = number)
+                @JvmStatic
+                fun ofNumber(number: List<Double>) = DatapointValue(number = number.toImmutable())
             }
 
             /**

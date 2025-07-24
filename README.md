@@ -93,7 +93,7 @@ import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
     // Configures using the `branddev.apiKey` and `branddev.baseUrl` system properties
-    Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
+    // Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();

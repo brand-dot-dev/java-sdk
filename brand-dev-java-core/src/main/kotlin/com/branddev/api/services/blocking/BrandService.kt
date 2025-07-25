@@ -44,7 +44,7 @@ interface BrandService {
     fun retrieve(params: BrandRetrieveParams): BrandRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: BrandRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -57,7 +57,7 @@ interface BrandService {
     fun aiQuery(params: BrandAiQueryParams): BrandAiQueryResponse =
         aiQuery(params, RequestOptions.none())
 
-    /** @see [aiQuery] */
+    /** @see aiQuery */
     fun aiQuery(
         params: BrandAiQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -71,7 +71,7 @@ interface BrandService {
         params: BrandIdentifyFromTransactionParams
     ): BrandIdentifyFromTransactionResponse = identifyFromTransaction(params, RequestOptions.none())
 
-    /** @see [identifyFromTransaction] */
+    /** @see identifyFromTransaction */
     fun identifyFromTransaction(
         params: BrandIdentifyFromTransactionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -85,7 +85,7 @@ interface BrandService {
     fun prefetch(params: BrandPrefetchParams): BrandPrefetchResponse =
         prefetch(params, RequestOptions.none())
 
-    /** @see [prefetch] */
+    /** @see prefetch */
     fun prefetch(
         params: BrandPrefetchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -95,7 +95,7 @@ interface BrandService {
     fun retrieveByTicker(params: BrandRetrieveByTickerParams): BrandRetrieveByTickerResponse =
         retrieveByTicker(params, RequestOptions.none())
 
-    /** @see [retrieveByTicker] */
+    /** @see retrieveByTicker */
     fun retrieveByTicker(
         params: BrandRetrieveByTickerParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -105,7 +105,7 @@ interface BrandService {
     fun retrieveNaics(params: BrandRetrieveNaicsParams): BrandRetrieveNaicsResponse =
         retrieveNaics(params, RequestOptions.none())
 
-    /** @see [retrieveNaics] */
+    /** @see retrieveNaics */
     fun retrieveNaics(
         params: BrandRetrieveNaicsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -119,7 +119,7 @@ interface BrandService {
     fun retrieveSimplified(params: BrandRetrieveSimplifiedParams): BrandRetrieveSimplifiedResponse =
         retrieveSimplified(params, RequestOptions.none())
 
-    /** @see [retrieveSimplified] */
+    /** @see retrieveSimplified */
     fun retrieveSimplified(
         params: BrandRetrieveSimplifiedParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -133,7 +133,7 @@ interface BrandService {
     fun screenshot(params: BrandScreenshotParams): BrandScreenshotResponse =
         screenshot(params, RequestOptions.none())
 
-    /** @see [screenshot] */
+    /** @see screenshot */
     fun screenshot(
         params: BrandScreenshotParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -146,7 +146,7 @@ interface BrandService {
     fun styleguide(params: BrandStyleguideParams): BrandStyleguideResponse =
         styleguide(params, RequestOptions.none())
 
-    /** @see [styleguide] */
+    /** @see styleguide */
     fun styleguide(
         params: BrandStyleguideParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -170,7 +170,7 @@ interface BrandService {
         fun retrieve(params: BrandRetrieveParams): HttpResponseFor<BrandRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: BrandRetrieveParams,
@@ -185,7 +185,7 @@ interface BrandService {
         fun aiQuery(params: BrandAiQueryParams): HttpResponseFor<BrandAiQueryResponse> =
             aiQuery(params, RequestOptions.none())
 
-        /** @see [aiQuery] */
+        /** @see aiQuery */
         @MustBeClosed
         fun aiQuery(
             params: BrandAiQueryParams,
@@ -202,7 +202,7 @@ interface BrandService {
         ): HttpResponseFor<BrandIdentifyFromTransactionResponse> =
             identifyFromTransaction(params, RequestOptions.none())
 
-        /** @see [identifyFromTransaction] */
+        /** @see identifyFromTransaction */
         @MustBeClosed
         fun identifyFromTransaction(
             params: BrandIdentifyFromTransactionParams,
@@ -217,7 +217,7 @@ interface BrandService {
         fun prefetch(params: BrandPrefetchParams): HttpResponseFor<BrandPrefetchResponse> =
             prefetch(params, RequestOptions.none())
 
-        /** @see [prefetch] */
+        /** @see prefetch */
         @MustBeClosed
         fun prefetch(
             params: BrandPrefetchParams,
@@ -234,7 +234,7 @@ interface BrandService {
         ): HttpResponseFor<BrandRetrieveByTickerResponse> =
             retrieveByTicker(params, RequestOptions.none())
 
-        /** @see [retrieveByTicker] */
+        /** @see retrieveByTicker */
         @MustBeClosed
         fun retrieveByTicker(
             params: BrandRetrieveByTickerParams,
@@ -251,7 +251,7 @@ interface BrandService {
         ): HttpResponseFor<BrandRetrieveNaicsResponse> =
             retrieveNaics(params, RequestOptions.none())
 
-        /** @see [retrieveNaics] */
+        /** @see retrieveNaics */
         @MustBeClosed
         fun retrieveNaics(
             params: BrandRetrieveNaicsParams,
@@ -268,7 +268,7 @@ interface BrandService {
         ): HttpResponseFor<BrandRetrieveSimplifiedResponse> =
             retrieveSimplified(params, RequestOptions.none())
 
-        /** @see [retrieveSimplified] */
+        /** @see retrieveSimplified */
         @MustBeClosed
         fun retrieveSimplified(
             params: BrandRetrieveSimplifiedParams,
@@ -283,7 +283,7 @@ interface BrandService {
         fun screenshot(params: BrandScreenshotParams): HttpResponseFor<BrandScreenshotResponse> =
             screenshot(params, RequestOptions.none())
 
-        /** @see [screenshot] */
+        /** @see screenshot */
         @MustBeClosed
         fun screenshot(
             params: BrandScreenshotParams,
@@ -298,7 +298,7 @@ interface BrandService {
         fun styleguide(params: BrandStyleguideParams): HttpResponseFor<BrandStyleguideResponse> =
             styleguide(params, RequestOptions.none())
 
-        /** @see [styleguide] */
+        /** @see styleguide */
         @MustBeClosed
         fun styleguide(
             params: BrandStyleguideParams,

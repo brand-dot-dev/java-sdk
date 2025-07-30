@@ -3,6 +3,7 @@ package com.branddev.api.core.http
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.checkRequired
 import com.branddev.api.errors.BrandDevIoException
+import com.branddev.api.errors.BrandDevRetryableException
 import java.io.IOException
 import java.time.Clock
 import java.time.Duration
@@ -176,9 +177,10 @@ private constructor(
     }
 
     private fun shouldRetry(throwable: Throwable): Boolean =
-        // Only retry IOException and BrandDevIoException, other exceptions are not intended to be
-        // retried.
-        throwable is IOException || throwable is BrandDevIoException
+        // Only retry known retryable exceptions, other exceptions are not intended to be retried.
+        throwable is IOException ||
+            throwable is BrandDevIoException ||
+            throwable is BrandDevRetryableException
 
     private fun getRetryBackoffDuration(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:

@@ -3,12 +3,10 @@
 package com.branddev.api.models.brand
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class BrandAiQueryParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         BrandAiQueryParams.builder()
@@ -37,7 +35,6 @@ internal class BrandAiQueryParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -94,7 +91,6 @@ internal class BrandAiQueryParamsTest {
         assertThat(body.timeoutMs()).contains(1L)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =

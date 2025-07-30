@@ -4,18 +4,15 @@ package com.branddev.api.models.brand
 
 import com.branddev.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class BrandStyleguideParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params = BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
@@ -26,7 +23,6 @@ internal class BrandStyleguideParamsTest {
             .isEqualTo(QueryParams.builder().put("domain", "domain").put("timeoutMS", "1").build())
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = BrandStyleguideParams.builder().domain("domain").build()

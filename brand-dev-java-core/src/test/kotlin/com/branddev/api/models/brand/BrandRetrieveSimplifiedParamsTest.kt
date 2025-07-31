@@ -4,18 +4,15 @@ package com.branddev.api.models.brand
 
 import com.branddev.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class BrandRetrieveSimplifiedParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1L).build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params = BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1L).build()
@@ -26,7 +23,6 @@ internal class BrandRetrieveSimplifiedParamsTest {
             .isEqualTo(QueryParams.builder().put("domain", "domain").put("timeoutMS", "1").build())
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = BrandRetrieveSimplifiedParams.builder().domain("domain").build()

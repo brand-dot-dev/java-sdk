@@ -93,7 +93,7 @@ import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
 
 BrandDevClient client = BrandDevOkHttpClient.builder()
     // Configures using the `branddev.apiKey` and `branddev.baseUrl` system properties
-    Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
+    // Or configures using the `BRAND_DEV_API_KEY` and `BRAND_DEV_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
@@ -231,6 +231,8 @@ The SDK throws custom unchecked exception types:
 
 - [`BrandDevIoException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevIoException.kt): I/O networking errors.
 
+- [`BrandDevRetryableException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+
 - [`BrandDevInvalidDataException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - [`BrandDevException`](brand-dev-java-core/src/main/kotlin/com/branddev/api/errors/BrandDevException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
@@ -251,6 +253,12 @@ Or to `debug` for more verbose logging:
 $ export BRAND_DEV_LOG=debug
 ```
 
+## ProGuard and R8
+
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `brand-dev-java-core` is published with a [configuration file](brand-dev-java-core/src/main/resources/META-INF/proguard/brand-dev-java-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+
+ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
+
 ## Jackson
 
 The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
@@ -266,7 +274,7 @@ If the SDK threw an exception, but you're _certain_ the version is compatible, t
 
 ### Retries
 
-The SDK automatically retries 2 times by default, with a short exponential backoff.
+The SDK automatically retries 2 times by default, with a short exponential backoff between requests.
 
 Only the following error types are retried:
 
@@ -276,7 +284,7 @@ Only the following error types are retried:
 - 429 Rate Limit
 - 5xx Internal
 
-The API may also explicitly instruct the SDK to retry or not retry a response.
+The API may also explicitly instruct the SDK to retry or not retry a request.
 
 To set a custom number of retries, configure the client using the `maxRetries` method:
 

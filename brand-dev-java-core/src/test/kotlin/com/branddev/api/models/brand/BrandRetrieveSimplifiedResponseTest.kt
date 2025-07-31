@@ -5,12 +5,10 @@ package com.branddev.api.models.brand
 import com.branddev.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class BrandRetrieveSimplifiedResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val brandRetrieveSimplifiedResponse =
@@ -51,8 +49,7 @@ internal class BrandRetrieveSimplifiedResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandRetrieveSimplifiedResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandRetrieveSimplifiedResponse.Brand.Logo.Resolution.builder()
                                         .aspectRatio(0.0)
@@ -60,7 +57,7 @@ internal class BrandRetrieveSimplifiedResponseTest {
                                         .width(0L)
                                         .build()
                                 )
-                                .type("type")
+                                .type(BrandRetrieveSimplifiedResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
@@ -107,8 +104,7 @@ internal class BrandRetrieveSimplifiedResponseTest {
                                     .name("name")
                                     .build()
                             )
-                            .group(0L)
-                            .mode("mode")
+                            .mode(BrandRetrieveSimplifiedResponse.Brand.Logo.Mode.LIGHT)
                             .resolution(
                                 BrandRetrieveSimplifiedResponse.Brand.Logo.Resolution.builder()
                                     .aspectRatio(0.0)
@@ -116,7 +112,7 @@ internal class BrandRetrieveSimplifiedResponseTest {
                                     .width(0L)
                                     .build()
                             )
-                            .type("type")
+                            .type(BrandRetrieveSimplifiedResponse.Brand.Logo.Type.ICON)
                             .url("url")
                             .build()
                     )
@@ -127,7 +123,6 @@ internal class BrandRetrieveSimplifiedResponseTest {
         assertThat(brandRetrieveSimplifiedResponse.status()).contains("status")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
@@ -169,8 +164,7 @@ internal class BrandRetrieveSimplifiedResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandRetrieveSimplifiedResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandRetrieveSimplifiedResponse.Brand.Logo.Resolution.builder()
                                         .aspectRatio(0.0)
@@ -178,7 +172,7 @@ internal class BrandRetrieveSimplifiedResponseTest {
                                         .width(0L)
                                         .build()
                                 )
-                                .type("type")
+                                .type(BrandRetrieveSimplifiedResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )

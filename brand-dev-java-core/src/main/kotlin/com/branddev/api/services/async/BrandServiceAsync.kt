@@ -44,7 +44,7 @@ interface BrandServiceAsync {
     fun retrieve(params: BrandRetrieveParams): CompletableFuture<BrandRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: BrandRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -57,7 +57,7 @@ interface BrandServiceAsync {
     fun aiQuery(params: BrandAiQueryParams): CompletableFuture<BrandAiQueryResponse> =
         aiQuery(params, RequestOptions.none())
 
-    /** @see [aiQuery] */
+    /** @see aiQuery */
     fun aiQuery(
         params: BrandAiQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -72,7 +72,7 @@ interface BrandServiceAsync {
     ): CompletableFuture<BrandIdentifyFromTransactionResponse> =
         identifyFromTransaction(params, RequestOptions.none())
 
-    /** @see [identifyFromTransaction] */
+    /** @see identifyFromTransaction */
     fun identifyFromTransaction(
         params: BrandIdentifyFromTransactionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -86,7 +86,7 @@ interface BrandServiceAsync {
     fun prefetch(params: BrandPrefetchParams): CompletableFuture<BrandPrefetchResponse> =
         prefetch(params, RequestOptions.none())
 
-    /** @see [prefetch] */
+    /** @see prefetch */
     fun prefetch(
         params: BrandPrefetchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -98,7 +98,7 @@ interface BrandServiceAsync {
     ): CompletableFuture<BrandRetrieveByTickerResponse> =
         retrieveByTicker(params, RequestOptions.none())
 
-    /** @see [retrieveByTicker] */
+    /** @see retrieveByTicker */
     fun retrieveByTicker(
         params: BrandRetrieveByTickerParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -109,7 +109,7 @@ interface BrandServiceAsync {
         params: BrandRetrieveNaicsParams
     ): CompletableFuture<BrandRetrieveNaicsResponse> = retrieveNaics(params, RequestOptions.none())
 
-    /** @see [retrieveNaics] */
+    /** @see retrieveNaics */
     fun retrieveNaics(
         params: BrandRetrieveNaicsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -125,7 +125,7 @@ interface BrandServiceAsync {
     ): CompletableFuture<BrandRetrieveSimplifiedResponse> =
         retrieveSimplified(params, RequestOptions.none())
 
-    /** @see [retrieveSimplified] */
+    /** @see retrieveSimplified */
     fun retrieveSimplified(
         params: BrandRetrieveSimplifiedParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -139,7 +139,7 @@ interface BrandServiceAsync {
     fun screenshot(params: BrandScreenshotParams): CompletableFuture<BrandScreenshotResponse> =
         screenshot(params, RequestOptions.none())
 
-    /** @see [screenshot] */
+    /** @see screenshot */
     fun screenshot(
         params: BrandScreenshotParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -152,7 +152,7 @@ interface BrandServiceAsync {
     fun styleguide(params: BrandStyleguideParams): CompletableFuture<BrandStyleguideResponse> =
         styleguide(params, RequestOptions.none())
 
-    /** @see [styleguide] */
+    /** @see styleguide */
     fun styleguide(
         params: BrandStyleguideParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -179,7 +179,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: BrandRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -194,7 +194,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandAiQueryResponse>> =
             aiQuery(params, RequestOptions.none())
 
-        /** @see [aiQuery] */
+        /** @see aiQuery */
         fun aiQuery(
             params: BrandAiQueryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -209,7 +209,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandIdentifyFromTransactionResponse>> =
             identifyFromTransaction(params, RequestOptions.none())
 
-        /** @see [identifyFromTransaction] */
+        /** @see identifyFromTransaction */
         fun identifyFromTransaction(
             params: BrandIdentifyFromTransactionParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -224,7 +224,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandPrefetchResponse>> =
             prefetch(params, RequestOptions.none())
 
-        /** @see [prefetch] */
+        /** @see prefetch */
         fun prefetch(
             params: BrandPrefetchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -239,7 +239,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandRetrieveByTickerResponse>> =
             retrieveByTicker(params, RequestOptions.none())
 
-        /** @see [retrieveByTicker] */
+        /** @see retrieveByTicker */
         fun retrieveByTicker(
             params: BrandRetrieveByTickerParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -254,7 +254,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandRetrieveNaicsResponse>> =
             retrieveNaics(params, RequestOptions.none())
 
-        /** @see [retrieveNaics] */
+        /** @see retrieveNaics */
         fun retrieveNaics(
             params: BrandRetrieveNaicsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -269,7 +269,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandRetrieveSimplifiedResponse>> =
             retrieveSimplified(params, RequestOptions.none())
 
-        /** @see [retrieveSimplified] */
+        /** @see retrieveSimplified */
         fun retrieveSimplified(
             params: BrandRetrieveSimplifiedParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -284,7 +284,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandScreenshotResponse>> =
             screenshot(params, RequestOptions.none())
 
-        /** @see [screenshot] */
+        /** @see screenshot */
         fun screenshot(
             params: BrandScreenshotParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -299,7 +299,7 @@ interface BrandServiceAsync {
         ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>> =
             styleguide(params, RequestOptions.none())
 
-        /** @see [styleguide] */
+        /** @see styleguide */
         fun styleguide(
             params: BrandStyleguideParams,
             requestOptions: RequestOptions = RequestOptions.none(),

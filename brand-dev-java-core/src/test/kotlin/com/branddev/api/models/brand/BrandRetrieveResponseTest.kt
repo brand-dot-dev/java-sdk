@@ -5,12 +5,10 @@ package com.branddev.api.models.brand
 import com.branddev.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class BrandRetrieveResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val brandRetrieveResponse =
@@ -38,6 +36,7 @@ internal class BrandRetrieveResponseTest {
                                 )
                                 .resolution(
                                     BrandRetrieveResponse.Brand.Backdrop.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
@@ -53,6 +52,7 @@ internal class BrandRetrieveResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .email("email")
                         .isNsfw(true)
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
@@ -62,17 +62,19 @@ internal class BrandRetrieveResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandRetrieveResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandRetrieveResponse.Brand.Logo.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
                                 )
+                                .type(BrandRetrieveResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
+                        .phone("phone")
                         .slogan("slogan")
                         .addSocial(
                             BrandRetrieveResponse.Brand.Social.builder()
@@ -117,6 +119,7 @@ internal class BrandRetrieveResponseTest {
                             )
                             .resolution(
                                 BrandRetrieveResponse.Brand.Backdrop.Resolution.builder()
+                                    .aspectRatio(0.0)
                                     .height(0L)
                                     .width(0L)
                                     .build()
@@ -129,6 +132,7 @@ internal class BrandRetrieveResponseTest {
                     )
                     .description("description")
                     .domain("domain")
+                    .email("email")
                     .isNsfw(true)
                     .addLogo(
                         BrandRetrieveResponse.Brand.Logo.builder()
@@ -138,17 +142,19 @@ internal class BrandRetrieveResponseTest {
                                     .name("name")
                                     .build()
                             )
-                            .group(0L)
-                            .mode("mode")
+                            .mode(BrandRetrieveResponse.Brand.Logo.Mode.LIGHT)
                             .resolution(
                                 BrandRetrieveResponse.Brand.Logo.Resolution.builder()
+                                    .aspectRatio(0.0)
                                     .height(0L)
                                     .width(0L)
                                     .build()
                             )
+                            .type(BrandRetrieveResponse.Brand.Logo.Type.ICON)
                             .url("url")
                             .build()
                     )
+                    .phone("phone")
                     .slogan("slogan")
                     .addSocial(
                         BrandRetrieveResponse.Brand.Social.builder().type("type").url("url").build()
@@ -166,7 +172,6 @@ internal class BrandRetrieveResponseTest {
         assertThat(brandRetrieveResponse.status()).contains("status")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
@@ -195,6 +200,7 @@ internal class BrandRetrieveResponseTest {
                                 )
                                 .resolution(
                                     BrandRetrieveResponse.Brand.Backdrop.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
@@ -210,6 +216,7 @@ internal class BrandRetrieveResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .email("email")
                         .isNsfw(true)
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
@@ -219,17 +226,19 @@ internal class BrandRetrieveResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandRetrieveResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandRetrieveResponse.Brand.Logo.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
                                 )
+                                .type(BrandRetrieveResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
+                        .phone("phone")
                         .slogan("slogan")
                         .addSocial(
                             BrandRetrieveResponse.Brand.Social.builder()

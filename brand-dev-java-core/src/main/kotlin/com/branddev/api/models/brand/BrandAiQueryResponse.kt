@@ -31,7 +31,6 @@ import kotlin.jvm.optionals.getOrNull
 
 class BrandAiQueryResponse
 private constructor(
-    private val code: JsonField<Long>,
     private val dataExtracted: JsonField<List<DataExtracted>>,
     private val domain: JsonField<String>,
     private val status: JsonField<String>,
@@ -41,7 +40,6 @@ private constructor(
 
     @JsonCreator
     private constructor(
-        @JsonProperty("code") @ExcludeMissing code: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("data_extracted")
         @ExcludeMissing
         dataExtracted: JsonField<List<DataExtracted>> = JsonMissing.of(),
@@ -50,15 +48,7 @@ private constructor(
         @JsonProperty("urls_analyzed")
         @ExcludeMissing
         urlsAnalyzed: JsonField<List<String>> = JsonMissing.of(),
-    ) : this(code, dataExtracted, domain, status, urlsAnalyzed, mutableMapOf())
-
-    /**
-     * HTTP status code
-     *
-     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun code(): Optional<Long> = code.getOptional("code")
+    ) : this(dataExtracted, domain, status, urlsAnalyzed, mutableMapOf())
 
     /**
      * Array of extracted data points
@@ -91,13 +81,6 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun urlsAnalyzed(): Optional<List<String>> = urlsAnalyzed.getOptional("urls_analyzed")
-
-    /**
-     * Returns the raw JSON value of [code].
-     *
-     * Unlike [code], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
     /**
      * Returns the raw JSON value of [dataExtracted].
@@ -152,7 +135,6 @@ private constructor(
     /** A builder for [BrandAiQueryResponse]. */
     class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
         private var dataExtracted: JsonField<MutableList<DataExtracted>>? = null
         private var domain: JsonField<String> = JsonMissing.of()
         private var status: JsonField<String> = JsonMissing.of()
@@ -161,24 +143,12 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(brandAiQueryResponse: BrandAiQueryResponse) = apply {
-            code = brandAiQueryResponse.code
             dataExtracted = brandAiQueryResponse.dataExtracted.map { it.toMutableList() }
             domain = brandAiQueryResponse.domain
             status = brandAiQueryResponse.status
             urlsAnalyzed = brandAiQueryResponse.urlsAnalyzed.map { it.toMutableList() }
             additionalProperties = brandAiQueryResponse.additionalProperties.toMutableMap()
         }
-
-        /** HTTP status code */
-        fun code(code: Long) = code(JsonField.of(code))
-
-        /**
-         * Sets [Builder.code] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.code] with a well-typed [Long] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         /** Array of extracted data points */
         fun dataExtracted(dataExtracted: List<DataExtracted>) =
@@ -281,7 +251,6 @@ private constructor(
          */
         fun build(): BrandAiQueryResponse =
             BrandAiQueryResponse(
-                code,
                 (dataExtracted ?: JsonMissing.of()).map { it.toImmutable() },
                 domain,
                 status,
@@ -297,7 +266,6 @@ private constructor(
             return@apply
         }
 
-        code()
         dataExtracted().ifPresent { it.forEach { it.validate() } }
         domain()
         status()
@@ -320,8 +288,7 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (if (code.asKnown().isPresent) 1 else 0) +
-            (dataExtracted.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+        (dataExtracted.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (domain.asKnown().isPresent) 1 else 0) +
             (if (status.asKnown().isPresent) 1 else 0) +
             (urlsAnalyzed.asKnown().getOrNull()?.size ?: 0)
@@ -656,9 +623,12 @@ private constructor(
 
                 @JvmStatic fun ofBool(bool: Boolean) = DatapointValue(bool = bool)
 
-                @JvmStatic fun ofStrings(strings: List<String>) = DatapointValue(strings = strings)
+                @JvmStatic
+                fun ofStrings(strings: List<String>) =
+                    DatapointValue(strings = strings.toImmutable())
 
-                @JvmStatic fun ofNumber(number: List<Double>) = DatapointValue(number = number)
+                @JvmStatic
+                fun ofNumber(number: List<Double>) = DatapointValue(number = number.toImmutable())
             }
 
             /**
@@ -774,15 +744,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandAiQueryResponse && code == other.code && dataExtracted == other.dataExtracted && domain == other.domain && status == other.status && urlsAnalyzed == other.urlsAnalyzed && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is BrandAiQueryResponse && dataExtracted == other.dataExtracted && domain == other.domain && status == other.status && urlsAnalyzed == other.urlsAnalyzed && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, dataExtracted, domain, status, urlsAnalyzed, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(dataExtracted, domain, status, urlsAnalyzed, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BrandAiQueryResponse{code=$code, dataExtracted=$dataExtracted, domain=$domain, status=$status, urlsAnalyzed=$urlsAnalyzed, additionalProperties=$additionalProperties}"
+        "BrandAiQueryResponse{dataExtracted=$dataExtracted, domain=$domain, status=$status, urlsAnalyzed=$urlsAnalyzed, additionalProperties=$additionalProperties}"
 }

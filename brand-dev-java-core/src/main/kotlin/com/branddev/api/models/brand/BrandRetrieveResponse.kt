@@ -2,6 +2,7 @@
 
 package com.branddev.api.models.brand
 
+import com.branddev.api.core.Enum
 import com.branddev.api.core.ExcludeMissing
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.JsonMissing
@@ -213,8 +214,10 @@ private constructor(
         private val colors: JsonField<List<Color>>,
         private val description: JsonField<String>,
         private val domain: JsonField<String>,
+        private val email: JsonField<String>,
         private val isNsfw: JsonField<Boolean>,
         private val logos: JsonField<List<Logo>>,
+        private val phone: JsonField<String>,
         private val slogan: JsonField<String>,
         private val socials: JsonField<List<Social>>,
         private val stock: JsonField<Stock>,
@@ -235,8 +238,10 @@ private constructor(
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
             @JsonProperty("domain") @ExcludeMissing domain: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
             @JsonProperty("is_nsfw") @ExcludeMissing isNsfw: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("logos") @ExcludeMissing logos: JsonField<List<Logo>> = JsonMissing.of(),
+            @JsonProperty("phone") @ExcludeMissing phone: JsonField<String> = JsonMissing.of(),
             @JsonProperty("slogan") @ExcludeMissing slogan: JsonField<String> = JsonMissing.of(),
             @JsonProperty("socials")
             @ExcludeMissing
@@ -249,8 +254,10 @@ private constructor(
             colors,
             description,
             domain,
+            email,
             isNsfw,
             logos,
+            phone,
             slogan,
             socials,
             stock,
@@ -299,6 +306,14 @@ private constructor(
         fun domain(): Optional<String> = domain.getOptional("domain")
 
         /**
+         * Company email address
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun email(): Optional<String> = email.getOptional("email")
+
+        /**
          * Indicates whether the brand content is not safe for work (NSFW)
          *
          * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -313,6 +328,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun logos(): Optional<List<Logo>> = logos.getOptional("logos")
+
+        /**
+         * Company phone number
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun phone(): Optional<String> = phone.getOptional("phone")
 
         /**
          * The brand's slogan
@@ -386,6 +409,13 @@ private constructor(
         @JsonProperty("domain") @ExcludeMissing fun _domain(): JsonField<String> = domain
 
         /**
+         * Returns the raw JSON value of [email].
+         *
+         * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
+
+        /**
          * Returns the raw JSON value of [isNsfw].
          *
          * Unlike [isNsfw], this method doesn't throw if the JSON field has an unexpected type.
@@ -398,6 +428,13 @@ private constructor(
          * Unlike [logos], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("logos") @ExcludeMissing fun _logos(): JsonField<List<Logo>> = logos
+
+        /**
+         * Returns the raw JSON value of [phone].
+         *
+         * Unlike [phone], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("phone") @ExcludeMissing fun _phone(): JsonField<String> = phone
 
         /**
          * Returns the raw JSON value of [slogan].
@@ -453,8 +490,10 @@ private constructor(
             private var colors: JsonField<MutableList<Color>>? = null
             private var description: JsonField<String> = JsonMissing.of()
             private var domain: JsonField<String> = JsonMissing.of()
+            private var email: JsonField<String> = JsonMissing.of()
             private var isNsfw: JsonField<Boolean> = JsonMissing.of()
             private var logos: JsonField<MutableList<Logo>>? = null
+            private var phone: JsonField<String> = JsonMissing.of()
             private var slogan: JsonField<String> = JsonMissing.of()
             private var socials: JsonField<MutableList<Social>>? = null
             private var stock: JsonField<Stock> = JsonMissing.of()
@@ -468,8 +507,10 @@ private constructor(
                 colors = brand.colors.map { it.toMutableList() }
                 description = brand.description
                 domain = brand.domain
+                email = brand.email
                 isNsfw = brand.isNsfw
                 logos = brand.logos.map { it.toMutableList() }
+                phone = brand.phone
                 slogan = brand.slogan
                 socials = brand.socials.map { it.toMutableList() }
                 stock = brand.stock
@@ -567,6 +608,18 @@ private constructor(
              */
             fun domain(domain: JsonField<String>) = apply { this.domain = domain }
 
+            /** Company email address */
+            fun email(email: String) = email(JsonField.of(email))
+
+            /**
+             * Sets [Builder.email] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.email] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun email(email: JsonField<String>) = apply { this.email = email }
+
             /** Indicates whether the brand content is not safe for work (NSFW) */
             fun isNsfw(isNsfw: Boolean) = isNsfw(JsonField.of(isNsfw))
 
@@ -604,6 +657,18 @@ private constructor(
                         checkKnown("logos", it).add(logo)
                     }
             }
+
+            /** Company phone number */
+            fun phone(phone: String) = phone(JsonField.of(phone))
+
+            /**
+             * Sets [Builder.phone] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.phone] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun phone(phone: JsonField<String>) = apply { this.phone = phone }
 
             /** The brand's slogan */
             fun slogan(slogan: String) = slogan(JsonField.of(slogan))
@@ -701,8 +766,10 @@ private constructor(
                     (colors ?: JsonMissing.of()).map { it.toImmutable() },
                     description,
                     domain,
+                    email,
                     isNsfw,
                     (logos ?: JsonMissing.of()).map { it.toImmutable() },
+                    phone,
                     slogan,
                     (socials ?: JsonMissing.of()).map { it.toImmutable() },
                     stock,
@@ -723,8 +790,10 @@ private constructor(
             colors().ifPresent { it.forEach { it.validate() } }
             description()
             domain()
+            email()
             isNsfw()
             logos().ifPresent { it.forEach { it.validate() } }
+            phone()
             slogan()
             socials().ifPresent { it.forEach { it.validate() } }
             stock().ifPresent { it.validate() }
@@ -753,8 +822,10 @@ private constructor(
                 (colors.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
                 (if (domain.asKnown().isPresent) 1 else 0) +
+                (if (email.asKnown().isPresent) 1 else 0) +
                 (if (isNsfw.asKnown().isPresent) 1 else 0) +
                 (logos.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (phone.asKnown().isPresent) 1 else 0) +
                 (if (slogan.asKnown().isPresent) 1 else 0) +
                 (socials.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (stock.asKnown().getOrNull()?.validity() ?: 0) +
@@ -1556,6 +1627,7 @@ private constructor(
             /** Resolution of the backdrop image */
             class Resolution
             private constructor(
+                private val aspectRatio: JsonField<Double>,
                 private val height: JsonField<Long>,
                 private val width: JsonField<Long>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
@@ -1563,11 +1635,22 @@ private constructor(
 
                 @JsonCreator
                 private constructor(
+                    @JsonProperty("aspect_ratio")
+                    @ExcludeMissing
+                    aspectRatio: JsonField<Double> = JsonMissing.of(),
                     @JsonProperty("height")
                     @ExcludeMissing
                     height: JsonField<Long> = JsonMissing.of(),
                     @JsonProperty("width") @ExcludeMissing width: JsonField<Long> = JsonMissing.of(),
-                ) : this(height, width, mutableMapOf())
+                ) : this(aspectRatio, height, width, mutableMapOf())
+
+                /**
+                 * Aspect ratio of the image (width/height)
+                 *
+                 * @throws BrandDevInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun aspectRatio(): Optional<Double> = aspectRatio.getOptional("aspect_ratio")
 
                 /**
                  * Height of the image in pixels
@@ -1584,6 +1667,16 @@ private constructor(
                  *   (e.g. if the server responded with an unexpected value).
                  */
                 fun width(): Optional<Long> = width.getOptional("width")
+
+                /**
+                 * Returns the raw JSON value of [aspectRatio].
+                 *
+                 * Unlike [aspectRatio], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("aspect_ratio")
+                @ExcludeMissing
+                fun _aspectRatio(): JsonField<Double> = aspectRatio
 
                 /**
                  * Returns the raw JSON value of [height].
@@ -1622,15 +1715,31 @@ private constructor(
                 /** A builder for [Resolution]. */
                 class Builder internal constructor() {
 
+                    private var aspectRatio: JsonField<Double> = JsonMissing.of()
                     private var height: JsonField<Long> = JsonMissing.of()
                     private var width: JsonField<Long> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
                     internal fun from(resolution: Resolution) = apply {
+                        aspectRatio = resolution.aspectRatio
                         height = resolution.height
                         width = resolution.width
                         additionalProperties = resolution.additionalProperties.toMutableMap()
+                    }
+
+                    /** Aspect ratio of the image (width/height) */
+                    fun aspectRatio(aspectRatio: Double) = aspectRatio(JsonField.of(aspectRatio))
+
+                    /**
+                     * Sets [Builder.aspectRatio] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.aspectRatio] with a well-typed [Double]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun aspectRatio(aspectRatio: JsonField<Double>) = apply {
+                        this.aspectRatio = aspectRatio
                     }
 
                     /** Height of the image in pixels */
@@ -1685,7 +1794,7 @@ private constructor(
                      * Further updates to this [Builder] will not mutate the returned instance.
                      */
                     fun build(): Resolution =
-                        Resolution(height, width, additionalProperties.toMutableMap())
+                        Resolution(aspectRatio, height, width, additionalProperties.toMutableMap())
                 }
 
                 private var validated: Boolean = false
@@ -1695,6 +1804,7 @@ private constructor(
                         return@apply
                     }
 
+                    aspectRatio()
                     height()
                     width()
                     validated = true
@@ -1716,7 +1826,8 @@ private constructor(
                  */
                 @JvmSynthetic
                 internal fun validity(): Int =
-                    (if (height.asKnown().isPresent) 1 else 0) +
+                    (if (aspectRatio.asKnown().isPresent) 1 else 0) +
+                        (if (height.asKnown().isPresent) 1 else 0) +
                         (if (width.asKnown().isPresent) 1 else 0)
 
                 override fun equals(other: Any?): Boolean {
@@ -1724,17 +1835,17 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Resolution && height == other.height && width == other.width && additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Resolution && aspectRatio == other.aspectRatio && height == other.height && width == other.width && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(height, width, additionalProperties) }
+                private val hashCode: Int by lazy { Objects.hash(aspectRatio, height, width, additionalProperties) }
                 /* spotless:on */
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "Resolution{height=$height, width=$width, additionalProperties=$additionalProperties}"
+                    "Resolution{aspectRatio=$aspectRatio, height=$height, width=$width, additionalProperties=$additionalProperties}"
             }
 
             override fun equals(other: Any?): Boolean {
@@ -1935,9 +2046,9 @@ private constructor(
         class Logo
         private constructor(
             private val colors: JsonField<List<Color>>,
-            private val group: JsonField<Long>,
-            private val mode: JsonField<String>,
+            private val mode: JsonField<Mode>,
             private val resolution: JsonField<Resolution>,
+            private val type: JsonField<Type>,
             private val url: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
@@ -1947,13 +2058,13 @@ private constructor(
                 @JsonProperty("colors")
                 @ExcludeMissing
                 colors: JsonField<List<Color>> = JsonMissing.of(),
-                @JsonProperty("group") @ExcludeMissing group: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("mode") @ExcludeMissing mode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("mode") @ExcludeMissing mode: JsonField<Mode> = JsonMissing.of(),
                 @JsonProperty("resolution")
                 @ExcludeMissing
                 resolution: JsonField<Resolution> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
                 @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
-            ) : this(colors, group, mode, resolution, url, mutableMapOf())
+            ) : this(colors, mode, resolution, type, url, mutableMapOf())
 
             /**
              * Array of colors in the logo
@@ -1964,20 +2075,14 @@ private constructor(
             fun colors(): Optional<List<Color>> = colors.getOptional("colors")
 
             /**
-             * Group identifier for logos
+             * Indicates when this logo is best used: 'light' = best for light mode, 'dark' = best
+             * for dark mode, 'has_opaque_background' = can be used for either as image has its own
+             * background
              *
              * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
              */
-            fun group(): Optional<Long> = group.getOptional("group")
-
-            /**
-             * Mode of the logo, e.g., 'dark', 'light'
-             *
-             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun mode(): Optional<String> = mode.getOptional("mode")
+            fun mode(): Optional<Mode> = mode.getOptional("mode")
 
             /**
              * Resolution of the logo image
@@ -1988,7 +2093,15 @@ private constructor(
             fun resolution(): Optional<Resolution> = resolution.getOptional("resolution")
 
             /**
-             * URL of the logo image
+             * Type of the logo based on resolution (e.g., 'icon', 'logo')
+             *
+             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun type(): Optional<Type> = type.getOptional("type")
+
+            /**
+             * CDN hosted url of the logo (ready for display)
              *
              * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -2003,18 +2116,11 @@ private constructor(
             @JsonProperty("colors") @ExcludeMissing fun _colors(): JsonField<List<Color>> = colors
 
             /**
-             * Returns the raw JSON value of [group].
-             *
-             * Unlike [group], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("group") @ExcludeMissing fun _group(): JsonField<Long> = group
-
-            /**
              * Returns the raw JSON value of [mode].
              *
              * Unlike [mode], this method doesn't throw if the JSON field has an unexpected type.
              */
-            @JsonProperty("mode") @ExcludeMissing fun _mode(): JsonField<String> = mode
+            @JsonProperty("mode") @ExcludeMissing fun _mode(): JsonField<Mode> = mode
 
             /**
              * Returns the raw JSON value of [resolution].
@@ -2025,6 +2131,13 @@ private constructor(
             @JsonProperty("resolution")
             @ExcludeMissing
             fun _resolution(): JsonField<Resolution> = resolution
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
             /**
              * Returns the raw JSON value of [url].
@@ -2055,18 +2168,18 @@ private constructor(
             class Builder internal constructor() {
 
                 private var colors: JsonField<MutableList<Color>>? = null
-                private var group: JsonField<Long> = JsonMissing.of()
-                private var mode: JsonField<String> = JsonMissing.of()
+                private var mode: JsonField<Mode> = JsonMissing.of()
                 private var resolution: JsonField<Resolution> = JsonMissing.of()
+                private var type: JsonField<Type> = JsonMissing.of()
                 private var url: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(logo: Logo) = apply {
                     colors = logo.colors.map { it.toMutableList() }
-                    group = logo.group
                     mode = logo.mode
                     resolution = logo.resolution
+                    type = logo.type
                     url = logo.url
                     additionalProperties = logo.additionalProperties.toMutableMap()
                 }
@@ -2097,29 +2210,21 @@ private constructor(
                         }
                 }
 
-                /** Group identifier for logos */
-                fun group(group: Long) = group(JsonField.of(group))
-
                 /**
-                 * Sets [Builder.group] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.group] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
+                 * Indicates when this logo is best used: 'light' = best for light mode, 'dark' =
+                 * best for dark mode, 'has_opaque_background' = can be used for either as image has
+                 * its own background
                  */
-                fun group(group: JsonField<Long>) = apply { this.group = group }
-
-                /** Mode of the logo, e.g., 'dark', 'light' */
-                fun mode(mode: String) = mode(JsonField.of(mode))
+                fun mode(mode: Mode) = mode(JsonField.of(mode))
 
                 /**
                  * Sets [Builder.mode] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.mode] with a well-typed [String] value instead.
+                 * You should usually call [Builder.mode] with a well-typed [Mode] value instead.
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun mode(mode: JsonField<String>) = apply { this.mode = mode }
+                fun mode(mode: JsonField<Mode>) = apply { this.mode = mode }
 
                 /** Resolution of the logo image */
                 fun resolution(resolution: Resolution) = resolution(JsonField.of(resolution))
@@ -2135,7 +2240,19 @@ private constructor(
                     this.resolution = resolution
                 }
 
-                /** URL of the logo image */
+                /** Type of the logo based on resolution (e.g., 'icon', 'logo') */
+                fun type(type: Type) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                /** CDN hosted url of the logo (ready for display) */
                 fun url(url: String) = url(JsonField.of(url))
 
                 /**
@@ -2177,9 +2294,9 @@ private constructor(
                 fun build(): Logo =
                     Logo(
                         (colors ?: JsonMissing.of()).map { it.toImmutable() },
-                        group,
                         mode,
                         resolution,
+                        type,
                         url,
                         additionalProperties.toMutableMap(),
                     )
@@ -2193,9 +2310,9 @@ private constructor(
                 }
 
                 colors().ifPresent { it.forEach { it.validate() } }
-                group()
-                mode()
+                mode().ifPresent { it.validate() }
                 resolution().ifPresent { it.validate() }
+                type().ifPresent { it.validate() }
                 url()
                 validated = true
             }
@@ -2217,9 +2334,9 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (colors.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-                    (if (group.asKnown().isPresent) 1 else 0) +
-                    (if (mode.asKnown().isPresent) 1 else 0) +
+                    (mode.asKnown().getOrNull()?.validity() ?: 0) +
                     (resolution.asKnown().getOrNull()?.validity() ?: 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (url.asKnown().isPresent) 1 else 0)
 
             class Color
@@ -2401,9 +2518,151 @@ private constructor(
                     "Color{hex=$hex, name=$name, additionalProperties=$additionalProperties}"
             }
 
+            /**
+             * Indicates when this logo is best used: 'light' = best for light mode, 'dark' = best
+             * for dark mode, 'has_opaque_background' = can be used for either as image has its own
+             * background
+             */
+            class Mode @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val LIGHT = of("light")
+
+                    @JvmField val DARK = of("dark")
+
+                    @JvmField val HAS_OPAQUE_BACKGROUND = of("has_opaque_background")
+
+                    @JvmStatic fun of(value: String) = Mode(JsonField.of(value))
+                }
+
+                /** An enum containing [Mode]'s known values. */
+                enum class Known {
+                    LIGHT,
+                    DARK,
+                    HAS_OPAQUE_BACKGROUND,
+                }
+
+                /**
+                 * An enum containing [Mode]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Mode] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    LIGHT,
+                    DARK,
+                    HAS_OPAQUE_BACKGROUND,
+                    /**
+                     * An enum member indicating that [Mode] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        LIGHT -> Value.LIGHT
+                        DARK -> Value.DARK
+                        HAS_OPAQUE_BACKGROUND -> Value.HAS_OPAQUE_BACKGROUND
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        LIGHT -> Known.LIGHT
+                        DARK -> Known.DARK
+                        HAS_OPAQUE_BACKGROUND -> Known.HAS_OPAQUE_BACKGROUND
+                        else -> throw BrandDevInvalidDataException("Unknown Mode: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        BrandDevInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Mode = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: BrandDevInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Mode && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             /** Resolution of the logo image */
             class Resolution
             private constructor(
+                private val aspectRatio: JsonField<Double>,
                 private val height: JsonField<Long>,
                 private val width: JsonField<Long>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
@@ -2411,11 +2670,22 @@ private constructor(
 
                 @JsonCreator
                 private constructor(
+                    @JsonProperty("aspect_ratio")
+                    @ExcludeMissing
+                    aspectRatio: JsonField<Double> = JsonMissing.of(),
                     @JsonProperty("height")
                     @ExcludeMissing
                     height: JsonField<Long> = JsonMissing.of(),
                     @JsonProperty("width") @ExcludeMissing width: JsonField<Long> = JsonMissing.of(),
-                ) : this(height, width, mutableMapOf())
+                ) : this(aspectRatio, height, width, mutableMapOf())
+
+                /**
+                 * Aspect ratio of the image (width/height)
+                 *
+                 * @throws BrandDevInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun aspectRatio(): Optional<Double> = aspectRatio.getOptional("aspect_ratio")
 
                 /**
                  * Height of the image in pixels
@@ -2432,6 +2702,16 @@ private constructor(
                  *   (e.g. if the server responded with an unexpected value).
                  */
                 fun width(): Optional<Long> = width.getOptional("width")
+
+                /**
+                 * Returns the raw JSON value of [aspectRatio].
+                 *
+                 * Unlike [aspectRatio], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("aspect_ratio")
+                @ExcludeMissing
+                fun _aspectRatio(): JsonField<Double> = aspectRatio
 
                 /**
                  * Returns the raw JSON value of [height].
@@ -2470,15 +2750,31 @@ private constructor(
                 /** A builder for [Resolution]. */
                 class Builder internal constructor() {
 
+                    private var aspectRatio: JsonField<Double> = JsonMissing.of()
                     private var height: JsonField<Long> = JsonMissing.of()
                     private var width: JsonField<Long> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
                     internal fun from(resolution: Resolution) = apply {
+                        aspectRatio = resolution.aspectRatio
                         height = resolution.height
                         width = resolution.width
                         additionalProperties = resolution.additionalProperties.toMutableMap()
+                    }
+
+                    /** Aspect ratio of the image (width/height) */
+                    fun aspectRatio(aspectRatio: Double) = aspectRatio(JsonField.of(aspectRatio))
+
+                    /**
+                     * Sets [Builder.aspectRatio] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.aspectRatio] with a well-typed [Double]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun aspectRatio(aspectRatio: JsonField<Double>) = apply {
+                        this.aspectRatio = aspectRatio
                     }
 
                     /** Height of the image in pixels */
@@ -2533,7 +2829,7 @@ private constructor(
                      * Further updates to this [Builder] will not mutate the returned instance.
                      */
                     fun build(): Resolution =
-                        Resolution(height, width, additionalProperties.toMutableMap())
+                        Resolution(aspectRatio, height, width, additionalProperties.toMutableMap())
                 }
 
                 private var validated: Boolean = false
@@ -2543,6 +2839,7 @@ private constructor(
                         return@apply
                     }
 
+                    aspectRatio()
                     height()
                     width()
                     validated = true
@@ -2564,7 +2861,8 @@ private constructor(
                  */
                 @JvmSynthetic
                 internal fun validity(): Int =
-                    (if (height.asKnown().isPresent) 1 else 0) +
+                    (if (aspectRatio.asKnown().isPresent) 1 else 0) +
+                        (if (height.asKnown().isPresent) 1 else 0) +
                         (if (width.asKnown().isPresent) 1 else 0)
 
                 override fun equals(other: Any?): Boolean {
@@ -2572,17 +2870,148 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Resolution && height == other.height && width == other.width && additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Resolution && aspectRatio == other.aspectRatio && height == other.height && width == other.width && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(height, width, additionalProperties) }
+                private val hashCode: Int by lazy { Objects.hash(aspectRatio, height, width, additionalProperties) }
                 /* spotless:on */
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "Resolution{height=$height, width=$width, additionalProperties=$additionalProperties}"
+                    "Resolution{aspectRatio=$aspectRatio, height=$height, width=$width, additionalProperties=$additionalProperties}"
+            }
+
+            /** Type of the logo based on resolution (e.g., 'icon', 'logo') */
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val ICON = of("icon")
+
+                    @JvmField val LOGO = of("logo")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    ICON,
+                    LOGO,
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    ICON,
+                    LOGO,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        ICON -> Value.ICON
+                        LOGO -> Value.LOGO
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        ICON -> Known.ICON
+                        LOGO -> Known.LOGO
+                        else -> throw BrandDevInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        BrandDevInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: BrandDevInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             override fun equals(other: Any?): Boolean {
@@ -2590,17 +3019,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Logo && colors == other.colors && group == other.group && mode == other.mode && resolution == other.resolution && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Logo && colors == other.colors && mode == other.mode && resolution == other.resolution && type == other.type && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(colors, group, mode, resolution, url, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(colors, mode, resolution, type, url, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Logo{colors=$colors, group=$group, mode=$mode, resolution=$resolution, url=$url, additionalProperties=$additionalProperties}"
+                "Logo{colors=$colors, mode=$mode, resolution=$resolution, type=$type, url=$url, additionalProperties=$additionalProperties}"
         }
 
         class Social
@@ -2969,17 +3398,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Brand && address == other.address && backdrops == other.backdrops && colors == other.colors && description == other.description && domain == other.domain && isNsfw == other.isNsfw && logos == other.logos && slogan == other.slogan && socials == other.socials && stock == other.stock && title == other.title && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Brand && address == other.address && backdrops == other.backdrops && colors == other.colors && description == other.description && domain == other.domain && email == other.email && isNsfw == other.isNsfw && logos == other.logos && phone == other.phone && slogan == other.slogan && socials == other.socials && stock == other.stock && title == other.title && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, backdrops, colors, description, domain, isNsfw, logos, slogan, socials, stock, title, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(address, backdrops, colors, description, domain, email, isNsfw, logos, phone, slogan, socials, stock, title, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, isNsfw=$isNsfw, logos=$logos, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
+            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, email=$email, isNsfw=$isNsfw, logos=$logos, phone=$phone, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

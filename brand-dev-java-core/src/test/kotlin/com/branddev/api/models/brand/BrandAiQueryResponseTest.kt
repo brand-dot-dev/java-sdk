@@ -14,7 +14,6 @@ internal class BrandAiQueryResponseTest {
     fun create() {
         val brandAiQueryResponse =
             BrandAiQueryResponse.builder()
-                .code(0L)
                 .addDataExtracted(
                     BrandAiQueryResponse.DataExtracted.builder()
                         .datapointName("datapoint_name")
@@ -26,7 +25,6 @@ internal class BrandAiQueryResponseTest {
                 .addUrlsAnalyzed("string")
                 .build()
 
-        assertThat(brandAiQueryResponse.code()).contains(0L)
         assertThat(brandAiQueryResponse.dataExtracted().getOrNull())
             .containsExactly(
                 BrandAiQueryResponse.DataExtracted.builder()
@@ -44,7 +42,6 @@ internal class BrandAiQueryResponseTest {
         val jsonMapper = jsonMapper()
         val brandAiQueryResponse =
             BrandAiQueryResponse.builder()
-                .code(0L)
                 .addDataExtracted(
                     BrandAiQueryResponse.DataExtracted.builder()
                         .datapointName("datapoint_name")

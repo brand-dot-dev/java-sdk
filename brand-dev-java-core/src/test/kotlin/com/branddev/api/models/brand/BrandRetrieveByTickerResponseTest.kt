@@ -37,6 +37,7 @@ internal class BrandRetrieveByTickerResponseTest {
                                 .resolution(
                                     BrandRetrieveByTickerResponse.Brand.Backdrop.Resolution
                                         .builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
@@ -52,6 +53,7 @@ internal class BrandRetrieveByTickerResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .email("email")
                         .isNsfw(true)
                         .addLogo(
                             BrandRetrieveByTickerResponse.Brand.Logo.builder()
@@ -61,17 +63,19 @@ internal class BrandRetrieveByTickerResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandRetrieveByTickerResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandRetrieveByTickerResponse.Brand.Logo.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
                                 )
+                                .type(BrandRetrieveByTickerResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
+                        .phone("phone")
                         .slogan("slogan")
                         .addSocial(
                             BrandRetrieveByTickerResponse.Brand.Social.builder()
@@ -116,6 +120,7 @@ internal class BrandRetrieveByTickerResponseTest {
                             )
                             .resolution(
                                 BrandRetrieveByTickerResponse.Brand.Backdrop.Resolution.builder()
+                                    .aspectRatio(0.0)
                                     .height(0L)
                                     .width(0L)
                                     .build()
@@ -131,6 +136,7 @@ internal class BrandRetrieveByTickerResponseTest {
                     )
                     .description("description")
                     .domain("domain")
+                    .email("email")
                     .isNsfw(true)
                     .addLogo(
                         BrandRetrieveByTickerResponse.Brand.Logo.builder()
@@ -140,17 +146,19 @@ internal class BrandRetrieveByTickerResponseTest {
                                     .name("name")
                                     .build()
                             )
-                            .group(0L)
-                            .mode("mode")
+                            .mode(BrandRetrieveByTickerResponse.Brand.Logo.Mode.LIGHT)
                             .resolution(
                                 BrandRetrieveByTickerResponse.Brand.Logo.Resolution.builder()
+                                    .aspectRatio(0.0)
                                     .height(0L)
                                     .width(0L)
                                     .build()
                             )
+                            .type(BrandRetrieveByTickerResponse.Brand.Logo.Type.ICON)
                             .url("url")
                             .build()
                     )
+                    .phone("phone")
                     .slogan("slogan")
                     .addSocial(
                         BrandRetrieveByTickerResponse.Brand.Social.builder()
@@ -200,6 +208,7 @@ internal class BrandRetrieveByTickerResponseTest {
                                 .resolution(
                                     BrandRetrieveByTickerResponse.Brand.Backdrop.Resolution
                                         .builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
@@ -215,6 +224,7 @@ internal class BrandRetrieveByTickerResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .email("email")
                         .isNsfw(true)
                         .addLogo(
                             BrandRetrieveByTickerResponse.Brand.Logo.builder()
@@ -224,17 +234,19 @@ internal class BrandRetrieveByTickerResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandRetrieveByTickerResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandRetrieveByTickerResponse.Brand.Logo.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
                                 )
+                                .type(BrandRetrieveByTickerResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
+                        .phone("phone")
                         .slogan("slogan")
                         .addSocial(
                             BrandRetrieveByTickerResponse.Brand.Social.builder()

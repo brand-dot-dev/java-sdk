@@ -2,6 +2,7 @@
 
 package com.branddev.api.models.brand
 
+import com.branddev.api.core.Enum
 import com.branddev.api.core.ExcludeMissing
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.JsonMissing
@@ -1351,10 +1352,9 @@ private constructor(
         class Logo
         private constructor(
             private val colors: JsonField<List<Color>>,
-            private val group: JsonField<Long>,
-            private val mode: JsonField<String>,
+            private val mode: JsonField<Mode>,
             private val resolution: JsonField<Resolution>,
-            private val type: JsonField<String>,
+            private val type: JsonField<Type>,
             private val url: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
@@ -1364,14 +1364,13 @@ private constructor(
                 @JsonProperty("colors")
                 @ExcludeMissing
                 colors: JsonField<List<Color>> = JsonMissing.of(),
-                @JsonProperty("group") @ExcludeMissing group: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("mode") @ExcludeMissing mode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("mode") @ExcludeMissing mode: JsonField<Mode> = JsonMissing.of(),
                 @JsonProperty("resolution")
                 @ExcludeMissing
                 resolution: JsonField<Resolution> = JsonMissing.of(),
-                @JsonProperty("type") @ExcludeMissing type: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
                 @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
-            ) : this(colors, group, mode, resolution, type, url, mutableMapOf())
+            ) : this(colors, mode, resolution, type, url, mutableMapOf())
 
             /**
              * Array of colors in the logo
@@ -1382,20 +1381,14 @@ private constructor(
             fun colors(): Optional<List<Color>> = colors.getOptional("colors")
 
             /**
-             * Group identifier for logos
+             * Indicates when this logo is best used: 'light' = best for light mode, 'dark' = best
+             * for dark mode, 'has_opaque_background' = can be used for either as image has its own
+             * background
              *
              * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
              */
-            fun group(): Optional<Long> = group.getOptional("group")
-
-            /**
-             * Mode of the logo, e.g., 'dark', 'light'
-             *
-             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun mode(): Optional<String> = mode.getOptional("mode")
+            fun mode(): Optional<Mode> = mode.getOptional("mode")
 
             /**
              * Resolution of the logo image
@@ -1406,15 +1399,15 @@ private constructor(
             fun resolution(): Optional<Resolution> = resolution.getOptional("resolution")
 
             /**
-             * Type of the logo based on resolution (e.g., 'icon', 'logo', 'banner')
+             * Type of the logo based on resolution (e.g., 'icon', 'logo')
              *
              * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
              */
-            fun type(): Optional<String> = type.getOptional("type")
+            fun type(): Optional<Type> = type.getOptional("type")
 
             /**
-             * URL of the logo image
+             * CDN hosted url of the logo (ready for display)
              *
              * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
              *   if the server responded with an unexpected value).
@@ -1429,18 +1422,11 @@ private constructor(
             @JsonProperty("colors") @ExcludeMissing fun _colors(): JsonField<List<Color>> = colors
 
             /**
-             * Returns the raw JSON value of [group].
-             *
-             * Unlike [group], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("group") @ExcludeMissing fun _group(): JsonField<Long> = group
-
-            /**
              * Returns the raw JSON value of [mode].
              *
              * Unlike [mode], this method doesn't throw if the JSON field has an unexpected type.
              */
-            @JsonProperty("mode") @ExcludeMissing fun _mode(): JsonField<String> = mode
+            @JsonProperty("mode") @ExcludeMissing fun _mode(): JsonField<Mode> = mode
 
             /**
              * Returns the raw JSON value of [resolution].
@@ -1457,7 +1443,7 @@ private constructor(
              *
              * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
              */
-            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
             /**
              * Returns the raw JSON value of [url].
@@ -1488,17 +1474,15 @@ private constructor(
             class Builder internal constructor() {
 
                 private var colors: JsonField<MutableList<Color>>? = null
-                private var group: JsonField<Long> = JsonMissing.of()
-                private var mode: JsonField<String> = JsonMissing.of()
+                private var mode: JsonField<Mode> = JsonMissing.of()
                 private var resolution: JsonField<Resolution> = JsonMissing.of()
-                private var type: JsonField<String> = JsonMissing.of()
+                private var type: JsonField<Type> = JsonMissing.of()
                 private var url: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(logo: Logo) = apply {
                     colors = logo.colors.map { it.toMutableList() }
-                    group = logo.group
                     mode = logo.mode
                     resolution = logo.resolution
                     type = logo.type
@@ -1532,29 +1516,21 @@ private constructor(
                         }
                 }
 
-                /** Group identifier for logos */
-                fun group(group: Long) = group(JsonField.of(group))
-
                 /**
-                 * Sets [Builder.group] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.group] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
+                 * Indicates when this logo is best used: 'light' = best for light mode, 'dark' =
+                 * best for dark mode, 'has_opaque_background' = can be used for either as image has
+                 * its own background
                  */
-                fun group(group: JsonField<Long>) = apply { this.group = group }
-
-                /** Mode of the logo, e.g., 'dark', 'light' */
-                fun mode(mode: String) = mode(JsonField.of(mode))
+                fun mode(mode: Mode) = mode(JsonField.of(mode))
 
                 /**
                  * Sets [Builder.mode] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.mode] with a well-typed [String] value instead.
+                 * You should usually call [Builder.mode] with a well-typed [Mode] value instead.
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun mode(mode: JsonField<String>) = apply { this.mode = mode }
+                fun mode(mode: JsonField<Mode>) = apply { this.mode = mode }
 
                 /** Resolution of the logo image */
                 fun resolution(resolution: Resolution) = resolution(JsonField.of(resolution))
@@ -1570,19 +1546,19 @@ private constructor(
                     this.resolution = resolution
                 }
 
-                /** Type of the logo based on resolution (e.g., 'icon', 'logo', 'banner') */
-                fun type(type: String) = type(JsonField.of(type))
+                /** Type of the logo based on resolution (e.g., 'icon', 'logo') */
+                fun type(type: Type) = type(JsonField.of(type))
 
                 /**
                  * Sets [Builder.type] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.type] with a well-typed [String] value instead.
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun type(type: JsonField<String>) = apply { this.type = type }
+                fun type(type: JsonField<Type>) = apply { this.type = type }
 
-                /** URL of the logo image */
+                /** CDN hosted url of the logo (ready for display) */
                 fun url(url: String) = url(JsonField.of(url))
 
                 /**
@@ -1624,7 +1600,6 @@ private constructor(
                 fun build(): Logo =
                     Logo(
                         (colors ?: JsonMissing.of()).map { it.toImmutable() },
-                        group,
                         mode,
                         resolution,
                         type,
@@ -1641,10 +1616,9 @@ private constructor(
                 }
 
                 colors().ifPresent { it.forEach { it.validate() } }
-                group()
-                mode()
+                mode().ifPresent { it.validate() }
                 resolution().ifPresent { it.validate() }
-                type()
+                type().ifPresent { it.validate() }
                 url()
                 validated = true
             }
@@ -1666,10 +1640,9 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (colors.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-                    (if (group.asKnown().isPresent) 1 else 0) +
-                    (if (mode.asKnown().isPresent) 1 else 0) +
+                    (mode.asKnown().getOrNull()?.validity() ?: 0) +
                     (resolution.asKnown().getOrNull()?.validity() ?: 0) +
-                    (if (type.asKnown().isPresent) 1 else 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (url.asKnown().isPresent) 1 else 0)
 
             class Color
@@ -1849,6 +1822,147 @@ private constructor(
 
                 override fun toString() =
                     "Color{hex=$hex, name=$name, additionalProperties=$additionalProperties}"
+            }
+
+            /**
+             * Indicates when this logo is best used: 'light' = best for light mode, 'dark' = best
+             * for dark mode, 'has_opaque_background' = can be used for either as image has its own
+             * background
+             */
+            class Mode @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val LIGHT = of("light")
+
+                    @JvmField val DARK = of("dark")
+
+                    @JvmField val HAS_OPAQUE_BACKGROUND = of("has_opaque_background")
+
+                    @JvmStatic fun of(value: String) = Mode(JsonField.of(value))
+                }
+
+                /** An enum containing [Mode]'s known values. */
+                enum class Known {
+                    LIGHT,
+                    DARK,
+                    HAS_OPAQUE_BACKGROUND,
+                }
+
+                /**
+                 * An enum containing [Mode]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Mode] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    LIGHT,
+                    DARK,
+                    HAS_OPAQUE_BACKGROUND,
+                    /**
+                     * An enum member indicating that [Mode] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        LIGHT -> Value.LIGHT
+                        DARK -> Value.DARK
+                        HAS_OPAQUE_BACKGROUND -> Value.HAS_OPAQUE_BACKGROUND
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        LIGHT -> Known.LIGHT
+                        DARK -> Known.DARK
+                        HAS_OPAQUE_BACKGROUND -> Known.HAS_OPAQUE_BACKGROUND
+                        else -> throw BrandDevInvalidDataException("Unknown Mode: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        BrandDevInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Mode = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: BrandDevInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Mode && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             /** Resolution of the logo image */
@@ -2075,22 +2189,153 @@ private constructor(
                     "Resolution{aspectRatio=$aspectRatio, height=$height, width=$width, additionalProperties=$additionalProperties}"
             }
 
+            /** Type of the logo based on resolution (e.g., 'icon', 'logo') */
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val ICON = of("icon")
+
+                    @JvmField val LOGO = of("logo")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    ICON,
+                    LOGO,
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    ICON,
+                    LOGO,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        ICON -> Value.ICON
+                        LOGO -> Value.LOGO
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        ICON -> Known.ICON
+                        LOGO -> Known.LOGO
+                        else -> throw BrandDevInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws BrandDevInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        BrandDevInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: BrandDevInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
                 }
 
-                return /* spotless:off */ other is Logo && colors == other.colors && group == other.group && mode == other.mode && resolution == other.resolution && type == other.type && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Logo && colors == other.colors && mode == other.mode && resolution == other.resolution && type == other.type && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(colors, group, mode, resolution, type, url, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(colors, mode, resolution, type, url, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Logo{colors=$colors, group=$group, mode=$mode, resolution=$resolution, type=$type, url=$url, additionalProperties=$additionalProperties}"
+                "Logo{colors=$colors, mode=$mode, resolution=$resolution, type=$type, url=$url, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {

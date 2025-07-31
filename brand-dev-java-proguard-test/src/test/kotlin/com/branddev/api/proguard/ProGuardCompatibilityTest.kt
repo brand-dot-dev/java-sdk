@@ -67,6 +67,7 @@ internal class ProGuardCompatibilityTest {
                                 )
                                 .resolution(
                                     BrandRetrieveResponse.Brand.Backdrop.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
@@ -82,6 +83,7 @@ internal class ProGuardCompatibilityTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .email("email")
                         .isNsfw(true)
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
@@ -91,17 +93,19 @@ internal class ProGuardCompatibilityTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandRetrieveResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandRetrieveResponse.Brand.Logo.Resolution.builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
                                 )
+                                .type(BrandRetrieveResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
+                        .phone("phone")
                         .slogan("slogan")
                         .addSocial(
                             BrandRetrieveResponse.Brand.Social.builder()

@@ -38,6 +38,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                                 .resolution(
                                     BrandIdentifyFromTransactionResponse.Brand.Backdrop.Resolution
                                         .builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
@@ -53,6 +54,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .email("email")
                         .isNsfw(true)
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
@@ -62,18 +64,20 @@ internal class BrandIdentifyFromTransactionResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandIdentifyFromTransactionResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandIdentifyFromTransactionResponse.Brand.Logo.Resolution
                                         .builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
                                 )
+                                .type(BrandIdentifyFromTransactionResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
+                        .phone("phone")
                         .slogan("slogan")
                         .addSocial(
                             BrandIdentifyFromTransactionResponse.Brand.Social.builder()
@@ -119,6 +123,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                             .resolution(
                                 BrandIdentifyFromTransactionResponse.Brand.Backdrop.Resolution
                                     .builder()
+                                    .aspectRatio(0.0)
                                     .height(0L)
                                     .width(0L)
                                     .build()
@@ -134,6 +139,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                     )
                     .description("description")
                     .domain("domain")
+                    .email("email")
                     .isNsfw(true)
                     .addLogo(
                         BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
@@ -143,17 +149,19 @@ internal class BrandIdentifyFromTransactionResponseTest {
                                     .name("name")
                                     .build()
                             )
-                            .group(0L)
-                            .mode("mode")
+                            .mode(BrandIdentifyFromTransactionResponse.Brand.Logo.Mode.LIGHT)
                             .resolution(
                                 BrandIdentifyFromTransactionResponse.Brand.Logo.Resolution.builder()
+                                    .aspectRatio(0.0)
                                     .height(0L)
                                     .width(0L)
                                     .build()
                             )
+                            .type(BrandIdentifyFromTransactionResponse.Brand.Logo.Type.ICON)
                             .url("url")
                             .build()
                     )
+                    .phone("phone")
                     .slogan("slogan")
                     .addSocial(
                         BrandIdentifyFromTransactionResponse.Brand.Social.builder()
@@ -204,6 +212,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                                 .resolution(
                                     BrandIdentifyFromTransactionResponse.Brand.Backdrop.Resolution
                                         .builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
@@ -219,6 +228,7 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         )
                         .description("description")
                         .domain("domain")
+                        .email("email")
                         .isNsfw(true)
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
@@ -228,18 +238,20 @@ internal class BrandIdentifyFromTransactionResponseTest {
                                         .name("name")
                                         .build()
                                 )
-                                .group(0L)
-                                .mode("mode")
+                                .mode(BrandIdentifyFromTransactionResponse.Brand.Logo.Mode.LIGHT)
                                 .resolution(
                                     BrandIdentifyFromTransactionResponse.Brand.Logo.Resolution
                                         .builder()
+                                        .aspectRatio(0.0)
                                         .height(0L)
                                         .width(0L)
                                         .build()
                                 )
+                                .type(BrandIdentifyFromTransactionResponse.Brand.Logo.Type.ICON)
                                 .url("url")
                                 .build()
                         )
+                        .phone("phone")
                         .slogan("slogan")
                         .addSocial(
                             BrandIdentifyFromTransactionResponse.Brand.Social.builder()

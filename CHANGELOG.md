@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.0-alpha.9 (2025-08-08)
+
+Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)
+
+### Bug Fixes
+
+* **client:** r8 support ([ff8057b](https://github.com/brand-dot-dev/java-sdk/commit/ff8057b4355022c580478cd4f185ca407c70cfad))
+
+
+### Chores
+
+* **example:** fix run example comment ([85af0f8](https://github.com/brand-dot-dev/java-sdk/commit/85af0f84d86739f9dc477078df30c6f574fc5c41))
+* increase max gradle JVM heap to 8GB ([8b2f341](https://github.com/brand-dot-dev/java-sdk/commit/8b2f3419961aa90dc92cc9c4f51bae9413613434))
+* **internal:** add async lock helper ([a01460d](https://github.com/brand-dot-dev/java-sdk/commit/a01460d187cb30ba74603da061b98f769ad1e385))
+* **internal:** bump ci test timeout ([27f86a9](https://github.com/brand-dot-dev/java-sdk/commit/27f86a9501ea5d2d3064c7cf3e9452c0a82701eb))
+* **internal:** reduce proguard ci logging ([fd9496e](https://github.com/brand-dot-dev/java-sdk/commit/fd9496e8f38dd306d9afe5d46505b9122ffa81d5))
+
 ## 0.1.0-alpha.8 (2025-07-23)
 
 Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)

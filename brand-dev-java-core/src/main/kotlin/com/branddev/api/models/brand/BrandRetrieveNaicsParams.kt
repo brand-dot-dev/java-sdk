@@ -229,10 +229,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandRetrieveNaicsParams && input == other.input && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is BrandRetrieveNaicsParams &&
+            input == other.input &&
+            timeoutMs == other.timeoutMs &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(input, timeoutMs, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "BrandRetrieveNaicsParams{input=$input, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

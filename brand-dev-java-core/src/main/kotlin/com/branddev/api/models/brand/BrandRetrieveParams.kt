@@ -689,7 +689,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ForceLanguage && value == other.value /* spotless:on */
+            return other is ForceLanguage && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -702,10 +702,24 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandRetrieveParams && domain == other.domain && forceLanguage == other.forceLanguage && maxSpeed == other.maxSpeed && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is BrandRetrieveParams &&
+            domain == other.domain &&
+            forceLanguage == other.forceLanguage &&
+            maxSpeed == other.maxSpeed &&
+            timeoutMs == other.timeoutMs &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(domain, forceLanguage, maxSpeed, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            domain,
+            forceLanguage,
+            maxSpeed,
+            timeoutMs,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

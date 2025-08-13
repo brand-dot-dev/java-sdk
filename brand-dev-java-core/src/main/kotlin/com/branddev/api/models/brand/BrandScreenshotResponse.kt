@@ -410,7 +410,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ScreenshotType && value == other.value /* spotless:on */
+            return other is ScreenshotType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -423,12 +423,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandScreenshotResponse && code == other.code && domain == other.domain && screenshot == other.screenshot && screenshotType == other.screenshotType && status == other.status && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BrandScreenshotResponse &&
+            code == other.code &&
+            domain == other.domain &&
+            screenshot == other.screenshot &&
+            screenshotType == other.screenshotType &&
+            status == other.status &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, domain, screenshot, screenshotType, status, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, domain, screenshot, screenshotType, status, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

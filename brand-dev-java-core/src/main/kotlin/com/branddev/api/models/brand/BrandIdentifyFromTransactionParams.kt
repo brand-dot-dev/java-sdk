@@ -229,10 +229,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandIdentifyFromTransactionParams && transactionInfo == other.transactionInfo && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is BrandIdentifyFromTransactionParams &&
+            transactionInfo == other.transactionInfo &&
+            timeoutMs == other.timeoutMs &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(transactionInfo, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(transactionInfo, timeoutMs, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "BrandIdentifyFromTransactionParams{transactionInfo=$transactionInfo, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

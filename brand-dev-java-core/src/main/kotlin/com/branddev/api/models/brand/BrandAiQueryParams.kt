@@ -642,12 +642,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && dataToExtract == other.dataToExtract && domain == other.domain && specificPages == other.specificPages && timeoutMs == other.timeoutMs && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                dataToExtract == other.dataToExtract &&
+                domain == other.domain &&
+                specificPages == other.specificPages &&
+                timeoutMs == other.timeoutMs &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(dataToExtract, domain, specificPages, timeoutMs, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(dataToExtract, domain, specificPages, timeoutMs, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1091,7 +1096,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DatapointType && value == other.value /* spotless:on */
+                return other is DatapointType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1104,12 +1109,23 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DataToExtract && datapointDescription == other.datapointDescription && datapointExample == other.datapointExample && datapointName == other.datapointName && datapointType == other.datapointType && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is DataToExtract &&
+                datapointDescription == other.datapointDescription &&
+                datapointExample == other.datapointExample &&
+                datapointName == other.datapointName &&
+                datapointType == other.datapointType &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(datapointDescription, datapointExample, datapointName, datapointType, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                datapointDescription,
+                datapointExample,
+                datapointName,
+                datapointType,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1521,12 +1537,31 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SpecificPages && aboutUs == other.aboutUs && blog == other.blog && careers == other.careers && contactUs == other.contactUs && faq == other.faq && homePage == other.homePage && privacyPolicy == other.privacyPolicy && termsAndConditions == other.termsAndConditions && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is SpecificPages &&
+                aboutUs == other.aboutUs &&
+                blog == other.blog &&
+                careers == other.careers &&
+                contactUs == other.contactUs &&
+                faq == other.faq &&
+                homePage == other.homePage &&
+                privacyPolicy == other.privacyPolicy &&
+                termsAndConditions == other.termsAndConditions &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(aboutUs, blog, careers, contactUs, faq, homePage, privacyPolicy, termsAndConditions, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                aboutUs,
+                blog,
+                careers,
+                contactUs,
+                faq,
+                homePage,
+                privacyPolicy,
+                termsAndConditions,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1539,10 +1574,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandAiQueryParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is BrandAiQueryParams &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "BrandAiQueryParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

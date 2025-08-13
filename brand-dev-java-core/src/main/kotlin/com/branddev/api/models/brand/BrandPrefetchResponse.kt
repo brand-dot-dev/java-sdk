@@ -207,12 +207,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandPrefetchResponse && domain == other.domain && message == other.message && status == other.status && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BrandPrefetchResponse &&
+            domain == other.domain &&
+            message == other.message &&
+            status == other.status &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(domain, message, status, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(domain, message, status, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

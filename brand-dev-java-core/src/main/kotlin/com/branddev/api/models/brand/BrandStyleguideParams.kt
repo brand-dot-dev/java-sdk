@@ -230,10 +230,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandStyleguideParams && domain == other.domain && timeoutMs == other.timeoutMs && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is BrandStyleguideParams &&
+            domain == other.domain &&
+            timeoutMs == other.timeoutMs &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(domain, timeoutMs, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(domain, timeoutMs, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "BrandStyleguideParams{domain=$domain, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

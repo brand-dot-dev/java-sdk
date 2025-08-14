@@ -1,7 +1,14 @@
 rootProject.name = "brand-dev-java-root"
 
-include("brand-dev-java")
-include("brand-dev-java-client-okhttp")
-include("brand-dev-java-core")
-include("brand-dev-java-proguard-test")
-include("brand-dev-java-example")
+val projectNames = rootDir.listFiles()
+    ?.asSequence()
+    .orEmpty()
+    .filter { file ->
+        file.isDirectory &&
+        file.name.startsWith("brand-dev-java") &&
+        file.listFiles()?.asSequence().orEmpty().any { it.name == "build.gradle.kts" }
+    }
+    .map { it.name }
+    .toList()
+println("projects: $projectNames")
+projectNames.forEach { include(it) }

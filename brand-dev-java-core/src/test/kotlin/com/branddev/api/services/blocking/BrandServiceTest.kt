@@ -36,6 +36,8 @@ internal class BrandServiceTest {
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
+                    .name("xxx")
+                    .ticker("ticker")
                     .timeoutMs(1L)
                     .build()
             )

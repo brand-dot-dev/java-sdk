@@ -5,7 +5,6 @@ package com.branddev.api.models.brand
 import com.branddev.api.core.Enum
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.Params
-import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import com.branddev.api.errors.BrandDevInvalidDataException
@@ -14,28 +13,52 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieve brand data by domain */
+/**
+ * Retrieve brand information using one of three methods: domain name, company name, or stock ticker
+ * symbol. Exactly one of these parameters must be provided.
+ */
 class BrandRetrieveParams
 private constructor(
-    private val domain: String,
+    private val domain: String?,
     private val forceLanguage: ForceLanguage?,
     private val maxSpeed: Boolean?,
+    private val name: String?,
+    private val ticker: String?,
     private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** Domain name to retrieve brand data for */
-    fun domain(): String = domain
+    /**
+     * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be used
+     * with name or ticker parameters.
+     */
+    fun domain(): Optional<String> = Optional.ofNullable(domain)
 
-    /** Optional parameter to force the language of the retrieved brand data */
+    /**
+     * Optional parameter to force the language of the retrieved brand data. Works with all three
+     * lookup methods.
+     */
     fun forceLanguage(): Optional<ForceLanguage> = Optional.ofNullable(forceLanguage)
 
     /**
      * Optional parameter to optimize the API call for maximum speed. When set to true, the API will
      * skip time-consuming operations for faster response at the cost of less comprehensive data.
+     * Works with all three lookup methods.
      */
     fun maxSpeed(): Optional<Boolean> = Optional.ofNullable(maxSpeed)
+
+    /**
+     * Company name to retrieve brand data for (e.g., 'Apple Inc', 'Microsoft Corporation'). Must be
+     * 3-30 characters. Cannot be used with domain or ticker parameters.
+     */
+    fun name(): Optional<String> = Optional.ofNullable(name)
+
+    /**
+     * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL', 'GOOGL', 'BRK.A'). Must be 1-6
+     * characters, letters/numbers/dots only. Cannot be used with domain or name parameters.
+     */
+    fun ticker(): Optional<String> = Optional.ofNullable(ticker)
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -54,14 +77,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [BrandRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .domain()
-         * ```
-         */
+        @JvmStatic fun none(): BrandRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [BrandRetrieveParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -71,6 +89,8 @@ private constructor(
         private var domain: String? = null
         private var forceLanguage: ForceLanguage? = null
         private var maxSpeed: Boolean? = null
+        private var name: String? = null
+        private var ticker: String? = null
         private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -80,15 +100,26 @@ private constructor(
             domain = brandRetrieveParams.domain
             forceLanguage = brandRetrieveParams.forceLanguage
             maxSpeed = brandRetrieveParams.maxSpeed
+            name = brandRetrieveParams.name
+            ticker = brandRetrieveParams.ticker
             timeoutMs = brandRetrieveParams.timeoutMs
             additionalHeaders = brandRetrieveParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        /** Domain name to retrieve brand data for */
-        fun domain(domain: String) = apply { this.domain = domain }
+        /**
+         * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be
+         * used with name or ticker parameters.
+         */
+        fun domain(domain: String?) = apply { this.domain = domain }
 
-        /** Optional parameter to force the language of the retrieved brand data */
+        /** Alias for calling [Builder.domain] with `domain.orElse(null)`. */
+        fun domain(domain: Optional<String>) = domain(domain.getOrNull())
+
+        /**
+         * Optional parameter to force the language of the retrieved brand data. Works with all
+         * three lookup methods.
+         */
         fun forceLanguage(forceLanguage: ForceLanguage?) = apply {
             this.forceLanguage = forceLanguage
         }
@@ -100,7 +131,7 @@ private constructor(
         /**
          * Optional parameter to optimize the API call for maximum speed. When set to true, the API
          * will skip time-consuming operations for faster response at the cost of less comprehensive
-         * data.
+         * data. Works with all three lookup methods.
          */
         fun maxSpeed(maxSpeed: Boolean?) = apply { this.maxSpeed = maxSpeed }
 
@@ -113,6 +144,24 @@ private constructor(
 
         /** Alias for calling [Builder.maxSpeed] with `maxSpeed.orElse(null)`. */
         fun maxSpeed(maxSpeed: Optional<Boolean>) = maxSpeed(maxSpeed.getOrNull())
+
+        /**
+         * Company name to retrieve brand data for (e.g., 'Apple Inc', 'Microsoft Corporation').
+         * Must be 3-30 characters. Cannot be used with domain or ticker parameters.
+         */
+        fun name(name: String?) = apply { this.name = name }
+
+        /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+        fun name(name: Optional<String>) = name(name.getOrNull())
+
+        /**
+         * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL', 'GOOGL', 'BRK.A'). Must be
+         * 1-6 characters, letters/numbers/dots only. Cannot be used with domain or name parameters.
+         */
+        fun ticker(ticker: String?) = apply { this.ticker = ticker }
+
+        /** Alias for calling [Builder.ticker] with `ticker.orElse(null)`. */
+        fun ticker(ticker: Optional<String>) = ticker(ticker.getOrNull())
 
         /**
          * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -233,19 +282,14 @@ private constructor(
          * Returns an immutable instance of [BrandRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .domain()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): BrandRetrieveParams =
             BrandRetrieveParams(
-                checkRequired("domain", domain),
+                domain,
                 forceLanguage,
                 maxSpeed,
+                name,
+                ticker,
                 timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -257,15 +301,20 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                put("domain", domain)
+                domain?.let { put("domain", it) }
                 forceLanguage?.let { put("force_language", it.toString()) }
                 maxSpeed?.let { put("maxSpeed", it.toString()) }
+                name?.let { put("name", it) }
+                ticker?.let { put("ticker", it) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
 
-    /** Optional parameter to force the language of the retrieved brand data */
+    /**
+     * Optional parameter to force the language of the retrieved brand data. Works with all three
+     * lookup methods.
+     */
     class ForceLanguage @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
@@ -706,6 +755,8 @@ private constructor(
             domain == other.domain &&
             forceLanguage == other.forceLanguage &&
             maxSpeed == other.maxSpeed &&
+            name == other.name &&
+            ticker == other.ticker &&
             timeoutMs == other.timeoutMs &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -716,11 +767,13 @@ private constructor(
             domain,
             forceLanguage,
             maxSpeed,
+            name,
+            ticker,
             timeoutMs,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, name=$name, ticker=$ticker, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

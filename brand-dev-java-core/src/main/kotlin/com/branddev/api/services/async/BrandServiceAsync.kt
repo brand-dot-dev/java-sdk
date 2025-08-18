@@ -40,15 +40,26 @@ interface BrandServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandServiceAsync
 
-    /** Retrieve brand data by domain */
-    fun retrieve(params: BrandRetrieveParams): CompletableFuture<BrandRetrieveResponse> =
-        retrieve(params, RequestOptions.none())
+    /**
+     * Retrieve brand information using one of three methods: domain name, company name, or stock
+     * ticker symbol. Exactly one of these parameters must be provided.
+     */
+    fun retrieve(): CompletableFuture<BrandRetrieveResponse> = retrieve(BrandRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
-        params: BrandRetrieveParams,
+        params: BrandRetrieveParams = BrandRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandRetrieveResponse>
+
+    /** @see retrieve */
+    fun retrieve(
+        params: BrandRetrieveParams = BrandRetrieveParams.none()
+    ): CompletableFuture<BrandRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(requestOptions: RequestOptions): CompletableFuture<BrandRetrieveResponse> =
+        retrieve(BrandRetrieveParams.none(), requestOptions)
 
     /**
      * Beta feature: Use AI to extract specific data points from a brand's website. The AI will
@@ -174,16 +185,26 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/retrieve`, but is otherwise the same as
          * [BrandServiceAsync.retrieve].
          */
+        fun retrieve(): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
+            retrieve(BrandRetrieveParams.none())
+
+        /** @see retrieve */
         fun retrieve(
-            params: BrandRetrieveParams
+            params: BrandRetrieveParams = BrandRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
+
+        /** @see retrieve */
+        fun retrieve(
+            params: BrandRetrieveParams = BrandRetrieveParams.none()
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
-            params: BrandRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
+            retrieve(BrandRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

@@ -14,6 +14,8 @@ internal class BrandRetrieveParamsTest {
             .domain("domain")
             .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
             .maxSpeed(true)
+            .name("xxx")
+            .ticker("ticker")
             .timeoutMs(1L)
             .build()
     }
@@ -25,6 +27,8 @@ internal class BrandRetrieveParamsTest {
                 .domain("domain")
                 .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
+                .name("xxx")
+                .ticker("ticker")
                 .timeoutMs(1L)
                 .build()
 
@@ -36,6 +40,8 @@ internal class BrandRetrieveParamsTest {
                     .put("domain", "domain")
                     .put("force_language", "albanian")
                     .put("maxSpeed", "true")
+                    .put("name", "xxx")
+                    .put("ticker", "ticker")
                     .put("timeoutMS", "1")
                     .build()
             )
@@ -43,10 +49,10 @@ internal class BrandRetrieveParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = BrandRetrieveParams.builder().domain("domain").build()
+        val params = BrandRetrieveParams.builder().build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams).isEqualTo(QueryParams.builder().put("domain", "domain").build())
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

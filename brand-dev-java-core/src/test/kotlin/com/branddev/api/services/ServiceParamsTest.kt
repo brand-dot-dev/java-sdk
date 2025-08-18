@@ -45,6 +45,8 @@ internal class ServiceParamsTest {
                 .domain("domain")
                 .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
+                .name("xxx")
+                .ticker("ticker")
                 .timeoutMs(1L)
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")

@@ -307,9 +307,7 @@ To set a custom timeout, configure the method call using the `timeout` method:
 ```java
 import com.branddev.api.models.brand.BrandRetrieveResponse;
 
-BrandRetrieveResponse brand = client.brand().retrieve(
-  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
-);
+BrandRetrieveResponse brand = client.brand().retrieve(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:
@@ -493,10 +491,12 @@ To forcibly omit a required parameter or property, pass [`JsonMissing`](brand-de
 
 ```java
 import com.branddev.api.core.JsonMissing;
+import com.branddev.api.models.brand.BrandAiQueryParams;
 import com.branddev.api.models.brand.BrandRetrieveParams;
 
-BrandRetrieveParams params = BrandRetrieveParams.builder()
-    .domain(JsonMissing.of())
+BrandRetrieveParams params = BrandAiQueryParams.builder()
+    .domain("domain")
+    .dataToExtract(JsonMissing.of())
     .build();
 ```
 
@@ -573,9 +573,7 @@ Or configure the method call to validate the response using the `responseValidat
 ```java
 import com.branddev.api.models.brand.BrandRetrieveResponse;
 
-BrandRetrieveResponse brand = client.brand().retrieve(
-  params, RequestOptions.builder().responseValidation(true).build()
-);
+BrandRetrieveResponse brand = client.brand().retrieve(RequestOptions.builder().responseValidation(true).build());
 ```
 
 Or configure the default for all method calls at the client level:

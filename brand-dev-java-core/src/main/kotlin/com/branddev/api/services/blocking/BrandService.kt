@@ -11,8 +11,6 @@ import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
-import com.branddev.api.models.brand.BrandRetrieveByTickerParams
-import com.branddev.api.models.brand.BrandRetrieveByTickerResponse
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
@@ -100,16 +98,6 @@ interface BrandService {
         params: BrandPrefetchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandPrefetchResponse
-
-    /** Retrieve brand data by stock ticker (e.g. AAPL, TSLA, etc.) */
-    fun retrieveByTicker(params: BrandRetrieveByTickerParams): BrandRetrieveByTickerResponse =
-        retrieveByTicker(params, RequestOptions.none())
-
-    /** @see retrieveByTicker */
-    fun retrieveByTicker(
-        params: BrandRetrieveByTickerParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): BrandRetrieveByTickerResponse
 
     /** Endpoint to classify any brand into a 2022 NAICS code. */
     fun retrieveNaics(params: BrandRetrieveNaicsParams): BrandRetrieveNaicsResponse =
@@ -244,23 +232,6 @@ interface BrandService {
             params: BrandPrefetchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandPrefetchResponse>
-
-        /**
-         * Returns a raw HTTP response for `get /brand/retrieve-by-ticker`, but is otherwise the
-         * same as [BrandService.retrieveByTicker].
-         */
-        @MustBeClosed
-        fun retrieveByTicker(
-            params: BrandRetrieveByTickerParams
-        ): HttpResponseFor<BrandRetrieveByTickerResponse> =
-            retrieveByTicker(params, RequestOptions.none())
-
-        /** @see retrieveByTicker */
-        @MustBeClosed
-        fun retrieveByTicker(
-            params: BrandRetrieveByTickerParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<BrandRetrieveByTickerResponse>
 
         /**
          * Returns a raw HTTP response for `get /brand/naics`, but is otherwise the same as

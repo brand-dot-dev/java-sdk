@@ -11,8 +11,6 @@ import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
-import com.branddev.api.models.brand.BrandRetrieveByTickerParams
-import com.branddev.api.models.brand.BrandRetrieveByTickerResponse
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
@@ -102,18 +100,6 @@ interface BrandServiceAsync {
         params: BrandPrefetchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandPrefetchResponse>
-
-    /** Retrieve brand data by stock ticker (e.g. AAPL, TSLA, etc.) */
-    fun retrieveByTicker(
-        params: BrandRetrieveByTickerParams
-    ): CompletableFuture<BrandRetrieveByTickerResponse> =
-        retrieveByTicker(params, RequestOptions.none())
-
-    /** @see retrieveByTicker */
-    fun retrieveByTicker(
-        params: BrandRetrieveByTickerParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<BrandRetrieveByTickerResponse>
 
     /** Endpoint to classify any brand into a 2022 NAICS code. */
     fun retrieveNaics(
@@ -250,21 +236,6 @@ interface BrandServiceAsync {
             params: BrandPrefetchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandPrefetchResponse>>
-
-        /**
-         * Returns a raw HTTP response for `get /brand/retrieve-by-ticker`, but is otherwise the
-         * same as [BrandServiceAsync.retrieveByTicker].
-         */
-        fun retrieveByTicker(
-            params: BrandRetrieveByTickerParams
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveByTickerResponse>> =
-            retrieveByTicker(params, RequestOptions.none())
-
-        /** @see retrieveByTicker */
-        fun retrieveByTicker(
-            params: BrandRetrieveByTickerParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveByTickerResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/naics`, but is otherwise the same as

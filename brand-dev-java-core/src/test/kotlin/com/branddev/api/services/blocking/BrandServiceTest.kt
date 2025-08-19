@@ -7,7 +7,6 @@ import com.branddev.api.client.okhttp.BrandDevOkHttpClient
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandPrefetchParams
-import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
@@ -20,7 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class BrandServiceTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -36,6 +35,8 @@ internal class BrandServiceTest {
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
+                    .name("xxx")
+                    .ticker("ticker")
                     .timeoutMs(1L)
                     .build()
             )
@@ -43,7 +44,7 @@ internal class BrandServiceTest {
         brand.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun aiQuery() {
         val client =
@@ -84,7 +85,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun identifyFromTransaction() {
         val client =
@@ -105,7 +106,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun prefetch() {
         val client =
@@ -123,25 +124,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun retrieveByTicker() {
-        val client =
-            BrandDevOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val brandService = client.brand()
-
-        val response =
-            brandService.retrieveByTicker(
-                BrandRetrieveByTickerParams.builder().ticker("ticker").timeoutMs(1L).build()
-            )
-
-        response.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieveNaics() {
         val client =
@@ -159,7 +142,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieveSimplified() {
         val client =
@@ -177,7 +160,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun screenshot() {
         val client =
@@ -198,7 +181,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun styleguide() {
         val client =

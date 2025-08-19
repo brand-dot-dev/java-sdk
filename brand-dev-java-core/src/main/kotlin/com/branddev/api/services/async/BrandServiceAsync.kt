@@ -11,8 +11,6 @@ import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
-import com.branddev.api.models.brand.BrandRetrieveByTickerParams
-import com.branddev.api.models.brand.BrandRetrieveByTickerResponse
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
@@ -40,15 +38,26 @@ interface BrandServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandServiceAsync
 
-    /** Retrieve brand data by domain */
-    fun retrieve(params: BrandRetrieveParams): CompletableFuture<BrandRetrieveResponse> =
-        retrieve(params, RequestOptions.none())
+    /**
+     * Retrieve brand information using one of three methods: domain name, company name, or stock
+     * ticker symbol. Exactly one of these parameters must be provided.
+     */
+    fun retrieve(): CompletableFuture<BrandRetrieveResponse> = retrieve(BrandRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
-        params: BrandRetrieveParams,
+        params: BrandRetrieveParams = BrandRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandRetrieveResponse>
+
+    /** @see retrieve */
+    fun retrieve(
+        params: BrandRetrieveParams = BrandRetrieveParams.none()
+    ): CompletableFuture<BrandRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(requestOptions: RequestOptions): CompletableFuture<BrandRetrieveResponse> =
+        retrieve(BrandRetrieveParams.none(), requestOptions)
 
     /**
      * Beta feature: Use AI to extract specific data points from a brand's website. The AI will
@@ -91,18 +100,6 @@ interface BrandServiceAsync {
         params: BrandPrefetchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandPrefetchResponse>
-
-    /** Retrieve brand data by stock ticker (e.g. AAPL, TSLA, etc.) */
-    fun retrieveByTicker(
-        params: BrandRetrieveByTickerParams
-    ): CompletableFuture<BrandRetrieveByTickerResponse> =
-        retrieveByTicker(params, RequestOptions.none())
-
-    /** @see retrieveByTicker */
-    fun retrieveByTicker(
-        params: BrandRetrieveByTickerParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<BrandRetrieveByTickerResponse>
 
     /** Endpoint to classify any brand into a 2022 NAICS code. */
     fun retrieveNaics(
@@ -174,16 +171,26 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/retrieve`, but is otherwise the same as
          * [BrandServiceAsync.retrieve].
          */
+        fun retrieve(): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
+            retrieve(BrandRetrieveParams.none())
+
+        /** @see retrieve */
         fun retrieve(
-            params: BrandRetrieveParams
+            params: BrandRetrieveParams = BrandRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
+
+        /** @see retrieve */
+        fun retrieve(
+            params: BrandRetrieveParams = BrandRetrieveParams.none()
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
-            params: BrandRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
+            retrieve(BrandRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as
@@ -229,21 +236,6 @@ interface BrandServiceAsync {
             params: BrandPrefetchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandPrefetchResponse>>
-
-        /**
-         * Returns a raw HTTP response for `get /brand/retrieve-by-ticker`, but is otherwise the
-         * same as [BrandServiceAsync.retrieveByTicker].
-         */
-        fun retrieveByTicker(
-            params: BrandRetrieveByTickerParams
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveByTickerResponse>> =
-            retrieveByTicker(params, RequestOptions.none())
-
-        /** @see retrieveByTicker */
-        fun retrieveByTicker(
-            params: BrandRetrieveByTickerParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveByTickerResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/naics`, but is otherwise the same as

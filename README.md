@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.9)
-[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.9/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.9)
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.10)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.10/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.10)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.9).
+Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.10).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/b
 ### Gradle
 
 ```kotlin
-implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.9")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.10")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.9")
 <dependency>
   <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.1.0-alpha.9</version>
+  <version>0.1.0-alpha.10</version>
 </dependency>
 ```
 
@@ -307,9 +307,7 @@ To set a custom timeout, configure the method call using the `timeout` method:
 ```java
 import com.branddev.api.models.brand.BrandRetrieveResponse;
 
-BrandRetrieveResponse brand = client.brand().retrieve(
-  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
-);
+BrandRetrieveResponse brand = client.brand().retrieve(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:
@@ -493,10 +491,12 @@ To forcibly omit a required parameter or property, pass [`JsonMissing`](brand-de
 
 ```java
 import com.branddev.api.core.JsonMissing;
+import com.branddev.api.models.brand.BrandAiQueryParams;
 import com.branddev.api.models.brand.BrandRetrieveParams;
 
-BrandRetrieveParams params = BrandRetrieveParams.builder()
-    .domain(JsonMissing.of())
+BrandRetrieveParams params = BrandAiQueryParams.builder()
+    .domain("domain")
+    .dataToExtract(JsonMissing.of())
     .build();
 ```
 
@@ -573,9 +573,7 @@ Or configure the method call to validate the response using the `responseValidat
 ```java
 import com.branddev.api.models.brand.BrandRetrieveResponse;
 
-BrandRetrieveResponse brand = client.brand().retrieve(
-  params, RequestOptions.builder().responseValidation(true).build()
-);
+BrandRetrieveResponse brand = client.brand().retrieve(RequestOptions.builder().responseValidation(true).build());
 ```
 
 Or configure the default for all method calls at the client level:

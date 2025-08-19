@@ -353,7 +353,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FullScreenshot && value == other.value /* spotless:on */
+            return other is FullScreenshot && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -366,10 +366,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandScreenshotParams && domain == other.domain && fullScreenshot == other.fullScreenshot && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is BrandScreenshotParams &&
+            domain == other.domain &&
+            fullScreenshot == other.fullScreenshot &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(domain, fullScreenshot, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(domain, fullScreenshot, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "BrandScreenshotParams{domain=$domain, fullScreenshot=$fullScreenshot, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

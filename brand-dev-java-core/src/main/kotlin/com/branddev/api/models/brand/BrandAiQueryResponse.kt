@@ -599,10 +599,15 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DatapointValue && string == other.string && number == other.number && bool == other.bool && strings == other.strings && number == other.number /* spotless:on */
+                return other is DatapointValue &&
+                    string == other.string &&
+                    number == other.number &&
+                    bool == other.bool &&
+                    strings == other.strings &&
+                    number == other.number
             }
 
-            override fun hashCode(): Int = /* spotless:off */ Objects.hash(string, number, bool, strings, number) /* spotless:on */
+            override fun hashCode(): Int = Objects.hash(string, number, bool, strings, number)
 
             override fun toString(): String =
                 when {
@@ -726,12 +731,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DataExtracted && datapointName == other.datapointName && datapointValue == other.datapointValue && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is DataExtracted &&
+                datapointName == other.datapointName &&
+                datapointValue == other.datapointValue &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(datapointName, datapointValue, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(datapointName, datapointValue, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -744,12 +752,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BrandAiQueryResponse && dataExtracted == other.dataExtracted && domain == other.domain && status == other.status && urlsAnalyzed == other.urlsAnalyzed && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BrandAiQueryResponse &&
+            dataExtracted == other.dataExtracted &&
+            domain == other.domain &&
+            status == other.status &&
+            urlsAnalyzed == other.urlsAnalyzed &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(dataExtracted, domain, status, urlsAnalyzed, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(dataExtracted, domain, status, urlsAnalyzed, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -34,7 +34,7 @@ internal class ServiceParamsTest {
                 .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
         val brandService = client.brand()
@@ -45,6 +45,8 @@ internal class ServiceParamsTest {
                 .domain("domain")
                 .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
+                .name("xxx")
+                .ticker("ticker")
                 .timeoutMs(1L)
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")

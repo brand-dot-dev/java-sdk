@@ -53,6 +53,22 @@ internal class BrandRetrieveResponseTest {
                         .description("description")
                         .domain("domain")
                         .email("email")
+                        .industries(
+                            BrandRetrieveResponse.Brand.Industries.builder()
+                                .addEic(
+                                    BrandRetrieveResponse.Brand.Industries.Eic.builder()
+                                        .industry(
+                                            BrandRetrieveResponse.Brand.Industries.Eic.Industry
+                                                .AEROSPACE_DEFENSE
+                                        )
+                                        .subindustry(
+                                            BrandRetrieveResponse.Brand.Industries.Eic.Subindustry
+                                                .DEFENSE_SYSTEMS_MILITARY_HARDWARE
+                                        )
+                                        .build()
+                                )
+                                .build()
+                        )
                         .isNsfw(true)
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
@@ -133,6 +149,22 @@ internal class BrandRetrieveResponseTest {
                     .description("description")
                     .domain("domain")
                     .email("email")
+                    .industries(
+                        BrandRetrieveResponse.Brand.Industries.builder()
+                            .addEic(
+                                BrandRetrieveResponse.Brand.Industries.Eic.builder()
+                                    .industry(
+                                        BrandRetrieveResponse.Brand.Industries.Eic.Industry
+                                            .AEROSPACE_DEFENSE
+                                    )
+                                    .subindustry(
+                                        BrandRetrieveResponse.Brand.Industries.Eic.Subindustry
+                                            .DEFENSE_SYSTEMS_MILITARY_HARDWARE
+                                    )
+                                    .build()
+                            )
+                            .build()
+                    )
                     .isNsfw(true)
                     .addLogo(
                         BrandRetrieveResponse.Brand.Logo.builder()
@@ -217,6 +249,22 @@ internal class BrandRetrieveResponseTest {
                         .description("description")
                         .domain("domain")
                         .email("email")
+                        .industries(
+                            BrandRetrieveResponse.Brand.Industries.builder()
+                                .addEic(
+                                    BrandRetrieveResponse.Brand.Industries.Eic.builder()
+                                        .industry(
+                                            BrandRetrieveResponse.Brand.Industries.Eic.Industry
+                                                .AEROSPACE_DEFENSE
+                                        )
+                                        .subindustry(
+                                            BrandRetrieveResponse.Brand.Industries.Eic.Subindustry
+                                                .DEFENSE_SYSTEMS_MILITARY_HARDWARE
+                                        )
+                                        .build()
+                                )
+                                .build()
+                        )
                         .isNsfw(true)
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()

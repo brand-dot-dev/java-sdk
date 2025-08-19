@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.1.0-alpha.10 (2025-08-19)
+
+Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
+
+### Features
+
+* **api:** api update ([178da8c](https://github.com/brand-dot-dev/java-sdk/commit/178da8c1095f9c317c076c0fcc299c6b67cd5ffa))
+* **api:** api update ([67a51e4](https://github.com/brand-dot-dev/java-sdk/commit/67a51e40c4da7df360151521a8bf38d6a4aff71b))
+* **api:** api update ([38711b9](https://github.com/brand-dot-dev/java-sdk/commit/38711b9042f703688cae3cd64f902b0aae116541))
+
+
+### Performance Improvements
+
+* **internal:** make formatting faster ([c809713](https://github.com/brand-dot-dev/java-sdk/commit/c809713cd4ee18777edcc5c4ba9f3c4bc497d5b0))
+
+
+### Chores
+
+* **ci:** add build job ([06a3b71](https://github.com/brand-dot-dev/java-sdk/commit/06a3b711bfe8f3750af08c2316e3d58951c16385))
+* **internal:** codegen related update ([b84c1a6](https://github.com/brand-dot-dev/java-sdk/commit/b84c1a6567c0f114b45507db69d83e122f89417a))
+* **internal:** codegen related update ([be163b3](https://github.com/brand-dot-dev/java-sdk/commit/be163b321dbcbb223190b9f5cf4f062335d520db))
+* **internal:** dynamically determine included projects ([fb2dea4](https://github.com/brand-dot-dev/java-sdk/commit/fb2dea46c97c78d26125bd1a7bc71cb924dc73b5))
+* **internal:** support passing arguments to test script ([caae50a](https://github.com/brand-dot-dev/java-sdk/commit/caae50a11e9ac79b777f1caa7a61be52583c88c4))
+* **internal:** update comment in script ([8abb088](https://github.com/brand-dot-dev/java-sdk/commit/8abb088f123e803bfd509f0246d6bda41e163d30))
+* update @stainless-api/prism-cli to v5.15.0 ([9679ada](https://github.com/brand-dot-dev/java-sdk/commit/9679adabac1aef706bc50c9485a45a99f4eeb924))
+
 ## 0.1.0-alpha.9 (2025-08-08)
 
 Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)

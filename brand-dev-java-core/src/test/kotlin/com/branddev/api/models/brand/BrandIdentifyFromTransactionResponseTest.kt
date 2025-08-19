@@ -55,6 +55,27 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         .description("description")
                         .domain("domain")
                         .email("email")
+                        .industries(
+                            BrandIdentifyFromTransactionResponse.Brand.Industries.builder()
+                                .addEic(
+                                    BrandIdentifyFromTransactionResponse.Brand.Industries.Eic
+                                        .builder()
+                                        .industry(
+                                            BrandIdentifyFromTransactionResponse.Brand.Industries
+                                                .Eic
+                                                .Industry
+                                                .AEROSPACE_DEFENSE
+                                        )
+                                        .subindustry(
+                                            BrandIdentifyFromTransactionResponse.Brand.Industries
+                                                .Eic
+                                                .Subindustry
+                                                .DEFENSE_SYSTEMS_MILITARY_HARDWARE
+                                        )
+                                        .build()
+                                )
+                                .build()
+                        )
                         .isNsfw(true)
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
@@ -140,6 +161,24 @@ internal class BrandIdentifyFromTransactionResponseTest {
                     .description("description")
                     .domain("domain")
                     .email("email")
+                    .industries(
+                        BrandIdentifyFromTransactionResponse.Brand.Industries.builder()
+                            .addEic(
+                                BrandIdentifyFromTransactionResponse.Brand.Industries.Eic.builder()
+                                    .industry(
+                                        BrandIdentifyFromTransactionResponse.Brand.Industries.Eic
+                                            .Industry
+                                            .AEROSPACE_DEFENSE
+                                    )
+                                    .subindustry(
+                                        BrandIdentifyFromTransactionResponse.Brand.Industries.Eic
+                                            .Subindustry
+                                            .DEFENSE_SYSTEMS_MILITARY_HARDWARE
+                                    )
+                                    .build()
+                            )
+                            .build()
+                    )
                     .isNsfw(true)
                     .addLogo(
                         BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
@@ -229,6 +268,27 @@ internal class BrandIdentifyFromTransactionResponseTest {
                         .description("description")
                         .domain("domain")
                         .email("email")
+                        .industries(
+                            BrandIdentifyFromTransactionResponse.Brand.Industries.builder()
+                                .addEic(
+                                    BrandIdentifyFromTransactionResponse.Brand.Industries.Eic
+                                        .builder()
+                                        .industry(
+                                            BrandIdentifyFromTransactionResponse.Brand.Industries
+                                                .Eic
+                                                .Industry
+                                                .AEROSPACE_DEFENSE
+                                        )
+                                        .subindustry(
+                                            BrandIdentifyFromTransactionResponse.Brand.Industries
+                                                .Eic
+                                                .Subindustry
+                                                .DEFENSE_SYSTEMS_MILITARY_HARDWARE
+                                        )
+                                        .build()
+                                )
+                                .build()
+                        )
                         .isNsfw(true)
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()

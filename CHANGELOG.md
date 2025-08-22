@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.11 (2025-08-22)
+
+Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
+
+### Chores
+
+* **ci:** reduce log noise ([eb9227f](https://github.com/brand-dot-dev/java-sdk/commit/eb9227ff7ecdae92f43c1a8d34d007a477a21f99))
+* **client:** refactor closing / shutdown ([3f74b69](https://github.com/brand-dot-dev/java-sdk/commit/3f74b69cb06384847f666e20e9e6ef62da9fad3d))
+* **internal:** support running formatters directly ([f40c6fd](https://github.com/brand-dot-dev/java-sdk/commit/f40c6fd07c9e9b4cb1b94e9dbaa379d7b1d96195))
+
 ## 0.1.0-alpha.10 (2025-08-19)
 
 Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)

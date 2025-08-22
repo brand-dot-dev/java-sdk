@@ -38,7 +38,7 @@ class BrandDevClientAsyncImpl(private val clientOptions: ClientOptions) : BrandD
 
     override fun brand(): BrandServiceAsync = brand
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         BrandDevClientAsync.WithRawResponse {

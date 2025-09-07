@@ -11,7 +11,7 @@ configure<PublishingExtension> {
             pom {
                 name.set("Brand API")
                 description.set("API for retrieving brand data from any website")
-                url.set("https://www.github.com/brand-dot-dev/java-sdk")
+                url.set("https://docs.brand.dev/")
 
                 licenses {
                     license {
@@ -22,6 +22,7 @@ configure<PublishingExtension> {
                 developers {
                     developer {
                         name.set("Brand Dev")
+                        email.set("hello@brand.dev")
                     }
                 }
 

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.12 (2025-09-07)
+
+Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
+
+### Features
+
+* **api:** api update ([337bcf9](https://github.com/brand-dot-dev/java-sdk/commit/337bcf91f11d0a5674ab539ea3a939d6335261b7))
+
+
+### Bug Fixes
+
+* **ci:** use java-version 21 for publish step ([7bf193c](https://github.com/brand-dot-dev/java-sdk/commit/7bf193c2e99b51719dd481c946cec202651a82ec))
+
 ## 0.1.0-alpha.11 (2025-08-22)
 
 Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)

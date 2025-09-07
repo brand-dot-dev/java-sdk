@@ -77,6 +77,16 @@ internal class BrandIdentifyFromTransactionResponseTest {
                                 .build()
                         )
                         .isNsfw(true)
+                        .links(
+                            BrandIdentifyFromTransactionResponse.Brand.Links.builder()
+                                .blog("blog")
+                                .careers("careers")
+                                .contact("contact")
+                                .pricing("pricing")
+                                .privacy("privacy")
+                                .terms("terms")
+                                .build()
+                        )
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                                 .addColor(
@@ -180,6 +190,16 @@ internal class BrandIdentifyFromTransactionResponseTest {
                             .build()
                     )
                     .isNsfw(true)
+                    .links(
+                        BrandIdentifyFromTransactionResponse.Brand.Links.builder()
+                            .blog("blog")
+                            .careers("careers")
+                            .contact("contact")
+                            .pricing("pricing")
+                            .privacy("privacy")
+                            .terms("terms")
+                            .build()
+                    )
                     .addLogo(
                         BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                             .addColor(
@@ -290,6 +310,16 @@ internal class BrandIdentifyFromTransactionResponseTest {
                                 .build()
                         )
                         .isNsfw(true)
+                        .links(
+                            BrandIdentifyFromTransactionResponse.Brand.Links.builder()
+                                .blog("blog")
+                                .careers("careers")
+                                .contact("contact")
+                                .pricing("pricing")
+                                .privacy("privacy")
+                                .terms("terms")
+                                .build()
+                        )
                         .addLogo(
                             BrandIdentifyFromTransactionResponse.Brand.Logo.builder()
                                 .addColor(

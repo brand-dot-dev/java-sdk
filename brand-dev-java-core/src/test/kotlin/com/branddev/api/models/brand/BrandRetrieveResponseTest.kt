@@ -70,6 +70,16 @@ internal class BrandRetrieveResponseTest {
                                 .build()
                         )
                         .isNsfw(true)
+                        .links(
+                            BrandRetrieveResponse.Brand.Links.builder()
+                                .blog("blog")
+                                .careers("careers")
+                                .contact("contact")
+                                .pricing("pricing")
+                                .privacy("privacy")
+                                .terms("terms")
+                                .build()
+                        )
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
                                 .addColor(
@@ -166,6 +176,16 @@ internal class BrandRetrieveResponseTest {
                             .build()
                     )
                     .isNsfw(true)
+                    .links(
+                        BrandRetrieveResponse.Brand.Links.builder()
+                            .blog("blog")
+                            .careers("careers")
+                            .contact("contact")
+                            .pricing("pricing")
+                            .privacy("privacy")
+                            .terms("terms")
+                            .build()
+                    )
                     .addLogo(
                         BrandRetrieveResponse.Brand.Logo.builder()
                             .addColor(
@@ -266,6 +286,16 @@ internal class BrandRetrieveResponseTest {
                                 .build()
                         )
                         .isNsfw(true)
+                        .links(
+                            BrandRetrieveResponse.Brand.Links.builder()
+                                .blog("blog")
+                                .careers("careers")
+                                .contact("contact")
+                                .pricing("pricing")
+                                .privacy("privacy")
+                                .terms("terms")
+                                .build()
+                        )
                         .addLogo(
                             BrandRetrieveResponse.Brand.Logo.builder()
                                 .addColor(

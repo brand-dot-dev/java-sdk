@@ -2,6 +2,7 @@
 
 package com.branddev.api.models.brand
 
+import com.branddev.api.core.Enum
 import com.branddev.api.core.ExcludeMissing
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.JsonMissing
@@ -252,6 +253,7 @@ private constructor(
         private val colors: JsonField<Colors>,
         private val components: JsonField<Components>,
         private val elementSpacing: JsonField<ElementSpacing>,
+        private val mode: JsonField<Mode>,
         private val shadows: JsonField<Shadows>,
         private val typography: JsonField<Typography>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -266,11 +268,12 @@ private constructor(
             @JsonProperty("elementSpacing")
             @ExcludeMissing
             elementSpacing: JsonField<ElementSpacing> = JsonMissing.of(),
+            @JsonProperty("mode") @ExcludeMissing mode: JsonField<Mode> = JsonMissing.of(),
             @JsonProperty("shadows") @ExcludeMissing shadows: JsonField<Shadows> = JsonMissing.of(),
             @JsonProperty("typography")
             @ExcludeMissing
             typography: JsonField<Typography> = JsonMissing.of(),
-        ) : this(colors, components, elementSpacing, shadows, typography, mutableMapOf())
+        ) : this(colors, components, elementSpacing, mode, shadows, typography, mutableMapOf())
 
         /**
          * Primary colors used on the website
@@ -296,6 +299,14 @@ private constructor(
          */
         fun elementSpacing(): Optional<ElementSpacing> =
             elementSpacing.getOptional("elementSpacing")
+
+        /**
+         * The primary color mode of the website design
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun mode(): Optional<Mode> = mode.getOptional("mode")
 
         /**
          * Shadow styles used on the website
@@ -340,6 +351,13 @@ private constructor(
         fun _elementSpacing(): JsonField<ElementSpacing> = elementSpacing
 
         /**
+         * Returns the raw JSON value of [mode].
+         *
+         * Unlike [mode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("mode") @ExcludeMissing fun _mode(): JsonField<Mode> = mode
+
+        /**
          * Returns the raw JSON value of [shadows].
          *
          * Unlike [shadows], this method doesn't throw if the JSON field has an unexpected type.
@@ -379,6 +397,7 @@ private constructor(
             private var colors: JsonField<Colors> = JsonMissing.of()
             private var components: JsonField<Components> = JsonMissing.of()
             private var elementSpacing: JsonField<ElementSpacing> = JsonMissing.of()
+            private var mode: JsonField<Mode> = JsonMissing.of()
             private var shadows: JsonField<Shadows> = JsonMissing.of()
             private var typography: JsonField<Typography> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -388,6 +407,7 @@ private constructor(
                 colors = styleguide.colors
                 components = styleguide.components
                 elementSpacing = styleguide.elementSpacing
+                mode = styleguide.mode
                 shadows = styleguide.shadows
                 typography = styleguide.typography
                 additionalProperties = styleguide.additionalProperties.toMutableMap()
@@ -433,6 +453,18 @@ private constructor(
             fun elementSpacing(elementSpacing: JsonField<ElementSpacing>) = apply {
                 this.elementSpacing = elementSpacing
             }
+
+            /** The primary color mode of the website design */
+            fun mode(mode: Mode) = mode(JsonField.of(mode))
+
+            /**
+             * Sets [Builder.mode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.mode] with a well-typed [Mode] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun mode(mode: JsonField<Mode>) = apply { this.mode = mode }
 
             /** Shadow styles used on the website */
             fun shadows(shadows: Shadows) = shadows(JsonField.of(shadows))
@@ -489,6 +521,7 @@ private constructor(
                     colors,
                     components,
                     elementSpacing,
+                    mode,
                     shadows,
                     typography,
                     additionalProperties.toMutableMap(),
@@ -505,6 +538,7 @@ private constructor(
             colors().ifPresent { it.validate() }
             components().ifPresent { it.validate() }
             elementSpacing().ifPresent { it.validate() }
+            mode().ifPresent { it.validate() }
             shadows().ifPresent { it.validate() }
             typography().ifPresent { it.validate() }
             validated = true
@@ -529,6 +563,7 @@ private constructor(
             (colors.asKnown().getOrNull()?.validity() ?: 0) +
                 (components.asKnown().getOrNull()?.validity() ?: 0) +
                 (elementSpacing.asKnown().getOrNull()?.validity() ?: 0) +
+                (mode.asKnown().getOrNull()?.validity() ?: 0) +
                 (shadows.asKnown().getOrNull()?.validity() ?: 0) +
                 (typography.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -3631,6 +3666,134 @@ private constructor(
                 "ElementSpacing{lg=$lg, md=$md, sm=$sm, xl=$xl, xs=$xs, additionalProperties=$additionalProperties}"
         }
 
+        /** The primary color mode of the website design */
+        class Mode @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val LIGHT = of("light")
+
+                @JvmField val DARK = of("dark")
+
+                @JvmStatic fun of(value: String) = Mode(JsonField.of(value))
+            }
+
+            /** An enum containing [Mode]'s known values. */
+            enum class Known {
+                LIGHT,
+                DARK,
+            }
+
+            /**
+             * An enum containing [Mode]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Mode] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                LIGHT,
+                DARK,
+                /** An enum member indicating that [Mode] was instantiated with an unknown value. */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    LIGHT -> Value.LIGHT
+                    DARK -> Value.DARK
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws BrandDevInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    LIGHT -> Known.LIGHT
+                    DARK -> Known.DARK
+                    else -> throw BrandDevInvalidDataException("Unknown Mode: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws BrandDevInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    BrandDevInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Mode = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: BrandDevInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Mode && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         /** Shadow styles used on the website */
         class Shadows
         private constructor(
@@ -5987,6 +6150,7 @@ private constructor(
                 colors == other.colors &&
                 components == other.components &&
                 elementSpacing == other.elementSpacing &&
+                mode == other.mode &&
                 shadows == other.shadows &&
                 typography == other.typography &&
                 additionalProperties == other.additionalProperties
@@ -5997,6 +6161,7 @@ private constructor(
                 colors,
                 components,
                 elementSpacing,
+                mode,
                 shadows,
                 typography,
                 additionalProperties,
@@ -6006,7 +6171,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Styleguide{colors=$colors, components=$components, elementSpacing=$elementSpacing, shadows=$shadows, typography=$typography, additionalProperties=$additionalProperties}"
+            "Styleguide{colors=$colors, components=$components, elementSpacing=$elementSpacing, mode=$mode, shadows=$shadows, typography=$typography, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

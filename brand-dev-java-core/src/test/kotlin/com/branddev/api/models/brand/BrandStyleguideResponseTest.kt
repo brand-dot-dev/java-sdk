@@ -105,6 +105,7 @@ internal class BrandStyleguideResponseTest {
                                 .xs("xs")
                                 .build()
                         )
+                        .mode(BrandStyleguideResponse.Styleguide.Mode.LIGHT)
                         .shadows(
                             BrandStyleguideResponse.Styleguide.Shadows.builder()
                                 .inner("inner")
@@ -270,6 +271,7 @@ internal class BrandStyleguideResponseTest {
                             .xs("xs")
                             .build()
                     )
+                    .mode(BrandStyleguideResponse.Styleguide.Mode.LIGHT)
                     .shadows(
                         BrandStyleguideResponse.Styleguide.Shadows.builder()
                             .inner("inner")
@@ -437,6 +439,7 @@ internal class BrandStyleguideResponseTest {
                                 .xs("xs")
                                 .build()
                         )
+                        .mode(BrandStyleguideResponse.Styleguide.Mode.LIGHT)
                         .shadows(
                             BrandStyleguideResponse.Styleguide.Shadows.builder()
                                 .inner("inner")

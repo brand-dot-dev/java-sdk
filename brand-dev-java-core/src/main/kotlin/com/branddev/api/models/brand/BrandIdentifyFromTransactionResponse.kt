@@ -229,6 +229,7 @@ private constructor(
         private val email: JsonField<String>,
         private val industries: JsonField<Industries>,
         private val isNsfw: JsonField<Boolean>,
+        private val links: JsonField<Links>,
         private val logos: JsonField<List<Logo>>,
         private val phone: JsonField<String>,
         private val slogan: JsonField<String>,
@@ -256,6 +257,7 @@ private constructor(
             @ExcludeMissing
             industries: JsonField<Industries> = JsonMissing.of(),
             @JsonProperty("is_nsfw") @ExcludeMissing isNsfw: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("links") @ExcludeMissing links: JsonField<Links> = JsonMissing.of(),
             @JsonProperty("logos") @ExcludeMissing logos: JsonField<List<Logo>> = JsonMissing.of(),
             @JsonProperty("phone") @ExcludeMissing phone: JsonField<String> = JsonMissing.of(),
             @JsonProperty("slogan") @ExcludeMissing slogan: JsonField<String> = JsonMissing.of(),
@@ -273,6 +275,7 @@ private constructor(
             email,
             industries,
             isNsfw,
+            links,
             logos,
             phone,
             slogan,
@@ -345,6 +348,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun isNsfw(): Optional<Boolean> = isNsfw.getOptional("is_nsfw")
+
+        /**
+         * Important website links for the brand
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun links(): Optional<Links> = links.getOptional("links")
 
         /**
          * An array of logos associated with the brand
@@ -457,6 +468,13 @@ private constructor(
         @JsonProperty("is_nsfw") @ExcludeMissing fun _isNsfw(): JsonField<Boolean> = isNsfw
 
         /**
+         * Returns the raw JSON value of [links].
+         *
+         * Unlike [links], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("links") @ExcludeMissing fun _links(): JsonField<Links> = links
+
+        /**
          * Returns the raw JSON value of [logos].
          *
          * Unlike [logos], this method doesn't throw if the JSON field has an unexpected type.
@@ -527,6 +545,7 @@ private constructor(
             private var email: JsonField<String> = JsonMissing.of()
             private var industries: JsonField<Industries> = JsonMissing.of()
             private var isNsfw: JsonField<Boolean> = JsonMissing.of()
+            private var links: JsonField<Links> = JsonMissing.of()
             private var logos: JsonField<MutableList<Logo>>? = null
             private var phone: JsonField<String> = JsonMissing.of()
             private var slogan: JsonField<String> = JsonMissing.of()
@@ -545,6 +564,7 @@ private constructor(
                 email = brand.email
                 industries = brand.industries
                 isNsfw = brand.isNsfw
+                links = brand.links
                 logos = brand.logos.map { it.toMutableList() }
                 phone = brand.phone
                 slogan = brand.slogan
@@ -681,6 +701,18 @@ private constructor(
              * supported value.
              */
             fun isNsfw(isNsfw: JsonField<Boolean>) = apply { this.isNsfw = isNsfw }
+
+            /** Important website links for the brand */
+            fun links(links: Links) = links(JsonField.of(links))
+
+            /**
+             * Sets [Builder.links] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.links] with a well-typed [Links] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun links(links: JsonField<Links>) = apply { this.links = links }
 
             /** An array of logos associated with the brand */
             fun logos(logos: List<Logo>) = logos(JsonField.of(logos))
@@ -819,6 +851,7 @@ private constructor(
                     email,
                     industries,
                     isNsfw,
+                    links,
                     (logos ?: JsonMissing.of()).map { it.toImmutable() },
                     phone,
                     slogan,
@@ -844,6 +877,7 @@ private constructor(
             email()
             industries().ifPresent { it.validate() }
             isNsfw()
+            links().ifPresent { it.validate() }
             logos().ifPresent { it.forEach { it.validate() } }
             phone()
             slogan()
@@ -877,6 +911,7 @@ private constructor(
                 (if (email.asKnown().isPresent) 1 else 0) +
                 (industries.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (isNsfw.asKnown().isPresent) 1 else 0) +
+                (links.asKnown().getOrNull()?.validity() ?: 0) +
                 (logos.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (phone.asKnown().isPresent) 1 else 0) +
                 (if (slogan.asKnown().isPresent) 1 else 0) +
@@ -4556,6 +4591,359 @@ private constructor(
                 "Industries{eic=$eic, additionalProperties=$additionalProperties}"
         }
 
+        /** Important website links for the brand */
+        class Links
+        private constructor(
+            private val blog: JsonField<String>,
+            private val careers: JsonField<String>,
+            private val contact: JsonField<String>,
+            private val pricing: JsonField<String>,
+            private val privacy: JsonField<String>,
+            private val terms: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("blog") @ExcludeMissing blog: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("careers")
+                @ExcludeMissing
+                careers: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("contact")
+                @ExcludeMissing
+                contact: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("pricing")
+                @ExcludeMissing
+                pricing: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("privacy")
+                @ExcludeMissing
+                privacy: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("terms") @ExcludeMissing terms: JsonField<String> = JsonMissing.of(),
+            ) : this(blog, careers, contact, pricing, privacy, terms, mutableMapOf())
+
+            /**
+             * URL to the brand's blog or news page
+             *
+             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun blog(): Optional<String> = blog.getOptional("blog")
+
+            /**
+             * URL to the brand's careers or job opportunities page
+             *
+             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun careers(): Optional<String> = careers.getOptional("careers")
+
+            /**
+             * URL to the brand's contact or contact us page
+             *
+             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun contact(): Optional<String> = contact.getOptional("contact")
+
+            /**
+             * URL to the brand's pricing or plans page
+             *
+             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun pricing(): Optional<String> = pricing.getOptional("pricing")
+
+            /**
+             * URL to the brand's privacy policy page
+             *
+             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun privacy(): Optional<String> = privacy.getOptional("privacy")
+
+            /**
+             * URL to the brand's terms of service or terms and conditions page
+             *
+             * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun terms(): Optional<String> = terms.getOptional("terms")
+
+            /**
+             * Returns the raw JSON value of [blog].
+             *
+             * Unlike [blog], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("blog") @ExcludeMissing fun _blog(): JsonField<String> = blog
+
+            /**
+             * Returns the raw JSON value of [careers].
+             *
+             * Unlike [careers], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("careers") @ExcludeMissing fun _careers(): JsonField<String> = careers
+
+            /**
+             * Returns the raw JSON value of [contact].
+             *
+             * Unlike [contact], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("contact") @ExcludeMissing fun _contact(): JsonField<String> = contact
+
+            /**
+             * Returns the raw JSON value of [pricing].
+             *
+             * Unlike [pricing], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("pricing") @ExcludeMissing fun _pricing(): JsonField<String> = pricing
+
+            /**
+             * Returns the raw JSON value of [privacy].
+             *
+             * Unlike [privacy], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("privacy") @ExcludeMissing fun _privacy(): JsonField<String> = privacy
+
+            /**
+             * Returns the raw JSON value of [terms].
+             *
+             * Unlike [terms], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("terms") @ExcludeMissing fun _terms(): JsonField<String> = terms
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Links]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Links]. */
+            class Builder internal constructor() {
+
+                private var blog: JsonField<String> = JsonMissing.of()
+                private var careers: JsonField<String> = JsonMissing.of()
+                private var contact: JsonField<String> = JsonMissing.of()
+                private var pricing: JsonField<String> = JsonMissing.of()
+                private var privacy: JsonField<String> = JsonMissing.of()
+                private var terms: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(links: Links) = apply {
+                    blog = links.blog
+                    careers = links.careers
+                    contact = links.contact
+                    pricing = links.pricing
+                    privacy = links.privacy
+                    terms = links.terms
+                    additionalProperties = links.additionalProperties.toMutableMap()
+                }
+
+                /** URL to the brand's blog or news page */
+                fun blog(blog: String?) = blog(JsonField.ofNullable(blog))
+
+                /** Alias for calling [Builder.blog] with `blog.orElse(null)`. */
+                fun blog(blog: Optional<String>) = blog(blog.getOrNull())
+
+                /**
+                 * Sets [Builder.blog] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.blog] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun blog(blog: JsonField<String>) = apply { this.blog = blog }
+
+                /** URL to the brand's careers or job opportunities page */
+                fun careers(careers: String?) = careers(JsonField.ofNullable(careers))
+
+                /** Alias for calling [Builder.careers] with `careers.orElse(null)`. */
+                fun careers(careers: Optional<String>) = careers(careers.getOrNull())
+
+                /**
+                 * Sets [Builder.careers] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.careers] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun careers(careers: JsonField<String>) = apply { this.careers = careers }
+
+                /** URL to the brand's contact or contact us page */
+                fun contact(contact: String?) = contact(JsonField.ofNullable(contact))
+
+                /** Alias for calling [Builder.contact] with `contact.orElse(null)`. */
+                fun contact(contact: Optional<String>) = contact(contact.getOrNull())
+
+                /**
+                 * Sets [Builder.contact] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.contact] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun contact(contact: JsonField<String>) = apply { this.contact = contact }
+
+                /** URL to the brand's pricing or plans page */
+                fun pricing(pricing: String?) = pricing(JsonField.ofNullable(pricing))
+
+                /** Alias for calling [Builder.pricing] with `pricing.orElse(null)`. */
+                fun pricing(pricing: Optional<String>) = pricing(pricing.getOrNull())
+
+                /**
+                 * Sets [Builder.pricing] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.pricing] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun pricing(pricing: JsonField<String>) = apply { this.pricing = pricing }
+
+                /** URL to the brand's privacy policy page */
+                fun privacy(privacy: String?) = privacy(JsonField.ofNullable(privacy))
+
+                /** Alias for calling [Builder.privacy] with `privacy.orElse(null)`. */
+                fun privacy(privacy: Optional<String>) = privacy(privacy.getOrNull())
+
+                /**
+                 * Sets [Builder.privacy] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.privacy] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun privacy(privacy: JsonField<String>) = apply { this.privacy = privacy }
+
+                /** URL to the brand's terms of service or terms and conditions page */
+                fun terms(terms: String?) = terms(JsonField.ofNullable(terms))
+
+                /** Alias for calling [Builder.terms] with `terms.orElse(null)`. */
+                fun terms(terms: Optional<String>) = terms(terms.getOrNull())
+
+                /**
+                 * Sets [Builder.terms] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.terms] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun terms(terms: JsonField<String>) = apply { this.terms = terms }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Links].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Links =
+                    Links(
+                        blog,
+                        careers,
+                        contact,
+                        pricing,
+                        privacy,
+                        terms,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Links = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                blog()
+                careers()
+                contact()
+                pricing()
+                privacy()
+                terms()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: BrandDevInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (blog.asKnown().isPresent) 1 else 0) +
+                    (if (careers.asKnown().isPresent) 1 else 0) +
+                    (if (contact.asKnown().isPresent) 1 else 0) +
+                    (if (pricing.asKnown().isPresent) 1 else 0) +
+                    (if (privacy.asKnown().isPresent) 1 else 0) +
+                    (if (terms.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Links &&
+                    blog == other.blog &&
+                    careers == other.careers &&
+                    contact == other.contact &&
+                    pricing == other.pricing &&
+                    privacy == other.privacy &&
+                    terms == other.terms &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(blog, careers, contact, pricing, privacy, terms, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Links{blog=$blog, careers=$careers, contact=$contact, pricing=$pricing, privacy=$privacy, terms=$terms, additionalProperties=$additionalProperties}"
+        }
+
         class Logo
         private constructor(
             private val colors: JsonField<List<Color>>,
@@ -5935,6 +6323,7 @@ private constructor(
                 email == other.email &&
                 industries == other.industries &&
                 isNsfw == other.isNsfw &&
+                links == other.links &&
                 logos == other.logos &&
                 phone == other.phone &&
                 slogan == other.slogan &&
@@ -5954,6 +6343,7 @@ private constructor(
                 email,
                 industries,
                 isNsfw,
+                links,
                 logos,
                 phone,
                 slogan,
@@ -5967,7 +6357,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, email=$email, industries=$industries, isNsfw=$isNsfw, logos=$logos, phone=$phone, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
+            "Brand{address=$address, backdrops=$backdrops, colors=$colors, description=$description, domain=$domain, email=$email, industries=$industries, isNsfw=$isNsfw, links=$links, logos=$logos, phone=$phone, slogan=$slogan, socials=$socials, stock=$stock, title=$title, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

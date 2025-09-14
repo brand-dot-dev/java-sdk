@@ -2,10 +2,14 @@
 
 package com.branddev.api.models.brand
 
+import com.branddev.api.core.Enum
+import com.branddev.api.core.JsonField
 import com.branddev.api.core.Params
 import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
+import com.branddev.api.errors.BrandDevInvalidDataException
+import com.fasterxml.jackson.annotation.JsonCreator
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -17,6 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 class BrandStyleguideParams
 private constructor(
     private val domain: String,
+    private val prioritize: Prioritize?,
     private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -27,6 +32,13 @@ private constructor(
      * be automatically normalized and validated.
      */
     fun domain(): String = domain
+
+    /**
+     * Optional parameter to prioritize screenshot capture for styleguide extraction. If 'speed',
+     * optimizes for faster capture with basic quality. If 'quality', optimizes for higher quality
+     * with longer wait times. Defaults to 'speed' if not provided.
+     */
+    fun prioritize(): Optional<Prioritize> = Optional.ofNullable(prioritize)
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -60,6 +72,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var domain: String? = null
+        private var prioritize: Prioritize? = null
         private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -67,6 +80,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(brandStyleguideParams: BrandStyleguideParams) = apply {
             domain = brandStyleguideParams.domain
+            prioritize = brandStyleguideParams.prioritize
             timeoutMs = brandStyleguideParams.timeoutMs
             additionalHeaders = brandStyleguideParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandStyleguideParams.additionalQueryParams.toBuilder()
@@ -77,6 +91,16 @@ private constructor(
          * will be automatically normalized and validated.
          */
         fun domain(domain: String) = apply { this.domain = domain }
+
+        /**
+         * Optional parameter to prioritize screenshot capture for styleguide extraction. If
+         * 'speed', optimizes for faster capture with basic quality. If 'quality', optimizes for
+         * higher quality with longer wait times. Defaults to 'speed' if not provided.
+         */
+        fun prioritize(prioritize: Prioritize?) = apply { this.prioritize = prioritize }
+
+        /** Alias for calling [Builder.prioritize] with `prioritize.orElse(null)`. */
+        fun prioritize(prioritize: Optional<Prioritize>) = prioritize(prioritize.getOrNull())
 
         /**
          * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -208,6 +232,7 @@ private constructor(
         fun build(): BrandStyleguideParams =
             BrandStyleguideParams(
                 checkRequired("domain", domain),
+                prioritize,
                 timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -220,10 +245,145 @@ private constructor(
         QueryParams.builder()
             .apply {
                 put("domain", domain)
+                prioritize?.let { put("prioritize", it.toString()) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
+
+    /**
+     * Optional parameter to prioritize screenshot capture for styleguide extraction. If 'speed',
+     * optimizes for faster capture with basic quality. If 'quality', optimizes for higher quality
+     * with longer wait times. Defaults to 'speed' if not provided.
+     */
+    class Prioritize @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val SPEED = of("speed")
+
+            @JvmField val QUALITY = of("quality")
+
+            @JvmStatic fun of(value: String) = Prioritize(JsonField.of(value))
+        }
+
+        /** An enum containing [Prioritize]'s known values. */
+        enum class Known {
+            SPEED,
+            QUALITY,
+        }
+
+        /**
+         * An enum containing [Prioritize]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Prioritize] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            SPEED,
+            QUALITY,
+            /**
+             * An enum member indicating that [Prioritize] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                SPEED -> Value.SPEED
+                QUALITY -> Value.QUALITY
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws BrandDevInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                SPEED -> Known.SPEED
+                QUALITY -> Known.QUALITY
+                else -> throw BrandDevInvalidDataException("Unknown Prioritize: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws BrandDevInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                BrandDevInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): Prioritize = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: BrandDevInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Prioritize && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -232,14 +392,15 @@ private constructor(
 
         return other is BrandStyleguideParams &&
             domain == other.domain &&
+            prioritize == other.prioritize &&
             timeoutMs == other.timeoutMs &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(domain, timeoutMs, additionalHeaders, additionalQueryParams)
+        Objects.hash(domain, prioritize, timeoutMs, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "BrandStyleguideParams{domain=$domain, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandStyleguideParams{domain=$domain, prioritize=$prioritize, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

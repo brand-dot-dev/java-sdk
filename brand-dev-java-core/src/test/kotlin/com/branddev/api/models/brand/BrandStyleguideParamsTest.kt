@@ -10,17 +10,32 @@ internal class BrandStyleguideParamsTest {
 
     @Test
     fun create() {
-        BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
+        BrandStyleguideParams.builder()
+            .domain("domain")
+            .prioritize(BrandStyleguideParams.Prioritize.SPEED)
+            .timeoutMs(1L)
+            .build()
     }
 
     @Test
     fun queryParams() {
-        val params = BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
+        val params =
+            BrandStyleguideParams.builder()
+                .domain("domain")
+                .prioritize(BrandStyleguideParams.Prioritize.SPEED)
+                .timeoutMs(1L)
+                .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("domain", "domain").put("timeoutMS", "1").build())
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("domain", "domain")
+                    .put("prioritize", "speed")
+                    .put("timeoutMS", "1")
+                    .build()
+            )
     }
 
     @Test

@@ -181,6 +181,8 @@ internal class BrandServiceAsyncTest {
                 BrandScreenshotParams.builder()
                     .domain("domain")
                     .fullScreenshot(BrandScreenshotParams.FullScreenshot.TRUE)
+                    .page(BrandScreenshotParams.Page.LOGIN)
+                    .prioritize(BrandScreenshotParams.Prioritize.SPEED)
                     .build()
             )
 
@@ -200,7 +202,11 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.styleguide(
-                BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandStyleguideParams.builder()
+                    .domain("domain")
+                    .prioritize(BrandStyleguideParams.Prioritize.SPEED)
+                    .timeoutMs(1L)
+                    .build()
             )
 
         val response = responseFuture.get()

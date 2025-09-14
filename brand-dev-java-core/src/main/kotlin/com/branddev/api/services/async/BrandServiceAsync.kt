@@ -130,8 +130,9 @@ interface BrandServiceAsync {
 
     /**
      * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser
-     * view) and full-page screenshots. Returns a URL to the uploaded screenshot image hosted on our
-     * CDN.
+     * view) and full-page screenshots. Can also screenshot specific page types (login, pricing,
+     * etc.) by using heuristics to find the appropriate URL. Returns a URL to the uploaded
+     * screenshot image hosted on our CDN.
      */
     fun screenshot(params: BrandScreenshotParams): CompletableFuture<BrandScreenshotResponse> =
         screenshot(params, RequestOptions.none())

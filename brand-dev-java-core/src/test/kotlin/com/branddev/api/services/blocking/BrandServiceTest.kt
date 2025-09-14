@@ -175,6 +175,8 @@ internal class BrandServiceTest {
                 BrandScreenshotParams.builder()
                     .domain("domain")
                     .fullScreenshot(BrandScreenshotParams.FullScreenshot.TRUE)
+                    .page(BrandScreenshotParams.Page.LOGIN)
+                    .prioritize(BrandScreenshotParams.Prioritize.SPEED)
                     .build()
             )
 
@@ -193,7 +195,11 @@ internal class BrandServiceTest {
 
         val response =
             brandService.styleguide(
-                BrandStyleguideParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandStyleguideParams.builder()
+                    .domain("domain")
+                    .prioritize(BrandStyleguideParams.Prioritize.SPEED)
+                    .timeoutMs(1L)
+                    .build()
             )
 
         response.validate()

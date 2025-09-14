@@ -13,6 +13,8 @@ internal class BrandScreenshotParamsTest {
         BrandScreenshotParams.builder()
             .domain("domain")
             .fullScreenshot(BrandScreenshotParams.FullScreenshot.TRUE)
+            .page(BrandScreenshotParams.Page.LOGIN)
+            .prioritize(BrandScreenshotParams.Prioritize.SPEED)
             .build()
     }
 
@@ -22,13 +24,20 @@ internal class BrandScreenshotParamsTest {
             BrandScreenshotParams.builder()
                 .domain("domain")
                 .fullScreenshot(BrandScreenshotParams.FullScreenshot.TRUE)
+                .page(BrandScreenshotParams.Page.LOGIN)
+                .prioritize(BrandScreenshotParams.Prioritize.SPEED)
                 .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
             .isEqualTo(
-                QueryParams.builder().put("domain", "domain").put("fullScreenshot", "true").build()
+                QueryParams.builder()
+                    .put("domain", "domain")
+                    .put("fullScreenshot", "true")
+                    .put("page", "login")
+                    .put("prioritize", "speed")
+                    .build()
             )
     }
 

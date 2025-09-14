@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.14 (2025-09-14)
+
+Full Changelog: [v0.1.0-alpha.13...v0.1.0-alpha.14](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.13...v0.1.0-alpha.14)
+
+### Features
+
+* **api:** api update ([b2748be](https://github.com/brand-dot-dev/java-sdk/commit/b2748beff8255ec66dfebc0793b41ccb38ce1edd))
+
+
+### Chores
+
+* improve formatter performance ([5621ebe](https://github.com/brand-dot-dev/java-sdk/commit/5621ebefdfe735914554026b4b961834b9108412))
+* **internal:** codegen related update ([2da8990](https://github.com/brand-dot-dev/java-sdk/commit/2da8990a3ada4d3c074e23ac866c67c35213fd3a))
+* **internal:** codegen related update ([522ad3c](https://github.com/brand-dot-dev/java-sdk/commit/522ad3cc666c00b2a051a2719aa870a7d76c5de3))
+
 ## 0.1.0-alpha.13 (2025-09-07)
 
 Full Changelog: [v0.1.0-alpha.12...v0.1.0-alpha.13](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.12...v0.1.0-alpha.13)

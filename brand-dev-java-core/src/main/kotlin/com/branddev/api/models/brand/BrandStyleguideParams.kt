@@ -36,7 +36,7 @@ private constructor(
     /**
      * Optional parameter to prioritize screenshot capture for styleguide extraction. If 'speed',
      * optimizes for faster capture with basic quality. If 'quality', optimizes for higher quality
-     * with longer wait times. Defaults to 'speed' if not provided.
+     * with longer wait times. Defaults to 'quality' if not provided.
      */
     fun prioritize(): Optional<Prioritize> = Optional.ofNullable(prioritize)
 
@@ -95,7 +95,7 @@ private constructor(
         /**
          * Optional parameter to prioritize screenshot capture for styleguide extraction. If
          * 'speed', optimizes for faster capture with basic quality. If 'quality', optimizes for
-         * higher quality with longer wait times. Defaults to 'speed' if not provided.
+         * higher quality with longer wait times. Defaults to 'quality' if not provided.
          */
         fun prioritize(prioritize: Prioritize?) = apply { this.prioritize = prioritize }
 
@@ -254,7 +254,7 @@ private constructor(
     /**
      * Optional parameter to prioritize screenshot capture for styleguide extraction. If 'speed',
      * optimizes for faster capture with basic quality. If 'quality', optimizes for higher quality
-     * with longer wait times. Defaults to 'speed' if not provided.
+     * with longer wait times. Defaults to 'quality' if not provided.
      */
     class Prioritize @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

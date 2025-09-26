@@ -18,6 +18,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BrandStyleguideResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val domain: JsonField<String>,
@@ -249,6 +250,7 @@ private constructor(
 
     /** Comprehensive styleguide data extracted from the website */
     class Styleguide
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val colors: JsonField<Colors>,
         private val components: JsonField<Components>,
@@ -569,6 +571,7 @@ private constructor(
 
         /** Primary colors used on the website */
         class Colors
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val accent: JsonField<String>,
             private val background: JsonField<String>,
@@ -795,6 +798,7 @@ private constructor(
 
         /** UI component styles */
         class Components
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val button: JsonField<Button>,
             private val card: JsonField<Card>,
@@ -959,6 +963,7 @@ private constructor(
 
             /** Button component styles */
             class Button
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val link: JsonField<Link>,
                 private val primary: JsonField<Primary>,
@@ -1167,6 +1172,7 @@ private constructor(
 
                 /** Link button style */
                 class Link
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val backgroundColor: JsonField<String>,
                     private val borderColor: JsonField<String>,
@@ -1742,6 +1748,7 @@ private constructor(
 
                 /** Primary button style */
                 class Primary
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val backgroundColor: JsonField<String>,
                     private val borderColor: JsonField<String>,
@@ -2317,6 +2324,7 @@ private constructor(
 
                 /** Secondary button style */
                 class Secondary
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val backgroundColor: JsonField<String>,
                     private val borderColor: JsonField<String>,
@@ -2916,6 +2924,7 @@ private constructor(
 
             /** Card component style */
             class Card
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val backgroundColor: JsonField<String>,
                 private val borderColor: JsonField<String>,
@@ -3383,6 +3392,7 @@ private constructor(
 
         /** Spacing system used on the website */
         class ElementSpacing
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lg: JsonField<String>,
             private val md: JsonField<String>,
@@ -3796,6 +3806,7 @@ private constructor(
 
         /** Shadow styles used on the website */
         class Shadows
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val inner: JsonField<String>,
             private val lg: JsonField<String>,
@@ -4081,6 +4092,7 @@ private constructor(
 
         /** Typography styles used on the website */
         class Typography
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val headings: JsonField<Headings>,
             private val p: JsonField<P>,
@@ -4248,6 +4260,7 @@ private constructor(
 
             /** Heading styles */
             class Headings
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val h1: JsonField<H1>,
                 private val h2: JsonField<H2>,
@@ -4463,6 +4476,7 @@ private constructor(
                         (h4.asKnown().getOrNull()?.validity() ?: 0)
 
                 class H1
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val fontFamily: JsonField<String>,
                     private val fontSize: JsonField<String>,
@@ -4791,6 +4805,7 @@ private constructor(
                 }
 
                 class H2
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val fontFamily: JsonField<String>,
                     private val fontSize: JsonField<String>,
@@ -5119,6 +5134,7 @@ private constructor(
                 }
 
                 class H3
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val fontFamily: JsonField<String>,
                     private val fontSize: JsonField<String>,
@@ -5447,6 +5463,7 @@ private constructor(
                 }
 
                 class H4
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val fontFamily: JsonField<String>,
                     private val fontSize: JsonField<String>,
@@ -5799,6 +5816,7 @@ private constructor(
 
             /** Paragraph text styles */
             class P
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val fontFamily: JsonField<String>,
                 private val fontSize: JsonField<String>,

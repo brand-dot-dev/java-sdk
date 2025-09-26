@@ -16,6 +16,7 @@ import java.util.Objects
 import java.util.Optional
 
 class BrandPrefetchResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val domain: JsonField<String>,
     private val message: JsonField<String>,

@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BrandRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val brand: JsonField<Brand>,
     private val code: JsonField<Long>,
@@ -209,6 +210,7 @@ private constructor(
 
     /** Detailed brand information */
     class Brand
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address: JsonField<Address>,
         private val backdrops: JsonField<List<Backdrop>>,
@@ -910,6 +912,7 @@ private constructor(
 
         /** Physical address of the brand */
         class Address
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val city: JsonField<String>,
             private val country: JsonField<String>,
@@ -1318,6 +1321,7 @@ private constructor(
         }
 
         class Backdrop
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val colors: JsonField<List<Color>>,
             private val resolution: JsonField<Resolution>,
@@ -1540,6 +1544,7 @@ private constructor(
                     (if (url.asKnown().isPresent) 1 else 0)
 
             class Color
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val hex: JsonField<String>,
                 private val name: JsonField<String>,
@@ -1721,6 +1726,7 @@ private constructor(
 
             /** Resolution of the backdrop image */
             class Resolution
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val aspectRatio: JsonField<Double>,
                 private val height: JsonField<Long>,
@@ -1970,6 +1976,7 @@ private constructor(
         }
 
         class Color
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val hex: JsonField<String>,
             private val name: JsonField<String>,
@@ -2149,6 +2156,7 @@ private constructor(
 
         /** Industry classification information for the brand */
         class Industries
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val eic: JsonField<List<Eic>>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -2294,6 +2302,7 @@ private constructor(
                 (eic.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
             class Eic
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val industry: JsonField<Industry>,
                 private val subindustry: JsonField<Subindustry>,
@@ -4582,6 +4591,7 @@ private constructor(
 
         /** Important website links for the brand */
         class Links
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val blog: JsonField<String>,
             private val careers: JsonField<String>,
@@ -4934,6 +4944,7 @@ private constructor(
         }
 
         class Logo
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val colors: JsonField<List<Color>>,
             private val mode: JsonField<Mode>,
@@ -5230,6 +5241,7 @@ private constructor(
                     (if (url.asKnown().isPresent) 1 else 0)
 
             class Color
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val hex: JsonField<String>,
                 private val name: JsonField<String>,
@@ -5552,6 +5564,7 @@ private constructor(
 
             /** Resolution of the logo image */
             class Resolution
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val aspectRatio: JsonField<Double>,
                 private val height: JsonField<Long>,
@@ -5934,6 +5947,7 @@ private constructor(
         }
 
         class Social
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val type: JsonField<String>,
             private val url: JsonField<String>,
@@ -6115,6 +6129,7 @@ private constructor(
          * Stock market information for this brand (will be null if not a publicly traded company)
          */
         class Stock
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val exchange: JsonField<String>,
             private val ticker: JsonField<String>,

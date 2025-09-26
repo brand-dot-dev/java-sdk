@@ -358,6 +358,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val dataToExtract: JsonField<List<DataToExtract>>,
         private val domain: JsonField<String>,
@@ -661,6 +662,7 @@ private constructor(
     }
 
     class DataToExtract
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val datapointDescription: JsonField<String>,
         private val datapointExample: JsonField<String>,
@@ -1135,6 +1137,7 @@ private constructor(
 
     /** Optional object specifying which pages to analyze */
     class SpecificPages
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val aboutUs: JsonField<Boolean>,
         private val blog: JsonField<Boolean>,

@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BrandRetrieveNaicsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val codes: JsonField<List<Code>>,
     private val domain: JsonField<String>,
@@ -259,6 +260,7 @@ private constructor(
             (if (type.asKnown().isPresent) 1 else 0)
 
     class Code
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val code: JsonField<String>,
         private val title: JsonField<String>,

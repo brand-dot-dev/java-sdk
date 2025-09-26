@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0-alpha.15 (2025-09-26)
+
+Full Changelog: [v0.1.0-alpha.14...v0.1.0-alpha.15](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.14...v0.1.0-alpha.15)
+
+### Features
+
+* **api:** api update ([aac4e9e](https://github.com/brand-dot-dev/java-sdk/commit/aac4e9e863a225e8d0ea9bac88addbf8fc588894))
+* **client:** expose sleeper option ([ae2f570](https://github.com/brand-dot-dev/java-sdk/commit/ae2f570de5403c9e4387c3a19474de25e0389d64))
+
+
+### Bug Fixes
+
+* **client:** deserialization of empty objects ([fac2a8c](https://github.com/brand-dot-dev/java-sdk/commit/fac2a8c36227803782d90709dda826adc638bfa0))
+* **client:** ensure single timer is created per client ([ae2f570](https://github.com/brand-dot-dev/java-sdk/commit/ae2f570de5403c9e4387c3a19474de25e0389d64))
+* **client:** incorrect `getPackageVersion` impl ([e63e7b9](https://github.com/brand-dot-dev/java-sdk/commit/e63e7b99e34764bd21c8fbb95b1fa8f1b54f4163))
+
+
+### Chores
+
+* **internal:** codegen related update ([4b5343e](https://github.com/brand-dot-dev/java-sdk/commit/4b5343efe7d87afec1f527b0dc1583efa310bc74))
+
 ## 0.1.0-alpha.14 (2025-09-14)
 
 Full Changelog: [v0.1.0-alpha.13...v0.1.0-alpha.14](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.13...v0.1.0-alpha.14)

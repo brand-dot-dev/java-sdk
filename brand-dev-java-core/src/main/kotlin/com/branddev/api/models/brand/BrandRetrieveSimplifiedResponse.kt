@@ -20,6 +20,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BrandRetrieveSimplifiedResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val brand: JsonField<Brand>,
     private val code: JsonField<Long>,
@@ -218,6 +219,7 @@ private constructor(
 
     /** Simplified brand information */
     class Brand
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val backdrops: JsonField<List<Backdrop>>,
         private val colors: JsonField<List<Color>>,
@@ -530,6 +532,7 @@ private constructor(
                 (if (title.asKnown().isPresent) 1 else 0)
 
         class Backdrop
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val colors: JsonField<List<Color>>,
             private val resolution: JsonField<Resolution>,
@@ -752,6 +755,7 @@ private constructor(
                     (if (url.asKnown().isPresent) 1 else 0)
 
             class Color
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val hex: JsonField<String>,
                 private val name: JsonField<String>,
@@ -933,6 +937,7 @@ private constructor(
 
             /** Resolution of the backdrop image */
             class Resolution
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val aspectRatio: JsonField<Double>,
                 private val height: JsonField<Long>,
@@ -1182,6 +1187,7 @@ private constructor(
         }
 
         class Color
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val hex: JsonField<String>,
             private val name: JsonField<String>,
@@ -1360,6 +1366,7 @@ private constructor(
         }
 
         class Logo
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val colors: JsonField<List<Color>>,
             private val mode: JsonField<Mode>,
@@ -1656,6 +1663,7 @@ private constructor(
                     (if (url.asKnown().isPresent) 1 else 0)
 
             class Color
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val hex: JsonField<String>,
                 private val name: JsonField<String>,
@@ -1978,6 +1986,7 @@ private constructor(
 
             /** Resolution of the logo image */
             class Resolution
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val aspectRatio: JsonField<Double>,
                 private val height: JsonField<Long>,

@@ -30,6 +30,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BrandAiQueryResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val dataExtracted: JsonField<List<DataExtracted>>,
     private val domain: JsonField<String>,
@@ -294,6 +295,7 @@ private constructor(
             (urlsAnalyzed.asKnown().getOrNull()?.size ?: 0)
 
     class DataExtracted
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val datapointName: JsonField<String>,
         private val datapointValue: JsonField<DatapointValue>,

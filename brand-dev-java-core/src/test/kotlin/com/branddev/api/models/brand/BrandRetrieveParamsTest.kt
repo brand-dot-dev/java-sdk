@@ -16,6 +16,7 @@ internal class BrandRetrieveParamsTest {
             .maxSpeed(true)
             .name("xxx")
             .ticker("ticker")
+            .tickerExchange(BrandRetrieveParams.TickerExchange.AMEX)
             .timeoutMs(1L)
             .build()
     }
@@ -29,6 +30,7 @@ internal class BrandRetrieveParamsTest {
                 .maxSpeed(true)
                 .name("xxx")
                 .ticker("ticker")
+                .tickerExchange(BrandRetrieveParams.TickerExchange.AMEX)
                 .timeoutMs(1L)
                 .build()
 
@@ -42,6 +44,7 @@ internal class BrandRetrieveParamsTest {
                     .put("maxSpeed", "true")
                     .put("name", "xxx")
                     .put("ticker", "ticker")
+                    .put("ticker_exchange", "AMEX")
                     .put("timeoutMS", "1")
                     .build()
             )

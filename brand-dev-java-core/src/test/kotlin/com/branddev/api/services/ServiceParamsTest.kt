@@ -47,6 +47,7 @@ internal class ServiceParamsTest {
                 .maxSpeed(true)
                 .name("xxx")
                 .ticker("ticker")
+                .tickerExchange(BrandRetrieveParams.TickerExchange.AMEX)
                 .timeoutMs(1L)
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")

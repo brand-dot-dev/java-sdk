@@ -55,7 +55,7 @@ private constructor(
     fun name(): Optional<String> = Optional.ofNullable(name)
 
     /**
-     * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL', 'GOOGL', 'BRK.A'). Must be 1-10
+     * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL', 'GOOGL', 'BRK.A'). Must be 1-15
      * characters, letters/numbers/dots only. Cannot be used with domain or name parameters.
      */
     fun ticker(): Optional<String> = Optional.ofNullable(ticker)
@@ -156,7 +156,7 @@ private constructor(
 
         /**
          * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL', 'GOOGL', 'BRK.A'). Must be
-         * 1-10 characters, letters/numbers/dots only. Cannot be used with domain or name
+         * 1-15 characters, letters/numbers/dots only. Cannot be used with domain or name
          * parameters.
          */
         fun ticker(ticker: String?) = apply { this.ticker = ticker }

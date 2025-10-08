@@ -37,6 +37,7 @@ internal class BrandServiceTest {
                     .maxSpeed(true)
                     .name("xxx")
                     .ticker("ticker")
+                    .tickerExchange(BrandRetrieveParams.TickerExchange.AMEX)
                     .timeoutMs(1L)
                     .build()
             )

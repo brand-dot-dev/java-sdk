@@ -42,10 +42,7 @@ interface BrandServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandServiceAsync
 
-    /**
-     * Retrieve brand information using one of three methods: domain name, company name, or stock
-     * ticker symbol. Exactly one of these parameters must be provided.
-     */
+    /** Retrieve brand information from a domain name */
     fun retrieve(): CompletableFuture<BrandRetrieveResponse> = retrieve(BrandRetrieveParams.none())
 
     /** @see retrieve */

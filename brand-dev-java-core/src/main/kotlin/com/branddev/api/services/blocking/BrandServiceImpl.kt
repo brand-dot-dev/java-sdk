@@ -21,6 +21,10 @@ import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
+import com.branddev.api.models.brand.BrandRetrieveByNameParams
+import com.branddev.api.models.brand.BrandRetrieveByNameResponse
+import com.branddev.api.models.brand.BrandRetrieveByTickerParams
+import com.branddev.api.models.brand.BrandRetrieveByTickerResponse
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsResponse
 import com.branddev.api.models.brand.BrandRetrieveParams
@@ -72,6 +76,20 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
     ): BrandPrefetchResponse =
         // post /brand/prefetch
         withRawResponse().prefetch(params, requestOptions).parse()
+
+    override fun retrieveByName(
+        params: BrandRetrieveByNameParams,
+        requestOptions: RequestOptions,
+    ): BrandRetrieveByNameResponse =
+        // get /brand/retrieve-by-name
+        withRawResponse().retrieveByName(params, requestOptions).parse()
+
+    override fun retrieveByTicker(
+        params: BrandRetrieveByTickerParams,
+        requestOptions: RequestOptions,
+    ): BrandRetrieveByTickerResponse =
+        // get /brand/retrieve-by-ticker
+        withRawResponse().retrieveByTicker(params, requestOptions).parse()
 
     override fun retrieveNaics(
         params: BrandRetrieveNaicsParams,
@@ -216,6 +234,60 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             return errorHandler.handle(response).parseable {
                 response
                     .use { prefetchHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveByNameHandler: Handler<BrandRetrieveByNameResponse> =
+            jsonHandler<BrandRetrieveByNameResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveByName(
+            params: BrandRetrieveByNameParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandRetrieveByNameResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-by-name")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveByNameHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveByTickerHandler: Handler<BrandRetrieveByTickerResponse> =
+            jsonHandler<BrandRetrieveByTickerResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveByTicker(
+            params: BrandRetrieveByTickerParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandRetrieveByTickerResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-by-ticker")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveByTickerHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

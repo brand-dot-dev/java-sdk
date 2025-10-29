@@ -7,6 +7,8 @@ import com.branddev.api.client.okhttp.BrandDevOkHttpClient
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandPrefetchParams
+import com.branddev.api.models.brand.BrandRetrieveByNameParams
+import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
@@ -120,6 +122,53 @@ internal class BrandServiceTest {
         val response =
             brandService.prefetch(
                 BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun retrieveByName() {
+        val client =
+            BrandDevOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.retrieveByName(
+                BrandRetrieveByNameParams.builder()
+                    .name("xxx")
+                    .forceLanguage(BrandRetrieveByNameParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
+                    .timeoutMs(1L)
+                    .build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun retrieveByTicker() {
+        val client =
+            BrandDevOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.retrieveByTicker(
+                BrandRetrieveByTickerParams.builder()
+                    .ticker("ticker")
+                    .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
+                    .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
+                    .timeoutMs(1L)
+                    .build()
             )
 
         response.validate()

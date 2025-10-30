@@ -42,7 +42,7 @@ interface BrandService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandService
 
-    /** Retrieve brand information from a domain name */
+    /** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
     fun retrieve(): BrandRetrieveResponse = retrieve(BrandRetrieveParams.none())
 
     /** @see retrieve */

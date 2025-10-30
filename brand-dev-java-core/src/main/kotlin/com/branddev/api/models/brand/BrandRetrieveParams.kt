@@ -13,7 +13,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieve brand information from a domain name */
+/** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
 class BrandRetrieveParams
 private constructor(
     private val domain: String?,

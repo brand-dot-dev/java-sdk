@@ -101,6 +101,8 @@ internal class BrandServiceAsyncTest {
             brandServiceAsync.identifyFromTransaction(
                 BrandIdentifyFromTransactionParams.builder()
                     .transactionInfo("transaction_info")
+                    .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
                     .timeoutMs(1L)
                     .build()
             )

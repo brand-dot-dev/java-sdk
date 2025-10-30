@@ -42,7 +42,7 @@ interface BrandServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandServiceAsync
 
-    /** Retrieve brand information from a domain name */
+    /** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
     fun retrieve(): CompletableFuture<BrandRetrieveResponse> = retrieve(BrandRetrieveParams.none())
 
     /** @see retrieve */

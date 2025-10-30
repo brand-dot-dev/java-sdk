@@ -6,13 +6,13 @@ import com.branddev.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class BrandIdentifyFromTransactionParamsTest {
+internal class BrandRetrieveByNameParamsTest {
 
     @Test
     fun create() {
-        BrandIdentifyFromTransactionParams.builder()
-            .transactionInfo("transaction_info")
-            .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+        BrandRetrieveByNameParams.builder()
+            .name("xxx")
+            .forceLanguage(BrandRetrieveByNameParams.ForceLanguage.ALBANIAN)
             .maxSpeed(true)
             .timeoutMs(1L)
             .build()
@@ -21,9 +21,9 @@ internal class BrandIdentifyFromTransactionParamsTest {
     @Test
     fun queryParams() {
         val params =
-            BrandIdentifyFromTransactionParams.builder()
-                .transactionInfo("transaction_info")
-                .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+            BrandRetrieveByNameParams.builder()
+                .name("xxx")
+                .forceLanguage(BrandRetrieveByNameParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
                 .timeoutMs(1L)
                 .build()
@@ -33,7 +33,7 @@ internal class BrandIdentifyFromTransactionParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
-                    .put("transaction_info", "transaction_info")
+                    .put("name", "xxx")
                     .put("force_language", "albanian")
                     .put("maxSpeed", "true")
                     .put("timeoutMS", "1")
@@ -43,12 +43,10 @@ internal class BrandIdentifyFromTransactionParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params =
-            BrandIdentifyFromTransactionParams.builder().transactionInfo("transaction_info").build()
+        val params = BrandRetrieveByNameParams.builder().name("xxx").build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("transaction_info", "transaction_info").build())
+        assertThat(queryParams).isEqualTo(QueryParams.builder().put("name", "xxx").build())
     }
 }

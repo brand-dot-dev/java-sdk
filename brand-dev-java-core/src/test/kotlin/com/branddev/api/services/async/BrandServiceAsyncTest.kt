@@ -7,6 +7,8 @@ import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandPrefetchParams
+import com.branddev.api.models.brand.BrandRetrieveByNameParams
+import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
 import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
@@ -35,9 +37,6 @@ internal class BrandServiceAsyncTest {
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .name("xxx")
-                    .ticker("ticker")
-                    .tickerExchange(BrandRetrieveParams.TickerExchange.AMEX)
                     .timeoutMs(1L)
                     .build()
             )
@@ -102,6 +101,8 @@ internal class BrandServiceAsyncTest {
             brandServiceAsync.identifyFromTransaction(
                 BrandIdentifyFromTransactionParams.builder()
                     .transactionInfo("transaction_info")
+                    .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
                     .timeoutMs(1L)
                     .build()
             )
@@ -123,6 +124,55 @@ internal class BrandServiceAsyncTest {
         val responseFuture =
             brandServiceAsync.prefetch(
                 BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun retrieveByName() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.retrieveByName(
+                BrandRetrieveByNameParams.builder()
+                    .name("xxx")
+                    .forceLanguage(BrandRetrieveByNameParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
+                    .timeoutMs(1L)
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun retrieveByTicker() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.retrieveByTicker(
+                BrandRetrieveByTickerParams.builder()
+                    .ticker("ticker")
+                    .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
+                    .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
+                    .timeoutMs(1L)
+                    .build()
             )
 
         val response = responseFuture.get()

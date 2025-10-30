@@ -5,6 +5,7 @@ package com.branddev.api.models.brand
 import com.branddev.api.core.Enum
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.Params
+import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import com.branddev.api.errors.BrandDevInvalidDataException
@@ -13,10 +14,13 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
-class BrandRetrieveParams
+/**
+ * Retrieve brand information using a company name. This endpoint searches for the company by name
+ * and returns its brand data.
+ */
+class BrandRetrieveByNameParams
 private constructor(
-    private val domain: String?,
+    private val name: String,
     private val forceLanguage: ForceLanguage?,
     private val maxSpeed: Boolean?,
     private val timeoutMs: Long?,
@@ -25,21 +29,17 @@ private constructor(
 ) : Params {
 
     /**
-     * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be used
-     * with name or ticker parameters.
+     * Company name to retrieve brand data for (e.g., 'Apple Inc', 'Microsoft Corporation'). Must be
+     * 3-30 characters.
      */
-    fun domain(): Optional<String> = Optional.ofNullable(domain)
+    fun name(): String = name
 
-    /**
-     * Optional parameter to force the language of the retrieved brand data. Works with all three
-     * lookup methods.
-     */
+    /** Optional parameter to force the language of the retrieved brand data. */
     fun forceLanguage(): Optional<ForceLanguage> = Optional.ofNullable(forceLanguage)
 
     /**
      * Optional parameter to optimize the API call for maximum speed. When set to true, the API will
      * skip time-consuming operations for faster response at the cost of less comprehensive data.
-     * Works with all three lookup methods.
      */
     fun maxSpeed(): Optional<Boolean> = Optional.ofNullable(maxSpeed)
 
@@ -60,16 +60,21 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): BrandRetrieveParams = builder().build()
-
-        /** Returns a mutable builder for constructing an instance of [BrandRetrieveParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [BrandRetrieveByNameParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .name()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [BrandRetrieveParams]. */
+    /** A builder for [BrandRetrieveByNameParams]. */
     class Builder internal constructor() {
 
-        private var domain: String? = null
+        private var name: String? = null
         private var forceLanguage: ForceLanguage? = null
         private var maxSpeed: Boolean? = null
         private var timeoutMs: Long? = null
@@ -77,28 +82,22 @@ private constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(brandRetrieveParams: BrandRetrieveParams) = apply {
-            domain = brandRetrieveParams.domain
-            forceLanguage = brandRetrieveParams.forceLanguage
-            maxSpeed = brandRetrieveParams.maxSpeed
-            timeoutMs = brandRetrieveParams.timeoutMs
-            additionalHeaders = brandRetrieveParams.additionalHeaders.toBuilder()
-            additionalQueryParams = brandRetrieveParams.additionalQueryParams.toBuilder()
+        internal fun from(brandRetrieveByNameParams: BrandRetrieveByNameParams) = apply {
+            name = brandRetrieveByNameParams.name
+            forceLanguage = brandRetrieveByNameParams.forceLanguage
+            maxSpeed = brandRetrieveByNameParams.maxSpeed
+            timeoutMs = brandRetrieveByNameParams.timeoutMs
+            additionalHeaders = brandRetrieveByNameParams.additionalHeaders.toBuilder()
+            additionalQueryParams = brandRetrieveByNameParams.additionalQueryParams.toBuilder()
         }
 
         /**
-         * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be
-         * used with name or ticker parameters.
+         * Company name to retrieve brand data for (e.g., 'Apple Inc', 'Microsoft Corporation').
+         * Must be 3-30 characters.
          */
-        fun domain(domain: String?) = apply { this.domain = domain }
+        fun name(name: String) = apply { this.name = name }
 
-        /** Alias for calling [Builder.domain] with `domain.orElse(null)`. */
-        fun domain(domain: Optional<String>) = domain(domain.getOrNull())
-
-        /**
-         * Optional parameter to force the language of the retrieved brand data. Works with all
-         * three lookup methods.
-         */
+        /** Optional parameter to force the language of the retrieved brand data. */
         fun forceLanguage(forceLanguage: ForceLanguage?) = apply {
             this.forceLanguage = forceLanguage
         }
@@ -110,7 +109,7 @@ private constructor(
         /**
          * Optional parameter to optimize the API call for maximum speed. When set to true, the API
          * will skip time-consuming operations for faster response at the cost of less comprehensive
-         * data. Works with all three lookup methods.
+         * data.
          */
         fun maxSpeed(maxSpeed: Boolean?) = apply { this.maxSpeed = maxSpeed }
 
@@ -240,13 +239,20 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [BrandRetrieveParams].
+         * Returns an immutable instance of [BrandRetrieveByNameParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .name()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): BrandRetrieveParams =
-            BrandRetrieveParams(
-                domain,
+        fun build(): BrandRetrieveByNameParams =
+            BrandRetrieveByNameParams(
+                checkRequired("name", name),
                 forceLanguage,
                 maxSpeed,
                 timeoutMs,
@@ -260,7 +266,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                domain?.let { put("domain", it) }
+                put("name", name)
                 forceLanguage?.let { put("force_language", it.toString()) }
                 maxSpeed?.let { put("maxSpeed", it.toString()) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }
@@ -268,10 +274,7 @@ private constructor(
             }
             .build()
 
-    /**
-     * Optional parameter to force the language of the retrieved brand data. Works with all three
-     * lookup methods.
-     */
+    /** Optional parameter to force the language of the retrieved brand data. */
     class ForceLanguage @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
@@ -708,8 +711,8 @@ private constructor(
             return true
         }
 
-        return other is BrandRetrieveParams &&
-            domain == other.domain &&
+        return other is BrandRetrieveByNameParams &&
+            name == other.name &&
             forceLanguage == other.forceLanguage &&
             maxSpeed == other.maxSpeed &&
             timeoutMs == other.timeoutMs &&
@@ -719,7 +722,7 @@ private constructor(
 
     override fun hashCode(): Int =
         Objects.hash(
-            domain,
+            name,
             forceLanguage,
             maxSpeed,
             timeoutMs,
@@ -728,5 +731,5 @@ private constructor(
         )
 
     override fun toString() =
-        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveByNameParams{name=$name, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

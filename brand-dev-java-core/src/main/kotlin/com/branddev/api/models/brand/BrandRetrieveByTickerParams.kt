@@ -5,6 +5,7 @@ package com.branddev.api.models.brand
 import com.branddev.api.core.Enum
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.Params
+import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import com.branddev.api.errors.BrandDevInvalidDataException
@@ -13,35 +14,38 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
-class BrandRetrieveParams
+/**
+ * Retrieve brand information using a stock ticker symbol. This endpoint looks up the company
+ * associated with the ticker and returns its brand data.
+ */
+class BrandRetrieveByTickerParams
 private constructor(
-    private val domain: String?,
+    private val ticker: String,
     private val forceLanguage: ForceLanguage?,
     private val maxSpeed: Boolean?,
+    private val tickerExchange: TickerExchange?,
     private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     /**
-     * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be used
-     * with name or ticker parameters.
+     * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL', 'GOOGL', 'BRK.A'). Must be 1-15
+     * characters, letters/numbers/dots only.
      */
-    fun domain(): Optional<String> = Optional.ofNullable(domain)
+    fun ticker(): String = ticker
 
-    /**
-     * Optional parameter to force the language of the retrieved brand data. Works with all three
-     * lookup methods.
-     */
+    /** Optional parameter to force the language of the retrieved brand data. */
     fun forceLanguage(): Optional<ForceLanguage> = Optional.ofNullable(forceLanguage)
 
     /**
      * Optional parameter to optimize the API call for maximum speed. When set to true, the API will
      * skip time-consuming operations for faster response at the cost of less comprehensive data.
-     * Works with all three lookup methods.
      */
     fun maxSpeed(): Optional<Boolean> = Optional.ofNullable(maxSpeed)
+
+    /** Optional stock exchange for the ticker. Defaults to NASDAQ if not specified. */
+    fun tickerExchange(): Optional<TickerExchange> = Optional.ofNullable(tickerExchange)
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -60,45 +64,46 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): BrandRetrieveParams = builder().build()
-
-        /** Returns a mutable builder for constructing an instance of [BrandRetrieveParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [BrandRetrieveByTickerParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .ticker()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [BrandRetrieveParams]. */
+    /** A builder for [BrandRetrieveByTickerParams]. */
     class Builder internal constructor() {
 
-        private var domain: String? = null
+        private var ticker: String? = null
         private var forceLanguage: ForceLanguage? = null
         private var maxSpeed: Boolean? = null
+        private var tickerExchange: TickerExchange? = null
         private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(brandRetrieveParams: BrandRetrieveParams) = apply {
-            domain = brandRetrieveParams.domain
-            forceLanguage = brandRetrieveParams.forceLanguage
-            maxSpeed = brandRetrieveParams.maxSpeed
-            timeoutMs = brandRetrieveParams.timeoutMs
-            additionalHeaders = brandRetrieveParams.additionalHeaders.toBuilder()
-            additionalQueryParams = brandRetrieveParams.additionalQueryParams.toBuilder()
+        internal fun from(brandRetrieveByTickerParams: BrandRetrieveByTickerParams) = apply {
+            ticker = brandRetrieveByTickerParams.ticker
+            forceLanguage = brandRetrieveByTickerParams.forceLanguage
+            maxSpeed = brandRetrieveByTickerParams.maxSpeed
+            tickerExchange = brandRetrieveByTickerParams.tickerExchange
+            timeoutMs = brandRetrieveByTickerParams.timeoutMs
+            additionalHeaders = brandRetrieveByTickerParams.additionalHeaders.toBuilder()
+            additionalQueryParams = brandRetrieveByTickerParams.additionalQueryParams.toBuilder()
         }
 
         /**
-         * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be
-         * used with name or ticker parameters.
+         * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL', 'GOOGL', 'BRK.A'). Must be
+         * 1-15 characters, letters/numbers/dots only.
          */
-        fun domain(domain: String?) = apply { this.domain = domain }
+        fun ticker(ticker: String) = apply { this.ticker = ticker }
 
-        /** Alias for calling [Builder.domain] with `domain.orElse(null)`. */
-        fun domain(domain: Optional<String>) = domain(domain.getOrNull())
-
-        /**
-         * Optional parameter to force the language of the retrieved brand data. Works with all
-         * three lookup methods.
-         */
+        /** Optional parameter to force the language of the retrieved brand data. */
         fun forceLanguage(forceLanguage: ForceLanguage?) = apply {
             this.forceLanguage = forceLanguage
         }
@@ -110,7 +115,7 @@ private constructor(
         /**
          * Optional parameter to optimize the API call for maximum speed. When set to true, the API
          * will skip time-consuming operations for faster response at the cost of less comprehensive
-         * data. Works with all three lookup methods.
+         * data.
          */
         fun maxSpeed(maxSpeed: Boolean?) = apply { this.maxSpeed = maxSpeed }
 
@@ -123,6 +128,15 @@ private constructor(
 
         /** Alias for calling [Builder.maxSpeed] with `maxSpeed.orElse(null)`. */
         fun maxSpeed(maxSpeed: Optional<Boolean>) = maxSpeed(maxSpeed.getOrNull())
+
+        /** Optional stock exchange for the ticker. Defaults to NASDAQ if not specified. */
+        fun tickerExchange(tickerExchange: TickerExchange?) = apply {
+            this.tickerExchange = tickerExchange
+        }
+
+        /** Alias for calling [Builder.tickerExchange] with `tickerExchange.orElse(null)`. */
+        fun tickerExchange(tickerExchange: Optional<TickerExchange>) =
+            tickerExchange(tickerExchange.getOrNull())
 
         /**
          * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -240,15 +254,23 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [BrandRetrieveParams].
+         * Returns an immutable instance of [BrandRetrieveByTickerParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .ticker()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): BrandRetrieveParams =
-            BrandRetrieveParams(
-                domain,
+        fun build(): BrandRetrieveByTickerParams =
+            BrandRetrieveByTickerParams(
+                checkRequired("ticker", ticker),
                 forceLanguage,
                 maxSpeed,
+                tickerExchange,
                 timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -260,18 +282,16 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                domain?.let { put("domain", it) }
+                put("ticker", ticker)
                 forceLanguage?.let { put("force_language", it.toString()) }
                 maxSpeed?.let { put("maxSpeed", it.toString()) }
+                tickerExchange?.let { put("ticker_exchange", it.toString()) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
 
-    /**
-     * Optional parameter to force the language of the retrieved brand data. Works with all three
-     * lookup methods.
-     */
+    /** Optional parameter to force the language of the retrieved brand data. */
     class ForceLanguage @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
@@ -703,15 +723,568 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Optional stock exchange for the ticker. Defaults to NASDAQ if not specified. */
+    class TickerExchange @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val AMEX = of("AMEX")
+
+            @JvmField val AMS = of("AMS")
+
+            @JvmField val AQS = of("AQS")
+
+            @JvmField val ASX = of("ASX")
+
+            @JvmField val ATH = of("ATH")
+
+            @JvmField val BER = of("BER")
+
+            @JvmField val BME = of("BME")
+
+            @JvmField val BRU = of("BRU")
+
+            @JvmField val BSE = of("BSE")
+
+            @JvmField val BUD = of("BUD")
+
+            @JvmField val BUE = of("BUE")
+
+            @JvmField val BVC = of("BVC")
+
+            @JvmField val CBOE = of("CBOE")
+
+            @JvmField val CNQ = of("CNQ")
+
+            @JvmField val CPH = of("CPH")
+
+            @JvmField val DFM = of("DFM")
+
+            @JvmField val DOH = of("DOH")
+
+            @JvmField val DUB = of("DUB")
+
+            @JvmField val DUS = of("DUS")
+
+            @JvmField val DXE = of("DXE")
+
+            @JvmField val EGX = of("EGX")
+
+            @JvmField val FSX = of("FSX")
+
+            @JvmField val HAM = of("HAM")
+
+            @JvmField val HEL = of("HEL")
+
+            @JvmField val HKSE = of("HKSE")
+
+            @JvmField val HOSE = of("HOSE")
+
+            @JvmField val ICE = of("ICE")
+
+            @JvmField val IOB = of("IOB")
+
+            @JvmField val IST = of("IST")
+
+            @JvmField val JKT = of("JKT")
+
+            @JvmField val JNB = of("JNB")
+
+            @JvmField val JPX = of("JPX")
+
+            @JvmField val KLS = of("KLS")
+
+            @JvmField val KOE = of("KOE")
+
+            @JvmField val KSC = of("KSC")
+
+            @JvmField val KUW = of("KUW")
+
+            @JvmField val LIS = of("LIS")
+
+            @JvmField val LSE = of("LSE")
+
+            @JvmField val MCX = of("MCX")
+
+            @JvmField val MEX = of("MEX")
+
+            @JvmField val MIL = of("MIL")
+
+            @JvmField val MUN = of("MUN")
+
+            @JvmField val NASDAQ = of("NASDAQ")
+
+            @JvmField val NEO = of("NEO")
+
+            @JvmField val NSE = of("NSE")
+
+            @JvmField val NYSE = of("NYSE")
+
+            @JvmField val NZE = of("NZE")
+
+            @JvmField val OSL = of("OSL")
+
+            @JvmField val OTC = of("OTC")
+
+            @JvmField val PAR = of("PAR")
+
+            @JvmField val PNK = of("PNK")
+
+            @JvmField val PRA = of("PRA")
+
+            @JvmField val RIS = of("RIS")
+
+            @JvmField val SAO = of("SAO")
+
+            @JvmField val SAU = of("SAU")
+
+            @JvmField val SES = of("SES")
+
+            @JvmField val SET = of("SET")
+
+            @JvmField val SGO = of("SGO")
+
+            @JvmField val SHH = of("SHH")
+
+            @JvmField val SHZ = of("SHZ")
+
+            @JvmField val SIX = of("SIX")
+
+            @JvmField val STO = of("STO")
+
+            @JvmField val STU = of("STU")
+
+            @JvmField val TAI = of("TAI")
+
+            @JvmField val TAL = of("TAL")
+
+            @JvmField val TLV = of("TLV")
+
+            @JvmField val TSX = of("TSX")
+
+            @JvmField val TSXV = of("TSXV")
+
+            @JvmField val TWO = of("TWO")
+
+            @JvmField val VIE = of("VIE")
+
+            @JvmField val WSE = of("WSE")
+
+            @JvmField val XETRA = of("XETRA")
+
+            @JvmStatic fun of(value: String) = TickerExchange(JsonField.of(value))
+        }
+
+        /** An enum containing [TickerExchange]'s known values. */
+        enum class Known {
+            AMEX,
+            AMS,
+            AQS,
+            ASX,
+            ATH,
+            BER,
+            BME,
+            BRU,
+            BSE,
+            BUD,
+            BUE,
+            BVC,
+            CBOE,
+            CNQ,
+            CPH,
+            DFM,
+            DOH,
+            DUB,
+            DUS,
+            DXE,
+            EGX,
+            FSX,
+            HAM,
+            HEL,
+            HKSE,
+            HOSE,
+            ICE,
+            IOB,
+            IST,
+            JKT,
+            JNB,
+            JPX,
+            KLS,
+            KOE,
+            KSC,
+            KUW,
+            LIS,
+            LSE,
+            MCX,
+            MEX,
+            MIL,
+            MUN,
+            NASDAQ,
+            NEO,
+            NSE,
+            NYSE,
+            NZE,
+            OSL,
+            OTC,
+            PAR,
+            PNK,
+            PRA,
+            RIS,
+            SAO,
+            SAU,
+            SES,
+            SET,
+            SGO,
+            SHH,
+            SHZ,
+            SIX,
+            STO,
+            STU,
+            TAI,
+            TAL,
+            TLV,
+            TSX,
+            TSXV,
+            TWO,
+            VIE,
+            WSE,
+            XETRA,
+        }
+
+        /**
+         * An enum containing [TickerExchange]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [TickerExchange] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            AMEX,
+            AMS,
+            AQS,
+            ASX,
+            ATH,
+            BER,
+            BME,
+            BRU,
+            BSE,
+            BUD,
+            BUE,
+            BVC,
+            CBOE,
+            CNQ,
+            CPH,
+            DFM,
+            DOH,
+            DUB,
+            DUS,
+            DXE,
+            EGX,
+            FSX,
+            HAM,
+            HEL,
+            HKSE,
+            HOSE,
+            ICE,
+            IOB,
+            IST,
+            JKT,
+            JNB,
+            JPX,
+            KLS,
+            KOE,
+            KSC,
+            KUW,
+            LIS,
+            LSE,
+            MCX,
+            MEX,
+            MIL,
+            MUN,
+            NASDAQ,
+            NEO,
+            NSE,
+            NYSE,
+            NZE,
+            OSL,
+            OTC,
+            PAR,
+            PNK,
+            PRA,
+            RIS,
+            SAO,
+            SAU,
+            SES,
+            SET,
+            SGO,
+            SHH,
+            SHZ,
+            SIX,
+            STO,
+            STU,
+            TAI,
+            TAL,
+            TLV,
+            TSX,
+            TSXV,
+            TWO,
+            VIE,
+            WSE,
+            XETRA,
+            /**
+             * An enum member indicating that [TickerExchange] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                AMEX -> Value.AMEX
+                AMS -> Value.AMS
+                AQS -> Value.AQS
+                ASX -> Value.ASX
+                ATH -> Value.ATH
+                BER -> Value.BER
+                BME -> Value.BME
+                BRU -> Value.BRU
+                BSE -> Value.BSE
+                BUD -> Value.BUD
+                BUE -> Value.BUE
+                BVC -> Value.BVC
+                CBOE -> Value.CBOE
+                CNQ -> Value.CNQ
+                CPH -> Value.CPH
+                DFM -> Value.DFM
+                DOH -> Value.DOH
+                DUB -> Value.DUB
+                DUS -> Value.DUS
+                DXE -> Value.DXE
+                EGX -> Value.EGX
+                FSX -> Value.FSX
+                HAM -> Value.HAM
+                HEL -> Value.HEL
+                HKSE -> Value.HKSE
+                HOSE -> Value.HOSE
+                ICE -> Value.ICE
+                IOB -> Value.IOB
+                IST -> Value.IST
+                JKT -> Value.JKT
+                JNB -> Value.JNB
+                JPX -> Value.JPX
+                KLS -> Value.KLS
+                KOE -> Value.KOE
+                KSC -> Value.KSC
+                KUW -> Value.KUW
+                LIS -> Value.LIS
+                LSE -> Value.LSE
+                MCX -> Value.MCX
+                MEX -> Value.MEX
+                MIL -> Value.MIL
+                MUN -> Value.MUN
+                NASDAQ -> Value.NASDAQ
+                NEO -> Value.NEO
+                NSE -> Value.NSE
+                NYSE -> Value.NYSE
+                NZE -> Value.NZE
+                OSL -> Value.OSL
+                OTC -> Value.OTC
+                PAR -> Value.PAR
+                PNK -> Value.PNK
+                PRA -> Value.PRA
+                RIS -> Value.RIS
+                SAO -> Value.SAO
+                SAU -> Value.SAU
+                SES -> Value.SES
+                SET -> Value.SET
+                SGO -> Value.SGO
+                SHH -> Value.SHH
+                SHZ -> Value.SHZ
+                SIX -> Value.SIX
+                STO -> Value.STO
+                STU -> Value.STU
+                TAI -> Value.TAI
+                TAL -> Value.TAL
+                TLV -> Value.TLV
+                TSX -> Value.TSX
+                TSXV -> Value.TSXV
+                TWO -> Value.TWO
+                VIE -> Value.VIE
+                WSE -> Value.WSE
+                XETRA -> Value.XETRA
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws BrandDevInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                AMEX -> Known.AMEX
+                AMS -> Known.AMS
+                AQS -> Known.AQS
+                ASX -> Known.ASX
+                ATH -> Known.ATH
+                BER -> Known.BER
+                BME -> Known.BME
+                BRU -> Known.BRU
+                BSE -> Known.BSE
+                BUD -> Known.BUD
+                BUE -> Known.BUE
+                BVC -> Known.BVC
+                CBOE -> Known.CBOE
+                CNQ -> Known.CNQ
+                CPH -> Known.CPH
+                DFM -> Known.DFM
+                DOH -> Known.DOH
+                DUB -> Known.DUB
+                DUS -> Known.DUS
+                DXE -> Known.DXE
+                EGX -> Known.EGX
+                FSX -> Known.FSX
+                HAM -> Known.HAM
+                HEL -> Known.HEL
+                HKSE -> Known.HKSE
+                HOSE -> Known.HOSE
+                ICE -> Known.ICE
+                IOB -> Known.IOB
+                IST -> Known.IST
+                JKT -> Known.JKT
+                JNB -> Known.JNB
+                JPX -> Known.JPX
+                KLS -> Known.KLS
+                KOE -> Known.KOE
+                KSC -> Known.KSC
+                KUW -> Known.KUW
+                LIS -> Known.LIS
+                LSE -> Known.LSE
+                MCX -> Known.MCX
+                MEX -> Known.MEX
+                MIL -> Known.MIL
+                MUN -> Known.MUN
+                NASDAQ -> Known.NASDAQ
+                NEO -> Known.NEO
+                NSE -> Known.NSE
+                NYSE -> Known.NYSE
+                NZE -> Known.NZE
+                OSL -> Known.OSL
+                OTC -> Known.OTC
+                PAR -> Known.PAR
+                PNK -> Known.PNK
+                PRA -> Known.PRA
+                RIS -> Known.RIS
+                SAO -> Known.SAO
+                SAU -> Known.SAU
+                SES -> Known.SES
+                SET -> Known.SET
+                SGO -> Known.SGO
+                SHH -> Known.SHH
+                SHZ -> Known.SHZ
+                SIX -> Known.SIX
+                STO -> Known.STO
+                STU -> Known.STU
+                TAI -> Known.TAI
+                TAL -> Known.TAL
+                TLV -> Known.TLV
+                TSX -> Known.TSX
+                TSXV -> Known.TSXV
+                TWO -> Known.TWO
+                VIE -> Known.VIE
+                WSE -> Known.WSE
+                XETRA -> Known.XETRA
+                else -> throw BrandDevInvalidDataException("Unknown TickerExchange: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws BrandDevInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                BrandDevInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): TickerExchange = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: BrandDevInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TickerExchange && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return other is BrandRetrieveParams &&
-            domain == other.domain &&
+        return other is BrandRetrieveByTickerParams &&
+            ticker == other.ticker &&
             forceLanguage == other.forceLanguage &&
             maxSpeed == other.maxSpeed &&
+            tickerExchange == other.tickerExchange &&
             timeoutMs == other.timeoutMs &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -719,14 +1292,15 @@ private constructor(
 
     override fun hashCode(): Int =
         Objects.hash(
-            domain,
+            ticker,
             forceLanguage,
             maxSpeed,
+            tickerExchange,
             timeoutMs,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "BrandRetrieveParams{domain=$domain, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveByTickerParams{ticker=$ticker, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, tickerExchange=$tickerExchange, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -6,14 +6,15 @@ import com.branddev.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class BrandIdentifyFromTransactionParamsTest {
+internal class BrandRetrieveByTickerParamsTest {
 
     @Test
     fun create() {
-        BrandIdentifyFromTransactionParams.builder()
-            .transactionInfo("transaction_info")
-            .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+        BrandRetrieveByTickerParams.builder()
+            .ticker("ticker")
+            .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
             .maxSpeed(true)
+            .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
             .timeoutMs(1L)
             .build()
     }
@@ -21,10 +22,11 @@ internal class BrandIdentifyFromTransactionParamsTest {
     @Test
     fun queryParams() {
         val params =
-            BrandIdentifyFromTransactionParams.builder()
-                .transactionInfo("transaction_info")
-                .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+            BrandRetrieveByTickerParams.builder()
+                .ticker("ticker")
+                .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
+                .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
                 .timeoutMs(1L)
                 .build()
 
@@ -33,9 +35,10 @@ internal class BrandIdentifyFromTransactionParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
-                    .put("transaction_info", "transaction_info")
+                    .put("ticker", "ticker")
                     .put("force_language", "albanian")
                     .put("maxSpeed", "true")
+                    .put("ticker_exchange", "AMEX")
                     .put("timeoutMS", "1")
                     .build()
             )
@@ -43,12 +46,10 @@ internal class BrandIdentifyFromTransactionParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params =
-            BrandIdentifyFromTransactionParams.builder().transactionInfo("transaction_info").build()
+        val params = BrandRetrieveByTickerParams.builder().ticker("ticker").build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("transaction_info", "transaction_info").build())
+        assertThat(queryParams).isEqualTo(QueryParams.builder().put("ticker", "ticker").build())
     }
 }

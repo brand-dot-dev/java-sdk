@@ -11,6 +11,8 @@ import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
+import com.branddev.api.models.brand.BrandRetrieveByEmailParams
+import com.branddev.api.models.brand.BrandRetrieveByEmailResponse
 import com.branddev.api.models.brand.BrandRetrieveByNameParams
 import com.branddev.api.models.brand.BrandRetrieveByNameResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
@@ -101,6 +103,23 @@ interface BrandServiceAsync {
         params: BrandPrefetchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandPrefetchResponse>
+
+    /**
+     * Retrieve brand information using an email address while detecting disposable and free email
+     * addresses. This endpoint extracts the domain from the email address and returns brand data
+     * for that domain. Disposable and free email addresses (like gmail.com, yahoo.com) will throw a
+     * 422 error.
+     */
+    fun retrieveByEmail(
+        params: BrandRetrieveByEmailParams
+    ): CompletableFuture<BrandRetrieveByEmailResponse> =
+        retrieveByEmail(params, RequestOptions.none())
+
+    /** @see retrieveByEmail */
+    fun retrieveByEmail(
+        params: BrandRetrieveByEmailParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandRetrieveByEmailResponse>
 
     /**
      * Retrieve brand information using a company name. This endpoint searches for the company by
@@ -268,6 +287,21 @@ interface BrandServiceAsync {
             params: BrandPrefetchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandPrefetchResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /brand/retrieve-by-email`, but is otherwise the same
+         * as [BrandServiceAsync.retrieveByEmail].
+         */
+        fun retrieveByEmail(
+            params: BrandRetrieveByEmailParams
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveByEmailResponse>> =
+            retrieveByEmail(params, RequestOptions.none())
+
+        /** @see retrieveByEmail */
+        fun retrieveByEmail(
+            params: BrandRetrieveByEmailParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveByEmailResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/retrieve-by-name`, but is otherwise the same

@@ -7,6 +7,7 @@ import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandPrefetchParams
+import com.branddev.api.models.brand.BrandRetrieveByEmailParams
 import com.branddev.api.models.brand.BrandRetrieveByNameParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
@@ -124,6 +125,30 @@ internal class BrandServiceAsyncTest {
         val responseFuture =
             brandServiceAsync.prefetch(
                 BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun retrieveByEmail() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.retrieveByEmail(
+                BrandRetrieveByEmailParams.builder()
+                    .email("dev@stainless.com")
+                    .forceLanguage(BrandRetrieveByEmailParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
+                    .timeoutMs(1L)
+                    .build()
             )
 
         val response = responseFuture.get()

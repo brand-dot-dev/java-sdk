@@ -21,6 +21,8 @@ import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
+import com.branddev.api.models.brand.BrandRetrieveByEmailParams
+import com.branddev.api.models.brand.BrandRetrieveByEmailResponse
 import com.branddev.api.models.brand.BrandRetrieveByNameParams
 import com.branddev.api.models.brand.BrandRetrieveByNameResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
@@ -77,6 +79,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandPrefetchResponse> =
         // post /brand/prefetch
         withRawResponse().prefetch(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveByEmail(
+        params: BrandRetrieveByEmailParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandRetrieveByEmailResponse> =
+        // get /brand/retrieve-by-email
+        withRawResponse().retrieveByEmail(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveByName(
         params: BrandRetrieveByNameParams,
@@ -246,6 +255,36 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     errorHandler.handle(response).parseable {
                         response
                             .use { prefetchHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveByEmailHandler: Handler<BrandRetrieveByEmailResponse> =
+            jsonHandler<BrandRetrieveByEmailResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveByEmail(
+            params: BrandRetrieveByEmailParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveByEmailResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-by-email")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retrieveByEmailHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

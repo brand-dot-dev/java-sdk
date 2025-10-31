@@ -21,6 +21,8 @@ import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
+import com.branddev.api.models.brand.BrandRetrieveByEmailParams
+import com.branddev.api.models.brand.BrandRetrieveByEmailResponse
 import com.branddev.api.models.brand.BrandRetrieveByNameParams
 import com.branddev.api.models.brand.BrandRetrieveByNameResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
@@ -76,6 +78,13 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
     ): BrandPrefetchResponse =
         // post /brand/prefetch
         withRawResponse().prefetch(params, requestOptions).parse()
+
+    override fun retrieveByEmail(
+        params: BrandRetrieveByEmailParams,
+        requestOptions: RequestOptions,
+    ): BrandRetrieveByEmailResponse =
+        // get /brand/retrieve-by-email
+        withRawResponse().retrieveByEmail(params, requestOptions).parse()
 
     override fun retrieveByName(
         params: BrandRetrieveByNameParams,
@@ -234,6 +243,33 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             return errorHandler.handle(response).parseable {
                 response
                     .use { prefetchHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveByEmailHandler: Handler<BrandRetrieveByEmailResponse> =
+            jsonHandler<BrandRetrieveByEmailResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveByEmail(
+            params: BrandRetrieveByEmailParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandRetrieveByEmailResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-by-email")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveByEmailHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

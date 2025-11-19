@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.19 (2025-11-19)
+
+Full Changelog: [v0.1.0-alpha.18...v0.1.0-alpha.19](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.18...v0.1.0-alpha.19)
+
+### Features
+
+* **api:** manual updates ([da5077e](https://github.com/brand-dot-dev/java-sdk/commit/da5077e0784c0e0e91775bc150371d8666a4d6cc))
+
+
+### Bug Fixes
+
+* **client:** multi-value header serialization ([6633a4b](https://github.com/brand-dot-dev/java-sdk/commit/6633a4bb4962afabe2db4a7e968561fcd3495635))
+
 ## 0.1.0-alpha.18 (2025-10-31)
 
 Full Changelog: [v0.1.0-alpha.17...v0.1.0-alpha.18](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.17...v0.1.0-alpha.18)

@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.18)
-[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.18/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.18)
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.19)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.19/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.19)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.brand.dev](https://docs.brand.dev/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.18).
+The REST API documentation can be found on [docs.brand.dev](https://docs.brand.dev/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.19).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ The REST API documentation can be found on [docs.brand.dev](https://docs.brand.d
 ### Gradle
 
 ```kotlin
-implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.18")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.19")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.18")
 <dependency>
   <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.1.0-alpha.18</version>
+  <version>0.1.0-alpha.19</version>
 </dependency>
 ```
 

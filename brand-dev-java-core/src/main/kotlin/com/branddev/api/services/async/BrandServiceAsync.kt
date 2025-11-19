@@ -13,6 +13,8 @@ import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
 import com.branddev.api.models.brand.BrandRetrieveByEmailParams
 import com.branddev.api.models.brand.BrandRetrieveByEmailResponse
+import com.branddev.api.models.brand.BrandRetrieveByIsinParams
+import com.branddev.api.models.brand.BrandRetrieveByIsinResponse
 import com.branddev.api.models.brand.BrandRetrieveByNameParams
 import com.branddev.api.models.brand.BrandRetrieveByNameResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
@@ -120,6 +122,21 @@ interface BrandServiceAsync {
         params: BrandRetrieveByEmailParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandRetrieveByEmailResponse>
+
+    /**
+     * Retrieve brand information using an ISIN (International Securities Identification Number).
+     * This endpoint looks up the company associated with the ISIN and returns its brand data.
+     */
+    fun retrieveByIsin(
+        params: BrandRetrieveByIsinParams
+    ): CompletableFuture<BrandRetrieveByIsinResponse> =
+        retrieveByIsin(params, RequestOptions.none())
+
+    /** @see retrieveByIsin */
+    fun retrieveByIsin(
+        params: BrandRetrieveByIsinParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandRetrieveByIsinResponse>
 
     /**
      * Retrieve brand information using a company name. This endpoint searches for the company by
@@ -302,6 +319,21 @@ interface BrandServiceAsync {
             params: BrandRetrieveByEmailParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandRetrieveByEmailResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /brand/retrieve-by-isin`, but is otherwise the same
+         * as [BrandServiceAsync.retrieveByIsin].
+         */
+        fun retrieveByIsin(
+            params: BrandRetrieveByIsinParams
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveByIsinResponse>> =
+            retrieveByIsin(params, RequestOptions.none())
+
+        /** @see retrieveByIsin */
+        fun retrieveByIsin(
+            params: BrandRetrieveByIsinParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveByIsinResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/retrieve-by-name`, but is otherwise the same

@@ -8,6 +8,7 @@ import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandRetrieveByEmailParams
+import com.branddev.api.models.brand.BrandRetrieveByIsinParams
 import com.branddev.api.models.brand.BrandRetrieveByNameParams
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
 import com.branddev.api.models.brand.BrandRetrieveNaicsParams
@@ -142,6 +143,29 @@ internal class BrandServiceTest {
                 BrandRetrieveByEmailParams.builder()
                     .email("dev@stainless.com")
                     .forceLanguage(BrandRetrieveByEmailParams.ForceLanguage.ALBANIAN)
+                    .maxSpeed(true)
+                    .timeoutMs(1L)
+                    .build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun retrieveByIsin() {
+        val client =
+            BrandDevOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.retrieveByIsin(
+                BrandRetrieveByIsinParams.builder()
+                    .isin("SE60513A9993")
+                    .forceLanguage(BrandRetrieveByIsinParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
                     .timeoutMs(1L)
                     .build()

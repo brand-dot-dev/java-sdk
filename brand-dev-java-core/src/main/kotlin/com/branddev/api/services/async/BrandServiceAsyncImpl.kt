@@ -23,6 +23,8 @@ import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
 import com.branddev.api.models.brand.BrandRetrieveByEmailParams
 import com.branddev.api.models.brand.BrandRetrieveByEmailResponse
+import com.branddev.api.models.brand.BrandRetrieveByIsinParams
+import com.branddev.api.models.brand.BrandRetrieveByIsinResponse
 import com.branddev.api.models.brand.BrandRetrieveByNameParams
 import com.branddev.api.models.brand.BrandRetrieveByNameResponse
 import com.branddev.api.models.brand.BrandRetrieveByTickerParams
@@ -86,6 +88,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandRetrieveByEmailResponse> =
         // get /brand/retrieve-by-email
         withRawResponse().retrieveByEmail(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveByIsin(
+        params: BrandRetrieveByIsinParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandRetrieveByIsinResponse> =
+        // get /brand/retrieve-by-isin
+        withRawResponse().retrieveByIsin(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveByName(
         params: BrandRetrieveByNameParams,
@@ -285,6 +294,36 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     errorHandler.handle(response).parseable {
                         response
                             .use { retrieveByEmailHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveByIsinHandler: Handler<BrandRetrieveByIsinResponse> =
+            jsonHandler<BrandRetrieveByIsinResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveByIsin(
+            params: BrandRetrieveByIsinParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveByIsinResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "retrieve-by-isin")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retrieveByIsinHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

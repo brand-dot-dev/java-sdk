@@ -12,8 +12,11 @@ internal class BrandIdentifyFromTransactionParamsTest {
     fun create() {
         BrandIdentifyFromTransactionParams.builder()
             .transactionInfo("transaction_info")
+            .city("city")
+            .countryGl(BrandIdentifyFromTransactionParams.CountryGl.AD)
             .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
             .maxSpeed(true)
+            .mcc("mcc")
             .timeoutMs(1L)
             .build()
     }
@@ -23,8 +26,11 @@ internal class BrandIdentifyFromTransactionParamsTest {
         val params =
             BrandIdentifyFromTransactionParams.builder()
                 .transactionInfo("transaction_info")
+                .city("city")
+                .countryGl(BrandIdentifyFromTransactionParams.CountryGl.AD)
                 .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
+                .mcc("mcc")
                 .timeoutMs(1L)
                 .build()
 
@@ -34,8 +40,11 @@ internal class BrandIdentifyFromTransactionParamsTest {
             .isEqualTo(
                 QueryParams.builder()
                     .put("transaction_info", "transaction_info")
+                    .put("city", "city")
+                    .put("country_gl", "ad")
                     .put("force_language", "albanian")
                     .put("maxSpeed", "true")
+                    .put("mcc", "mcc")
                     .put("timeoutMS", "1")
                     .build()
             )

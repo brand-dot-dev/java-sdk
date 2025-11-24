@@ -101,8 +101,11 @@ internal class BrandServiceTest {
             brandService.identifyFromTransaction(
                 BrandIdentifyFromTransactionParams.builder()
                     .transactionInfo("transaction_info")
+                    .city("city")
+                    .countryGl(BrandIdentifyFromTransactionParams.CountryGl.AD)
                     .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
+                    .mcc("mcc")
                     .timeoutMs(1L)
                     .build()
             )

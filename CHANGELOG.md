@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.20 (2025-11-24)
+
+Full Changelog: [v0.1.0-alpha.19...v0.1.0-alpha.20](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.19...v0.1.0-alpha.20)
+
+### Features
+
+* **api:** api update ([467854b](https://github.com/brand-dot-dev/java-sdk/commit/467854b71ee6cdbefb6d9a99c4fcf7c2e029d201))
+
 ## 0.1.0-alpha.19 (2025-11-19)
 
 Full Changelog: [v0.1.0-alpha.18...v0.1.0-alpha.19](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.18...v0.1.0-alpha.19)

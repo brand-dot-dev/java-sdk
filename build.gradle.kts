@@ -9,7 +9,7 @@ repositories {
 
 allprojects {
     group = "com.branddev.api"
-    version = "0.1.0-alpha.19" // x-release-please-version
+    version = "0.1.0-alpha.20" // x-release-please-version
 }
 
 subprojects {

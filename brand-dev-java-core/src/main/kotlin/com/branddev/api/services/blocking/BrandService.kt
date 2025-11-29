@@ -7,6 +7,8 @@ import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
+import com.branddev.api.models.brand.BrandFontsParams
+import com.branddev.api.models.brand.BrandFontsResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
@@ -75,6 +77,18 @@ interface BrandService {
         params: BrandAiQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandAiQueryResponse
+
+    /**
+     * Beta feature: Extract font information from a brand's website including font families, usage
+     * statistics, fallbacks, and element/word counts.
+     */
+    fun fonts(params: BrandFontsParams): BrandFontsResponse = fonts(params, RequestOptions.none())
+
+    /** @see fonts */
+    fun fonts(
+        params: BrandFontsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandFontsResponse
 
     /**
      * Endpoint specially designed for platforms that want to identify transaction data by the
@@ -260,6 +274,21 @@ interface BrandService {
             params: BrandAiQueryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandAiQueryResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /brand/fonts`, but is otherwise the same as
+         * [BrandService.fonts].
+         */
+        @MustBeClosed
+        fun fonts(params: BrandFontsParams): HttpResponseFor<BrandFontsResponse> =
+            fonts(params, RequestOptions.none())
+
+        /** @see fonts */
+        @MustBeClosed
+        fun fonts(
+            params: BrandFontsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandFontsResponse>
 
         /**
          * Returns a raw HTTP response for `get /brand/transaction_identifier`, but is otherwise the

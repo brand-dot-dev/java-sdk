@@ -7,6 +7,8 @@ import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
+import com.branddev.api.models.brand.BrandFontsParams
+import com.branddev.api.models.brand.BrandFontsResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
@@ -76,6 +78,19 @@ interface BrandServiceAsync {
         params: BrandAiQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandAiQueryResponse>
+
+    /**
+     * Beta feature: Extract font information from a brand's website including font families, usage
+     * statistics, fallbacks, and element/word counts.
+     */
+    fun fonts(params: BrandFontsParams): CompletableFuture<BrandFontsResponse> =
+        fonts(params, RequestOptions.none())
+
+    /** @see fonts */
+    fun fonts(
+        params: BrandFontsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandFontsResponse>
 
     /**
      * Endpoint specially designed for platforms that want to identify transaction data by the
@@ -274,6 +289,21 @@ interface BrandServiceAsync {
             params: BrandAiQueryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandAiQueryResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /brand/fonts`, but is otherwise the same as
+         * [BrandServiceAsync.fonts].
+         */
+        fun fonts(
+            params: BrandFontsParams
+        ): CompletableFuture<HttpResponseFor<BrandFontsResponse>> =
+            fonts(params, RequestOptions.none())
+
+        /** @see fonts */
+        fun fonts(
+            params: BrandFontsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandFontsResponse>>
 
         /**
          * Returns a raw HTTP response for `get /brand/transaction_identifier`, but is otherwise the

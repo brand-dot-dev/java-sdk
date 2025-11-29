@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.21 (2025-11-29)
+
+Full Changelog: [v0.1.0-alpha.20...v0.1.0-alpha.21](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.20...v0.1.0-alpha.21)
+
+### Features
+
+* **api:** api update ([9bad26d](https://github.com/brand-dot-dev/java-sdk/commit/9bad26d65fb93869378c3232c8b150a27dbcefad))
+* **api:** manual updates ([b1fa758](https://github.com/brand-dot-dev/java-sdk/commit/b1fa7588dfa34da8ceb683ae9f917a1418a1b9ac))
+
+
+### Bug Fixes
+
+* **client:** cancel okhttp call when future cancelled ([107ac59](https://github.com/brand-dot-dev/java-sdk/commit/107ac59dfd51ae137eab042acbeae536acdc0525))
+
 ## 0.1.0-alpha.20 (2025-11-24)
 
 Full Changelog: [v0.1.0-alpha.19...v0.1.0-alpha.20](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.19...v0.1.0-alpha.20)

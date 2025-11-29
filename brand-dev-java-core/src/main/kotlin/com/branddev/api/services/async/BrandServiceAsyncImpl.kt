@@ -17,6 +17,8 @@ import com.branddev.api.core.http.parseable
 import com.branddev.api.core.prepareAsync
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
+import com.branddev.api.models.brand.BrandFontsParams
+import com.branddev.api.models.brand.BrandFontsResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
@@ -67,6 +69,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandAiQueryResponse> =
         // post /brand/ai/query
         withRawResponse().aiQuery(params, requestOptions).thenApply { it.parse() }
+
+    override fun fonts(
+        params: BrandFontsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandFontsResponse> =
+        // get /brand/fonts
+        withRawResponse().fonts(params, requestOptions).thenApply { it.parse() }
 
     override fun identifyFromTransaction(
         params: BrandIdentifyFromTransactionParams,
@@ -203,6 +212,36 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     errorHandler.handle(response).parseable {
                         response
                             .use { aiQueryHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val fontsHandler: Handler<BrandFontsResponse> =
+            jsonHandler<BrandFontsResponse>(clientOptions.jsonMapper)
+
+        override fun fonts(
+            params: BrandFontsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandFontsResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "fonts")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { fontsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

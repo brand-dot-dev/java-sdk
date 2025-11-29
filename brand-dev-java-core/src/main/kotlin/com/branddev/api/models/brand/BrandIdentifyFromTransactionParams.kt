@@ -38,8 +38,8 @@ private constructor(
     fun city(): Optional<String> = Optional.ofNullable(city)
 
     /**
-     * Optional country code (GL parameter) to specify the country for Google search results. This
-     * affects the geographic location used for search queries.
+     * Optional country code (GL parameter) to specify the country. This affects the geographic
+     * location used for search queries.
      */
     fun countryGl(): Optional<CountryGl> = Optional.ofNullable(countryGl)
 
@@ -124,8 +124,8 @@ private constructor(
         fun city(city: Optional<String>) = city(city.getOrNull())
 
         /**
-         * Optional country code (GL parameter) to specify the country for Google search results.
-         * This affects the geographic location used for search queries.
+         * Optional country code (GL parameter) to specify the country. This affects the geographic
+         * location used for search queries.
          */
         fun countryGl(countryGl: CountryGl?) = apply { this.countryGl = countryGl }
 
@@ -324,8 +324,8 @@ private constructor(
             .build()
 
     /**
-     * Optional country code (GL parameter) to specify the country for Google search results. This
-     * affects the geographic location used for search queries.
+     * Optional country code (GL parameter) to specify the country. This affects the geographic
+     * location used for search queries.
      */
     class CountryGl @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

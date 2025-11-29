@@ -5,6 +5,7 @@ package com.branddev.api.services.async
 import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
 import com.branddev.api.models.brand.BrandAiQueryParams
+import com.branddev.api.models.brand.BrandFontsParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandRetrieveByEmailParams
@@ -83,6 +84,25 @@ internal class BrandServiceAsyncTest {
                     )
                     .timeoutMs(1L)
                     .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun fonts() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.fonts(
+                BrandFontsParams.builder().domain("domain").timeoutMs(1L).build()
             )
 
         val response = responseFuture.get()

@@ -2,6 +2,7 @@
 
 package com.branddev.api.models.brand
 
+import com.branddev.api.core.JsonValue
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,6 +17,13 @@ internal class BrandAiQueryParamsTest {
                     .datapointExample("datapoint_example")
                     .datapointName("datapoint_name")
                     .datapointType(BrandAiQueryParams.DataToExtract.DatapointType.TEXT)
+                    .datapointListType(BrandAiQueryParams.DataToExtract.DatapointListType.STRING)
+                    .datapointObjectSchema(
+                        BrandAiQueryParams.DataToExtract.DatapointObjectSchema.builder()
+                            .putAdditionalProperty("testimonial_text", JsonValue.from("string"))
+                            .putAdditionalProperty("testimonial_author", JsonValue.from("string"))
+                            .build()
+                    )
                     .build()
             )
             .domain("domain")
@@ -27,6 +35,7 @@ internal class BrandAiQueryParamsTest {
                     .contactUs(true)
                     .faq(true)
                     .homePage(true)
+                    .pricing(true)
                     .privacyPolicy(true)
                     .termsAndConditions(true)
                     .build()
@@ -45,6 +54,18 @@ internal class BrandAiQueryParamsTest {
                         .datapointExample("datapoint_example")
                         .datapointName("datapoint_name")
                         .datapointType(BrandAiQueryParams.DataToExtract.DatapointType.TEXT)
+                        .datapointListType(
+                            BrandAiQueryParams.DataToExtract.DatapointListType.STRING
+                        )
+                        .datapointObjectSchema(
+                            BrandAiQueryParams.DataToExtract.DatapointObjectSchema.builder()
+                                .putAdditionalProperty("testimonial_text", JsonValue.from("string"))
+                                .putAdditionalProperty(
+                                    "testimonial_author",
+                                    JsonValue.from("string"),
+                                )
+                                .build()
+                        )
                         .build()
                 )
                 .domain("domain")
@@ -56,6 +77,7 @@ internal class BrandAiQueryParamsTest {
                         .contactUs(true)
                         .faq(true)
                         .homePage(true)
+                        .pricing(true)
                         .privacyPolicy(true)
                         .termsAndConditions(true)
                         .build()
@@ -72,6 +94,13 @@ internal class BrandAiQueryParamsTest {
                     .datapointExample("datapoint_example")
                     .datapointName("datapoint_name")
                     .datapointType(BrandAiQueryParams.DataToExtract.DatapointType.TEXT)
+                    .datapointListType(BrandAiQueryParams.DataToExtract.DatapointListType.STRING)
+                    .datapointObjectSchema(
+                        BrandAiQueryParams.DataToExtract.DatapointObjectSchema.builder()
+                            .putAdditionalProperty("testimonial_text", JsonValue.from("string"))
+                            .putAdditionalProperty("testimonial_author", JsonValue.from("string"))
+                            .build()
+                    )
                     .build()
             )
         assertThat(body.domain()).isEqualTo("domain")
@@ -84,6 +113,7 @@ internal class BrandAiQueryParamsTest {
                     .contactUs(true)
                     .faq(true)
                     .homePage(true)
+                    .pricing(true)
                     .privacyPolicy(true)
                     .termsAndConditions(true)
                     .build()

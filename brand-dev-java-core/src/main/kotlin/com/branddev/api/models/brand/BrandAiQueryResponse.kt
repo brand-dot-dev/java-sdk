@@ -321,7 +321,8 @@ private constructor(
         fun datapointName(): Optional<String> = datapointName.getOptional("datapoint_name")
 
         /**
-         * Value of the extracted data point
+         * Value of the extracted data point. Can be a primitive type, an array of primitives, or an
+         * array of objects when datapoint_list_type is 'object'.
          *
          * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -395,7 +396,10 @@ private constructor(
                 this.datapointName = datapointName
             }
 
-            /** Value of the extracted data point */
+            /**
+             * Value of the extracted data point. Can be a primitive type, an array of primitives,
+             * or an array of objects when datapoint_list_type is 'object'.
+             */
             fun datapointValue(datapointValue: DatapointValue) =
                 datapointValue(JsonField.of(datapointValue))
 
@@ -426,6 +430,12 @@ private constructor(
             /** Alias for calling [datapointValue] with `DatapointValue.ofNumber(number)`. */
             fun datapointValueOfNumber(number: List<Double>) =
                 datapointValue(DatapointValue.ofNumber(number))
+
+            /**
+             * Alias for calling [datapointValue] with `DatapointValue.ofJsonValues(jsonValues)`.
+             */
+            fun datapointValueOfJsonValues(jsonValues: List<JsonValue>) =
+                datapointValue(DatapointValue.ofJsonValues(jsonValues))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -486,7 +496,10 @@ private constructor(
             (if (datapointName.asKnown().isPresent) 1 else 0) +
                 (datapointValue.asKnown().getOrNull()?.validity() ?: 0)
 
-        /** Value of the extracted data point */
+        /**
+         * Value of the extracted data point. Can be a primitive type, an array of primitives, or an
+         * array of objects when datapoint_list_type is 'object'.
+         */
         @JsonDeserialize(using = DatapointValue.Deserializer::class)
         @JsonSerialize(using = DatapointValue.Serializer::class)
         class DatapointValue
@@ -496,6 +509,7 @@ private constructor(
             private val bool: Boolean? = null,
             private val strings: List<String>? = null,
             private val number: List<Double>? = null,
+            private val jsonValues: List<JsonValue>? = null,
             private val _json: JsonValue? = null,
         ) {
 
@@ -509,6 +523,8 @@ private constructor(
 
             fun number(): Optional<List<Double>> = Optional.ofNullable(number)
 
+            fun jsonValues(): Optional<List<JsonValue>> = Optional.ofNullable(jsonValues)
+
             fun isString(): Boolean = string != null
 
             fun isNumber(): Boolean = number != null
@@ -518,6 +534,8 @@ private constructor(
             fun isStrings(): Boolean = strings != null
 
             fun isNumber(): Boolean = number != null
+
+            fun isJsonValues(): Boolean = jsonValues != null
 
             fun asString(): String = string.getOrThrow("string")
 
@@ -529,6 +547,8 @@ private constructor(
 
             fun asNumber(): List<Double> = number.getOrThrow("number")
 
+            fun asJsonValues(): List<JsonValue> = jsonValues.getOrThrow("jsonValues")
+
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
             fun <T> accept(visitor: Visitor<T>): T =
@@ -538,6 +558,7 @@ private constructor(
                     bool != null -> visitor.visitBool(bool)
                     strings != null -> visitor.visitStrings(strings)
                     number != null -> visitor.visitNumber(number)
+                    jsonValues != null -> visitor.visitJsonValues(jsonValues)
                     else -> visitor.unknown(_json)
                 }
 
@@ -559,6 +580,8 @@ private constructor(
                         override fun visitStrings(strings: List<String>) {}
 
                         override fun visitNumber(number: List<Double>) {}
+
+                        override fun visitJsonValues(jsonValues: List<JsonValue>) {}
                     }
                 )
                 validated = true
@@ -592,6 +615,8 @@ private constructor(
 
                         override fun visitNumber(number: List<Double>) = number.size
 
+                        override fun visitJsonValues(jsonValues: List<JsonValue>) = jsonValues.size
+
                         override fun unknown(json: JsonValue?) = 0
                     }
                 )
@@ -606,10 +631,12 @@ private constructor(
                     number == other.number &&
                     bool == other.bool &&
                     strings == other.strings &&
-                    number == other.number
+                    number == other.number &&
+                    jsonValues == other.jsonValues
             }
 
-            override fun hashCode(): Int = Objects.hash(string, number, bool, strings, number)
+            override fun hashCode(): Int =
+                Objects.hash(string, number, bool, strings, number, jsonValues)
 
             override fun toString(): String =
                 when {
@@ -618,6 +645,7 @@ private constructor(
                     bool != null -> "DatapointValue{bool=$bool}"
                     strings != null -> "DatapointValue{strings=$strings}"
                     number != null -> "DatapointValue{number=$number}"
+                    jsonValues != null -> "DatapointValue{jsonValues=$jsonValues}"
                     _json != null -> "DatapointValue{_unknown=$_json}"
                     else -> throw IllegalStateException("Invalid DatapointValue")
                 }
@@ -636,6 +664,10 @@ private constructor(
 
                 @JvmStatic
                 fun ofNumber(number: List<Double>) = DatapointValue(number = number.toImmutable())
+
+                @JvmStatic
+                fun ofJsonValues(jsonValues: List<JsonValue>) =
+                    DatapointValue(jsonValues = jsonValues.toImmutable())
             }
 
             /**
@@ -653,6 +685,8 @@ private constructor(
                 fun visitStrings(strings: List<String>): T
 
                 fun visitNumber(number: List<Double>): T
+
+                fun visitJsonValues(jsonValues: List<JsonValue>): T
 
                 /**
                  * Maps an unknown variant of [DatapointValue] to a value of type [T].
@@ -691,6 +725,9 @@ private constructor(
                                 tryDeserialize(node, jacksonTypeRef<List<Double>>())?.let {
                                     DatapointValue(number = it, _json = json)
                                 },
+                                tryDeserialize(node, jacksonTypeRef<List<JsonValue>>())?.let {
+                                    DatapointValue(jsonValues = it, _json = json)
+                                },
                             )
                             .filterNotNull()
                             .allMaxBy { it.validity() }
@@ -721,6 +758,7 @@ private constructor(
                         value.bool != null -> generator.writeObject(value.bool)
                         value.strings != null -> generator.writeObject(value.strings)
                         value.number != null -> generator.writeObject(value.number)
+                        value.jsonValues != null -> generator.writeObject(value.jsonValues)
                         value._json != null -> generator.writeObject(value._json)
                         else -> throw IllegalStateException("Invalid DatapointValue")
                     }

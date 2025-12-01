@@ -4,6 +4,7 @@ package com.branddev.api.services.async
 
 import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
+import com.branddev.api.core.JsonValue
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandFontsParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
@@ -67,6 +68,21 @@ internal class BrandServiceAsyncTest {
                             .datapointExample("datapoint_example")
                             .datapointName("datapoint_name")
                             .datapointType(BrandAiQueryParams.DataToExtract.DatapointType.TEXT)
+                            .datapointListType(
+                                BrandAiQueryParams.DataToExtract.DatapointListType.STRING
+                            )
+                            .datapointObjectSchema(
+                                BrandAiQueryParams.DataToExtract.DatapointObjectSchema.builder()
+                                    .putAdditionalProperty(
+                                        "testimonial_text",
+                                        JsonValue.from("string"),
+                                    )
+                                    .putAdditionalProperty(
+                                        "testimonial_author",
+                                        JsonValue.from("string"),
+                                    )
+                                    .build()
+                            )
                             .build()
                     )
                     .domain("domain")
@@ -78,6 +94,7 @@ internal class BrandServiceAsyncTest {
                             .contactUs(true)
                             .faq(true)
                             .homePage(true)
+                            .pricing(true)
                             .privacyPolicy(true)
                             .termsAndConditions(true)
                             .build()

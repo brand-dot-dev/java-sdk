@@ -668,6 +668,8 @@ private constructor(
         private val datapointExample: JsonField<String>,
         private val datapointName: JsonField<String>,
         private val datapointType: JsonField<DatapointType>,
+        private val datapointListType: JsonField<DatapointListType>,
+        private val datapointObjectSchema: JsonField<DatapointObjectSchema>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -685,11 +687,19 @@ private constructor(
             @JsonProperty("datapoint_type")
             @ExcludeMissing
             datapointType: JsonField<DatapointType> = JsonMissing.of(),
+            @JsonProperty("datapoint_list_type")
+            @ExcludeMissing
+            datapointListType: JsonField<DatapointListType> = JsonMissing.of(),
+            @JsonProperty("datapoint_object_schema")
+            @ExcludeMissing
+            datapointObjectSchema: JsonField<DatapointObjectSchema> = JsonMissing.of(),
         ) : this(
             datapointDescription,
             datapointExample,
             datapointName,
             datapointType,
+            datapointListType,
+            datapointObjectSchema,
             mutableMapOf(),
         )
 
@@ -725,6 +735,26 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun datapointType(): DatapointType = datapointType.getRequired("datapoint_type")
+
+        /**
+         * Type of items in the list when datapoint_type is 'list'. Defaults to 'string'. Use
+         * 'object' to extract an array of objects matching a schema.
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun datapointListType(): Optional<DatapointListType> =
+            datapointListType.getOptional("datapoint_list_type")
+
+        /**
+         * Schema definition for objects when datapoint_list_type is 'object'. Provide a map of
+         * field names to their scalar types.
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun datapointObjectSchema(): Optional<DatapointObjectSchema> =
+            datapointObjectSchema.getOptional("datapoint_object_schema")
 
         /**
          * Returns the raw JSON value of [datapointDescription].
@@ -766,6 +796,26 @@ private constructor(
         @ExcludeMissing
         fun _datapointType(): JsonField<DatapointType> = datapointType
 
+        /**
+         * Returns the raw JSON value of [datapointListType].
+         *
+         * Unlike [datapointListType], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("datapoint_list_type")
+        @ExcludeMissing
+        fun _datapointListType(): JsonField<DatapointListType> = datapointListType
+
+        /**
+         * Returns the raw JSON value of [datapointObjectSchema].
+         *
+         * Unlike [datapointObjectSchema], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("datapoint_object_schema")
+        @ExcludeMissing
+        fun _datapointObjectSchema(): JsonField<DatapointObjectSchema> = datapointObjectSchema
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -801,6 +851,8 @@ private constructor(
             private var datapointExample: JsonField<String>? = null
             private var datapointName: JsonField<String>? = null
             private var datapointType: JsonField<DatapointType>? = null
+            private var datapointListType: JsonField<DatapointListType> = JsonMissing.of()
+            private var datapointObjectSchema: JsonField<DatapointObjectSchema> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -809,6 +861,8 @@ private constructor(
                 datapointExample = dataToExtract.datapointExample
                 datapointName = dataToExtract.datapointName
                 datapointType = dataToExtract.datapointType
+                datapointListType = dataToExtract.datapointListType
+                datapointObjectSchema = dataToExtract.datapointObjectSchema
                 additionalProperties = dataToExtract.additionalProperties.toMutableMap()
             }
 
@@ -871,6 +925,43 @@ private constructor(
                 this.datapointType = datapointType
             }
 
+            /**
+             * Type of items in the list when datapoint_type is 'list'. Defaults to 'string'. Use
+             * 'object' to extract an array of objects matching a schema.
+             */
+            fun datapointListType(datapointListType: DatapointListType) =
+                datapointListType(JsonField.of(datapointListType))
+
+            /**
+             * Sets [Builder.datapointListType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.datapointListType] with a well-typed
+             * [DatapointListType] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun datapointListType(datapointListType: JsonField<DatapointListType>) = apply {
+                this.datapointListType = datapointListType
+            }
+
+            /**
+             * Schema definition for objects when datapoint_list_type is 'object'. Provide a map of
+             * field names to their scalar types.
+             */
+            fun datapointObjectSchema(datapointObjectSchema: DatapointObjectSchema) =
+                datapointObjectSchema(JsonField.of(datapointObjectSchema))
+
+            /**
+             * Sets [Builder.datapointObjectSchema] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.datapointObjectSchema] with a well-typed
+             * [DatapointObjectSchema] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
+            fun datapointObjectSchema(datapointObjectSchema: JsonField<DatapointObjectSchema>) =
+                apply {
+                    this.datapointObjectSchema = datapointObjectSchema
+                }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -911,6 +1002,8 @@ private constructor(
                     checkRequired("datapointExample", datapointExample),
                     checkRequired("datapointName", datapointName),
                     checkRequired("datapointType", datapointType),
+                    datapointListType,
+                    datapointObjectSchema,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -926,6 +1019,8 @@ private constructor(
             datapointExample()
             datapointName()
             datapointType().validate()
+            datapointListType().ifPresent { it.validate() }
+            datapointObjectSchema().ifPresent { it.validate() }
             validated = true
         }
 
@@ -948,7 +1043,9 @@ private constructor(
             (if (datapointDescription.asKnown().isPresent) 1 else 0) +
                 (if (datapointExample.asKnown().isPresent) 1 else 0) +
                 (if (datapointName.asKnown().isPresent) 1 else 0) +
-                (datapointType.asKnown().getOrNull()?.validity() ?: 0)
+                (datapointType.asKnown().getOrNull()?.validity() ?: 0) +
+                (datapointListType.asKnown().getOrNull()?.validity() ?: 0) +
+                (datapointObjectSchema.asKnown().getOrNull()?.validity() ?: 0)
 
         /** Type of the data point */
         class DatapointType @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -1106,6 +1203,291 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Type of items in the list when datapoint_type is 'list'. Defaults to 'string'. Use
+         * 'object' to extract an array of objects matching a schema.
+         */
+        class DatapointListType
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val STRING = of("string")
+
+                @JvmField val TEXT = of("text")
+
+                @JvmField val NUMBER = of("number")
+
+                @JvmField val DATE = of("date")
+
+                @JvmField val BOOLEAN = of("boolean")
+
+                @JvmField val LIST = of("list")
+
+                @JvmField val URL = of("url")
+
+                @JvmField val OBJECT = of("object")
+
+                @JvmStatic fun of(value: String) = DatapointListType(JsonField.of(value))
+            }
+
+            /** An enum containing [DatapointListType]'s known values. */
+            enum class Known {
+                STRING,
+                TEXT,
+                NUMBER,
+                DATE,
+                BOOLEAN,
+                LIST,
+                URL,
+                OBJECT,
+            }
+
+            /**
+             * An enum containing [DatapointListType]'s known values, as well as an [_UNKNOWN]
+             * member.
+             *
+             * An instance of [DatapointListType] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                STRING,
+                TEXT,
+                NUMBER,
+                DATE,
+                BOOLEAN,
+                LIST,
+                URL,
+                OBJECT,
+                /**
+                 * An enum member indicating that [DatapointListType] was instantiated with an
+                 * unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    STRING -> Value.STRING
+                    TEXT -> Value.TEXT
+                    NUMBER -> Value.NUMBER
+                    DATE -> Value.DATE
+                    BOOLEAN -> Value.BOOLEAN
+                    LIST -> Value.LIST
+                    URL -> Value.URL
+                    OBJECT -> Value.OBJECT
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws BrandDevInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    STRING -> Known.STRING
+                    TEXT -> Known.TEXT
+                    NUMBER -> Known.NUMBER
+                    DATE -> Known.DATE
+                    BOOLEAN -> Known.BOOLEAN
+                    LIST -> Known.LIST
+                    URL -> Known.URL
+                    OBJECT -> Known.OBJECT
+                    else -> throw BrandDevInvalidDataException("Unknown DatapointListType: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws BrandDevInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    BrandDevInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): DatapointListType = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: BrandDevInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is DatapointListType && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        /**
+         * Schema definition for objects when datapoint_list_type is 'object'. Provide a map of
+         * field names to their scalar types.
+         */
+        class DatapointObjectSchema
+        @JsonCreator
+        private constructor(
+            @com.fasterxml.jackson.annotation.JsonValue
+            private val additionalProperties: Map<String, JsonValue>
+        ) {
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [DatapointObjectSchema].
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [DatapointObjectSchema]. */
+            class Builder internal constructor() {
+
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(datapointObjectSchema: DatapointObjectSchema) = apply {
+                    additionalProperties = datapointObjectSchema.additionalProperties.toMutableMap()
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [DatapointObjectSchema].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): DatapointObjectSchema =
+                    DatapointObjectSchema(additionalProperties.toImmutable())
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): DatapointObjectSchema = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: BrandDevInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is DatapointObjectSchema &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "DatapointObjectSchema{additionalProperties=$additionalProperties}"
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1116,6 +1498,8 @@ private constructor(
                 datapointExample == other.datapointExample &&
                 datapointName == other.datapointName &&
                 datapointType == other.datapointType &&
+                datapointListType == other.datapointListType &&
+                datapointObjectSchema == other.datapointObjectSchema &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -1125,6 +1509,8 @@ private constructor(
                 datapointExample,
                 datapointName,
                 datapointType,
+                datapointListType,
+                datapointObjectSchema,
                 additionalProperties,
             )
         }
@@ -1132,7 +1518,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "DataToExtract{datapointDescription=$datapointDescription, datapointExample=$datapointExample, datapointName=$datapointName, datapointType=$datapointType, additionalProperties=$additionalProperties}"
+            "DataToExtract{datapointDescription=$datapointDescription, datapointExample=$datapointExample, datapointName=$datapointName, datapointType=$datapointType, datapointListType=$datapointListType, datapointObjectSchema=$datapointObjectSchema, additionalProperties=$additionalProperties}"
     }
 
     /** Optional object specifying which pages to analyze */
@@ -1145,6 +1531,7 @@ private constructor(
         private val contactUs: JsonField<Boolean>,
         private val faq: JsonField<Boolean>,
         private val homePage: JsonField<Boolean>,
+        private val pricing: JsonField<Boolean>,
         private val privacyPolicy: JsonField<Boolean>,
         private val termsAndConditions: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -1164,6 +1551,7 @@ private constructor(
             @JsonProperty("home_page")
             @ExcludeMissing
             homePage: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("pricing") @ExcludeMissing pricing: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("privacy_policy")
             @ExcludeMissing
             privacyPolicy: JsonField<Boolean> = JsonMissing.of(),
@@ -1177,6 +1565,7 @@ private constructor(
             contactUs,
             faq,
             homePage,
+            pricing,
             privacyPolicy,
             termsAndConditions,
             mutableMapOf(),
@@ -1229,6 +1618,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun homePage(): Optional<Boolean> = homePage.getOptional("home_page")
+
+        /**
+         * Whether to analyze the pricing page
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun pricing(): Optional<Boolean> = pricing.getOptional("pricing")
 
         /**
          * Whether to analyze the privacy policy page
@@ -1290,6 +1687,13 @@ private constructor(
         @JsonProperty("home_page") @ExcludeMissing fun _homePage(): JsonField<Boolean> = homePage
 
         /**
+         * Returns the raw JSON value of [pricing].
+         *
+         * Unlike [pricing], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("pricing") @ExcludeMissing fun _pricing(): JsonField<Boolean> = pricing
+
+        /**
          * Returns the raw JSON value of [privacyPolicy].
          *
          * Unlike [privacyPolicy], this method doesn't throw if the JSON field has an unexpected
@@ -1336,6 +1740,7 @@ private constructor(
             private var contactUs: JsonField<Boolean> = JsonMissing.of()
             private var faq: JsonField<Boolean> = JsonMissing.of()
             private var homePage: JsonField<Boolean> = JsonMissing.of()
+            private var pricing: JsonField<Boolean> = JsonMissing.of()
             private var privacyPolicy: JsonField<Boolean> = JsonMissing.of()
             private var termsAndConditions: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -1348,6 +1753,7 @@ private constructor(
                 contactUs = specificPages.contactUs
                 faq = specificPages.faq
                 homePage = specificPages.homePage
+                pricing = specificPages.pricing
                 privacyPolicy = specificPages.privacyPolicy
                 termsAndConditions = specificPages.termsAndConditions
                 additionalProperties = specificPages.additionalProperties.toMutableMap()
@@ -1425,6 +1831,18 @@ private constructor(
              */
             fun homePage(homePage: JsonField<Boolean>) = apply { this.homePage = homePage }
 
+            /** Whether to analyze the pricing page */
+            fun pricing(pricing: Boolean) = pricing(JsonField.of(pricing))
+
+            /**
+             * Sets [Builder.pricing] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pricing] with a well-typed [Boolean] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun pricing(pricing: JsonField<Boolean>) = apply { this.pricing = pricing }
+
             /** Whether to analyze the privacy policy page */
             fun privacyPolicy(privacyPolicy: Boolean) = privacyPolicy(JsonField.of(privacyPolicy))
 
@@ -1486,6 +1904,7 @@ private constructor(
                     contactUs,
                     faq,
                     homePage,
+                    pricing,
                     privacyPolicy,
                     termsAndConditions,
                     additionalProperties.toMutableMap(),
@@ -1505,6 +1924,7 @@ private constructor(
             contactUs()
             faq()
             homePage()
+            pricing()
             privacyPolicy()
             termsAndConditions()
             validated = true
@@ -1532,6 +1952,7 @@ private constructor(
                 (if (contactUs.asKnown().isPresent) 1 else 0) +
                 (if (faq.asKnown().isPresent) 1 else 0) +
                 (if (homePage.asKnown().isPresent) 1 else 0) +
+                (if (pricing.asKnown().isPresent) 1 else 0) +
                 (if (privacyPolicy.asKnown().isPresent) 1 else 0) +
                 (if (termsAndConditions.asKnown().isPresent) 1 else 0)
 
@@ -1547,6 +1968,7 @@ private constructor(
                 contactUs == other.contactUs &&
                 faq == other.faq &&
                 homePage == other.homePage &&
+                pricing == other.pricing &&
                 privacyPolicy == other.privacyPolicy &&
                 termsAndConditions == other.termsAndConditions &&
                 additionalProperties == other.additionalProperties
@@ -1560,6 +1982,7 @@ private constructor(
                 contactUs,
                 faq,
                 homePage,
+                pricing,
                 privacyPolicy,
                 termsAndConditions,
                 additionalProperties,
@@ -1569,7 +1992,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "SpecificPages{aboutUs=$aboutUs, blog=$blog, careers=$careers, contactUs=$contactUs, faq=$faq, homePage=$homePage, privacyPolicy=$privacyPolicy, termsAndConditions=$termsAndConditions, additionalProperties=$additionalProperties}"
+            "SpecificPages{aboutUs=$aboutUs, blog=$blog, careers=$careers, contactUs=$contactUs, faq=$faq, homePage=$homePage, pricing=$pricing, privacyPolicy=$privacyPolicy, termsAndConditions=$termsAndConditions, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

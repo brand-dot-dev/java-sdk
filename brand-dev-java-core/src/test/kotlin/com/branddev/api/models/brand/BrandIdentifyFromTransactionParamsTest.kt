@@ -17,6 +17,7 @@ internal class BrandIdentifyFromTransactionParamsTest {
             .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
             .maxSpeed(true)
             .mcc("mcc")
+            .phone(0.0)
             .timeoutMs(1L)
             .build()
     }
@@ -31,6 +32,7 @@ internal class BrandIdentifyFromTransactionParamsTest {
                 .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
                 .mcc("mcc")
+                .phone(0.0)
                 .timeoutMs(1L)
                 .build()
 
@@ -45,6 +47,7 @@ internal class BrandIdentifyFromTransactionParamsTest {
                     .put("force_language", "albanian")
                     .put("maxSpeed", "true")
                     .put("mcc", "mcc")
+                    .put("phone", "0.0")
                     .put("timeoutMS", "1")
                     .build()
             )

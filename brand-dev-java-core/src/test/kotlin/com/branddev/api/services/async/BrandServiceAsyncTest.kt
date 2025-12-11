@@ -145,6 +145,7 @@ internal class BrandServiceAsyncTest {
                     .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
                     .mcc("mcc")
+                    .phone(0.0)
                     .timeoutMs(1L)
                     .build()
             )

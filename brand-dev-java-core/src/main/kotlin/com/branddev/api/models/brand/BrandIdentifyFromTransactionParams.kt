@@ -26,6 +26,7 @@ private constructor(
     private val forceLanguage: ForceLanguage?,
     private val maxSpeed: Boolean?,
     private val mcc: String?,
+    private val phone: Double?,
     private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -54,6 +55,9 @@ private constructor(
 
     /** Optional Merchant Category Code (MCC) to help identify the business category/industry. */
     fun mcc(): Optional<String> = Optional.ofNullable(mcc)
+
+    /** Optional phone number from the transaction to help verify brand match. */
+    fun phone(): Optional<Double> = Optional.ofNullable(phone)
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -93,6 +97,7 @@ private constructor(
         private var forceLanguage: ForceLanguage? = null
         private var maxSpeed: Boolean? = null
         private var mcc: String? = null
+        private var phone: Double? = null
         private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -106,6 +111,7 @@ private constructor(
                 forceLanguage = brandIdentifyFromTransactionParams.forceLanguage
                 maxSpeed = brandIdentifyFromTransactionParams.maxSpeed
                 mcc = brandIdentifyFromTransactionParams.mcc
+                phone = brandIdentifyFromTransactionParams.phone
                 timeoutMs = brandIdentifyFromTransactionParams.timeoutMs
                 additionalHeaders = brandIdentifyFromTransactionParams.additionalHeaders.toBuilder()
                 additionalQueryParams =
@@ -165,6 +171,19 @@ private constructor(
 
         /** Alias for calling [Builder.mcc] with `mcc.orElse(null)`. */
         fun mcc(mcc: Optional<String>) = mcc(mcc.getOrNull())
+
+        /** Optional phone number from the transaction to help verify brand match. */
+        fun phone(phone: Double?) = apply { this.phone = phone }
+
+        /**
+         * Alias for [Builder.phone].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun phone(phone: Double) = phone(phone as Double?)
+
+        /** Alias for calling [Builder.phone] with `phone.orElse(null)`. */
+        fun phone(phone: Optional<Double>) = phone(phone.getOrNull())
 
         /**
          * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -301,6 +320,7 @@ private constructor(
                 forceLanguage,
                 maxSpeed,
                 mcc,
+                phone,
                 timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -318,6 +338,7 @@ private constructor(
                 forceLanguage?.let { put("force_language", it.toString()) }
                 maxSpeed?.let { put("maxSpeed", it.toString()) }
                 mcc?.let { put("mcc", it) }
+                phone?.let { put("phone", it.toString()) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
@@ -2322,6 +2343,7 @@ private constructor(
             forceLanguage == other.forceLanguage &&
             maxSpeed == other.maxSpeed &&
             mcc == other.mcc &&
+            phone == other.phone &&
             timeoutMs == other.timeoutMs &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -2335,11 +2357,12 @@ private constructor(
             forceLanguage,
             maxSpeed,
             mcc,
+            phone,
             timeoutMs,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "BrandIdentifyFromTransactionParams{transactionInfo=$transactionInfo, city=$city, countryGl=$countryGl, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, mcc=$mcc, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandIdentifyFromTransactionParams{transactionInfo=$transactionInfo, city=$city, countryGl=$countryGl, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, mcc=$mcc, phone=$phone, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

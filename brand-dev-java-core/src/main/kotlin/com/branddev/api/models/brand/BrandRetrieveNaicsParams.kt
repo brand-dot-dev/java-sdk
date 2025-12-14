@@ -14,6 +14,8 @@ import kotlin.jvm.optionals.getOrNull
 class BrandRetrieveNaicsParams
 private constructor(
     private val input: String,
+    private val maxResults: Long?,
+    private val minResults: Long?,
     private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -25,6 +27,12 @@ private constructor(
      * provided title.
      */
     fun input(): String = input
+
+    /** Maximum number of NAICS codes to return. Must be between 1 and 10. Defaults to 5. */
+    fun maxResults(): Optional<Long> = Optional.ofNullable(maxResults)
+
+    /** Minimum number of NAICS codes to return. Must be at least 1. Defaults to 1. */
+    fun minResults(): Optional<Long> = Optional.ofNullable(minResults)
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -58,6 +66,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var input: String? = null
+        private var maxResults: Long? = null
+        private var minResults: Long? = null
         private var timeoutMs: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -65,6 +75,8 @@ private constructor(
         @JvmSynthetic
         internal fun from(brandRetrieveNaicsParams: BrandRetrieveNaicsParams) = apply {
             input = brandRetrieveNaicsParams.input
+            maxResults = brandRetrieveNaicsParams.maxResults
+            minResults = brandRetrieveNaicsParams.minResults
             timeoutMs = brandRetrieveNaicsParams.timeoutMs
             additionalHeaders = brandRetrieveNaicsParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandRetrieveNaicsParams.additionalQueryParams.toBuilder()
@@ -76,6 +88,32 @@ private constructor(
          * using the provided title.
          */
         fun input(input: String) = apply { this.input = input }
+
+        /** Maximum number of NAICS codes to return. Must be between 1 and 10. Defaults to 5. */
+        fun maxResults(maxResults: Long?) = apply { this.maxResults = maxResults }
+
+        /**
+         * Alias for [Builder.maxResults].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun maxResults(maxResults: Long) = maxResults(maxResults as Long?)
+
+        /** Alias for calling [Builder.maxResults] with `maxResults.orElse(null)`. */
+        fun maxResults(maxResults: Optional<Long>) = maxResults(maxResults.getOrNull())
+
+        /** Minimum number of NAICS codes to return. Must be at least 1. Defaults to 1. */
+        fun minResults(minResults: Long?) = apply { this.minResults = minResults }
+
+        /**
+         * Alias for [Builder.minResults].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun minResults(minResults: Long) = minResults(minResults as Long?)
+
+        /** Alias for calling [Builder.minResults] with `minResults.orElse(null)`. */
+        fun minResults(minResults: Optional<Long>) = minResults(minResults.getOrNull())
 
         /**
          * Optional timeout in milliseconds for the request. If the request takes longer than this
@@ -207,6 +245,8 @@ private constructor(
         fun build(): BrandRetrieveNaicsParams =
             BrandRetrieveNaicsParams(
                 checkRequired("input", input),
+                maxResults,
+                minResults,
                 timeoutMs,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -219,6 +259,8 @@ private constructor(
         QueryParams.builder()
             .apply {
                 put("input", input)
+                maxResults?.let { put("maxResults", it.toString()) }
+                minResults?.let { put("minResults", it.toString()) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
             }
@@ -231,14 +273,23 @@ private constructor(
 
         return other is BrandRetrieveNaicsParams &&
             input == other.input &&
+            maxResults == other.maxResults &&
+            minResults == other.minResults &&
             timeoutMs == other.timeoutMs &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(input, timeoutMs, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            input,
+            maxResults,
+            minResults,
+            timeoutMs,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
-        "BrandRetrieveNaicsParams{input=$input, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandRetrieveNaicsParams{input=$input, maxResults=$maxResults, minResults=$minResults, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

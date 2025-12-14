@@ -10,17 +10,35 @@ internal class BrandRetrieveNaicsParamsTest {
 
     @Test
     fun create() {
-        BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
+        BrandRetrieveNaicsParams.builder()
+            .input("input")
+            .maxResults(1L)
+            .minResults(1L)
+            .timeoutMs(1L)
+            .build()
     }
 
     @Test
     fun queryParams() {
-        val params = BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
+        val params =
+            BrandRetrieveNaicsParams.builder()
+                .input("input")
+                .maxResults(1L)
+                .minResults(1L)
+                .timeoutMs(1L)
+                .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("input", "input").put("timeoutMS", "1").build())
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("input", "input")
+                    .put("maxResults", "1")
+                    .put("minResults", "1")
+                    .put("timeoutMS", "1")
+                    .build()
+            )
     }
 
     @Test

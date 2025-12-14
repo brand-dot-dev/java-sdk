@@ -15,7 +15,11 @@ internal class BrandRetrieveNaicsResponseTest {
         val brandRetrieveNaicsResponse =
             BrandRetrieveNaicsResponse.builder()
                 .addCode(
-                    BrandRetrieveNaicsResponse.Code.builder().code("code").title("title").build()
+                    BrandRetrieveNaicsResponse.Code.builder()
+                        .code("code")
+                        .confidence(BrandRetrieveNaicsResponse.Code.Confidence.HIGH)
+                        .name("name")
+                        .build()
                 )
                 .domain("domain")
                 .status("status")
@@ -24,7 +28,11 @@ internal class BrandRetrieveNaicsResponseTest {
 
         assertThat(brandRetrieveNaicsResponse.codes().getOrNull())
             .containsExactly(
-                BrandRetrieveNaicsResponse.Code.builder().code("code").title("title").build()
+                BrandRetrieveNaicsResponse.Code.builder()
+                    .code("code")
+                    .confidence(BrandRetrieveNaicsResponse.Code.Confidence.HIGH)
+                    .name("name")
+                    .build()
             )
         assertThat(brandRetrieveNaicsResponse.domain()).contains("domain")
         assertThat(brandRetrieveNaicsResponse.status()).contains("status")
@@ -37,7 +45,11 @@ internal class BrandRetrieveNaicsResponseTest {
         val brandRetrieveNaicsResponse =
             BrandRetrieveNaicsResponse.builder()
                 .addCode(
-                    BrandRetrieveNaicsResponse.Code.builder().code("code").title("title").build()
+                    BrandRetrieveNaicsResponse.Code.builder()
+                        .code("code")
+                        .confidence(BrandRetrieveNaicsResponse.Code.Confidence.HIGH)
+                        .name("name")
+                        .build()
                 )
                 .domain("domain")
                 .status("status")

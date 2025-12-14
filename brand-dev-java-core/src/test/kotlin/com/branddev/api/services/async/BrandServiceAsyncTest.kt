@@ -282,7 +282,12 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.retrieveNaics(
-                BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
+                BrandRetrieveNaicsParams.builder()
+                    .input("input")
+                    .maxResults(1L)
+                    .minResults(1L)
+                    .timeoutMs(1L)
+                    .build()
             )
 
         val response = responseFuture.get()

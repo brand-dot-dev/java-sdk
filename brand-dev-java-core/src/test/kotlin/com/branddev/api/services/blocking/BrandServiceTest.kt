@@ -271,7 +271,12 @@ internal class BrandServiceTest {
 
         val response =
             brandService.retrieveNaics(
-                BrandRetrieveNaicsParams.builder().input("input").timeoutMs(1L).build()
+                BrandRetrieveNaicsParams.builder()
+                    .input("input")
+                    .maxResults(1L)
+                    .minResults(1L)
+                    .timeoutMs(1L)
+                    .build()
             )
 
         response.validate()

@@ -21,6 +21,8 @@ import com.branddev.api.models.brand.BrandFontsParams
 import com.branddev.api.models.brand.BrandFontsResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
+import com.branddev.api.models.brand.BrandPrefetchByEmailParams
+import com.branddev.api.models.brand.BrandPrefetchByEmailResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
 import com.branddev.api.models.brand.BrandRetrieveByEmailParams
@@ -90,6 +92,13 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandPrefetchResponse> =
         // post /brand/prefetch
         withRawResponse().prefetch(params, requestOptions).thenApply { it.parse() }
+
+    override fun prefetchByEmail(
+        params: BrandPrefetchByEmailParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandPrefetchByEmailResponse> =
+        // post /brand/prefetch-by-email
+        withRawResponse().prefetchByEmail(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveByEmail(
         params: BrandRetrieveByEmailParams,
@@ -303,6 +312,37 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     errorHandler.handle(response).parseable {
                         response
                             .use { prefetchHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val prefetchByEmailHandler: Handler<BrandPrefetchByEmailResponse> =
+            jsonHandler<BrandPrefetchByEmailResponse>(clientOptions.jsonMapper)
+
+        override fun prefetchByEmail(
+            params: BrandPrefetchByEmailParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandPrefetchByEmailResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "prefetch-by-email")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { prefetchByEmailHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

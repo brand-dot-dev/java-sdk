@@ -11,6 +11,8 @@ import com.branddev.api.models.brand.BrandFontsParams
 import com.branddev.api.models.brand.BrandFontsResponse
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionResponse
+import com.branddev.api.models.brand.BrandPrefetchByEmailParams
+import com.branddev.api.models.brand.BrandPrefetchByEmailResponse
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandPrefetchResponse
 import com.branddev.api.models.brand.BrandRetrieveByEmailParams
@@ -117,6 +119,22 @@ interface BrandService {
         params: BrandPrefetchParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandPrefetchResponse
+
+    /**
+     * Signal that you may fetch brand data for a particular domain soon to improve latency. This
+     * endpoint accepts an email address, extracts the domain from it, validates that it's not a
+     * disposable or free email provider, and queues the domain for prefetching. This endpoint does
+     * not charge credits and is available for paid customers to optimize future requests.
+     * [You must be on a paid plan to use this endpoint]
+     */
+    fun prefetchByEmail(params: BrandPrefetchByEmailParams): BrandPrefetchByEmailResponse =
+        prefetchByEmail(params, RequestOptions.none())
+
+    /** @see prefetchByEmail */
+    fun prefetchByEmail(
+        params: BrandPrefetchByEmailParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandPrefetchByEmailResponse
 
     /**
      * Retrieve brand information using an email address while detecting disposable and free email
@@ -321,6 +339,23 @@ interface BrandService {
             params: BrandPrefetchParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandPrefetchResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /brand/prefetch-by-email`, but is otherwise the
+         * same as [BrandService.prefetchByEmail].
+         */
+        @MustBeClosed
+        fun prefetchByEmail(
+            params: BrandPrefetchByEmailParams
+        ): HttpResponseFor<BrandPrefetchByEmailResponse> =
+            prefetchByEmail(params, RequestOptions.none())
+
+        /** @see prefetchByEmail */
+        @MustBeClosed
+        fun prefetchByEmail(
+            params: BrandPrefetchByEmailParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandPrefetchByEmailResponse>
 
         /**
          * Returns a raw HTTP response for `get /brand/retrieve-by-email`, but is otherwise the same

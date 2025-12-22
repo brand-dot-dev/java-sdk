@@ -8,6 +8,7 @@ import com.branddev.api.core.JsonValue
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandFontsParams
 import com.branddev.api.models.brand.BrandIdentifyFromTransactionParams
+import com.branddev.api.models.brand.BrandPrefetchByEmailParams
 import com.branddev.api.models.brand.BrandPrefetchParams
 import com.branddev.api.models.brand.BrandRetrieveByEmailParams
 import com.branddev.api.models.brand.BrandRetrieveByIsinParams
@@ -161,6 +162,27 @@ internal class BrandServiceTest {
         val response =
             brandService.prefetch(
                 BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun prefetchByEmail() {
+        val client =
+            BrandDevOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.prefetchByEmail(
+                BrandPrefetchByEmailParams.builder()
+                    .email("dev@stainless.com")
+                    .timeoutMs(1L)
+                    .build()
             )
 
         response.validate()

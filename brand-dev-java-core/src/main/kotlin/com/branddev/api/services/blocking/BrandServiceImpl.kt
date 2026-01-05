@@ -15,6 +15,8 @@ import com.branddev.api.core.http.HttpResponseFor
 import com.branddev.api.core.http.json
 import com.branddev.api.core.http.parseable
 import com.branddev.api.core.prepare
+import com.branddev.api.models.brand.BrandAiProductsParams
+import com.branddev.api.models.brand.BrandAiProductsResponse
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandFontsParams
@@ -63,6 +65,13 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
     ): BrandRetrieveResponse =
         // get /brand/retrieve
         withRawResponse().retrieve(params, requestOptions).parse()
+
+    override fun aiProducts(
+        params: BrandAiProductsParams,
+        requestOptions: RequestOptions,
+    ): BrandAiProductsResponse =
+        // post /brand/ai/products
+        withRawResponse().aiProducts(params, requestOptions).parse()
 
     override fun aiQuery(
         params: BrandAiQueryParams,
@@ -187,6 +196,34 @@ class BrandServiceImpl internal constructor(private val clientOptions: ClientOpt
             return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val aiProductsHandler: Handler<BrandAiProductsResponse> =
+            jsonHandler<BrandAiProductsResponse>(clientOptions.jsonMapper)
+
+        override fun aiProducts(
+            params: BrandAiProductsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BrandAiProductsResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("brand", "ai", "products")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { aiProductsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

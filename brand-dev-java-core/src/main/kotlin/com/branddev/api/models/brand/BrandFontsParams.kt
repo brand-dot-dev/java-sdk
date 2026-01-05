@@ -11,8 +11,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Beta feature: Extract font information from a brand's website including font families, usage
- * statistics, fallbacks, and element/word counts.
+ * Extract font information from a brand's website including font families, usage statistics,
+ * fallbacks, and element/word counts.
  */
 class BrandFontsParams
 private constructor(

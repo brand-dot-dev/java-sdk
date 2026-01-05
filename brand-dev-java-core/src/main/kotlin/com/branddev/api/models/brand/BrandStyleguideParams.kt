@@ -15,8 +15,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Beta feature: Automatically extract comprehensive design system information from a brand's
- * website including colors, typography, spacing, shadows, and UI components.
+ * Automatically extract comprehensive design system information from a brand's website including
+ * colors, typography, spacing, shadows, and UI components.
  */
 class BrandStyleguideParams
 private constructor(

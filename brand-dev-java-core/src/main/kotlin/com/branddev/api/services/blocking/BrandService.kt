@@ -68,8 +68,8 @@ interface BrandService {
         retrieve(BrandRetrieveParams.none(), requestOptions)
 
     /**
-     * Beta feature: Use AI to extract specific data points from a brand's website. The AI will
-     * crawl the website and extract the requested information based on the provided data points.
+     * Use AI to extract specific data points from a brand's website. The AI will crawl the website
+     * and extract the requested information based on the provided data points.
      */
     fun aiQuery(params: BrandAiQueryParams): BrandAiQueryResponse =
         aiQuery(params, RequestOptions.none())
@@ -81,8 +81,8 @@ interface BrandService {
     ): BrandAiQueryResponse
 
     /**
-     * Beta feature: Extract font information from a brand's website including font families, usage
-     * statistics, fallbacks, and element/word counts.
+     * Extract font information from a brand's website including font families, usage statistics,
+     * fallbacks, and element/word counts.
      */
     fun fonts(params: BrandFontsParams): BrandFontsResponse = fonts(params, RequestOptions.none())
 
@@ -215,10 +215,10 @@ interface BrandService {
     ): BrandRetrieveSimplifiedResponse
 
     /**
-     * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser
-     * view) and full-page screenshots. Can also screenshot specific page types (login, pricing,
-     * etc.) by using heuristics to find the appropriate URL. Returns a URL to the uploaded
-     * screenshot image hosted on our CDN.
+     * Capture a screenshot of a website. Supports both viewport (standard browser view) and
+     * full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by
+     * using heuristics to find the appropriate URL. Returns a URL to the uploaded screenshot image
+     * hosted on our CDN.
      */
     fun screenshot(params: BrandScreenshotParams): BrandScreenshotResponse =
         screenshot(params, RequestOptions.none())
@@ -230,8 +230,8 @@ interface BrandService {
     ): BrandScreenshotResponse
 
     /**
-     * Beta feature: Automatically extract comprehensive design system information from a brand's
-     * website including colors, typography, spacing, shadows, and UI components.
+     * Automatically extract comprehensive design system information from a brand's website
+     * including colors, typography, spacing, shadows, and UI components.
      */
     fun styleguide(params: BrandStyleguideParams): BrandStyleguideResponse =
         styleguide(params, RequestOptions.none())

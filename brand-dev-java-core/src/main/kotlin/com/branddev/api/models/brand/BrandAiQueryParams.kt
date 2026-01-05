@@ -24,8 +24,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Beta feature: Use AI to extract specific data points from a brand's website. The AI will crawl
- * the website and extract the requested information based on the provided data points.
+ * Use AI to extract specific data points from a brand's website. The AI will crawl the website and
+ * extract the requested information based on the provided data points.
  */
 class BrandAiQueryParams
 private constructor(

@@ -5,6 +5,8 @@ package com.branddev.api.services.async
 import com.branddev.api.core.ClientOptions
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
+import com.branddev.api.models.brand.BrandAiProductsParams
+import com.branddev.api.models.brand.BrandAiProductsResponse
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandFontsParams
@@ -67,6 +69,20 @@ interface BrandServiceAsync {
     /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): CompletableFuture<BrandRetrieveResponse> =
         retrieve(BrandRetrieveParams.none(), requestOptions)
+
+    /**
+     * Beta feature: Use AI to extract product information from a brand's website. The AI will
+     * analyze the website and return a list of products with details such as name, description,
+     * pricing, features, and more.
+     */
+    fun aiProducts(params: BrandAiProductsParams): CompletableFuture<BrandAiProductsResponse> =
+        aiProducts(params, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        params: BrandAiProductsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandAiProductsResponse>
 
     /**
      * Use AI to extract specific data points from a brand's website. The AI will crawl the website
@@ -294,6 +310,21 @@ interface BrandServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
             retrieve(BrandRetrieveParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /brand/ai/products`, but is otherwise the same as
+         * [BrandServiceAsync.aiProducts].
+         */
+        fun aiProducts(
+            params: BrandAiProductsParams
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(params, RequestOptions.none())
+
+        /** @see aiProducts */
+        fun aiProducts(
+            params: BrandAiProductsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>>
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

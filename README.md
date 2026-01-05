@@ -491,12 +491,11 @@ To forcibly omit a required parameter or property, pass [`JsonMissing`](brand-de
 
 ```java
 import com.branddev.api.core.JsonMissing;
-import com.branddev.api.models.brand.BrandAiQueryParams;
+import com.branddev.api.models.brand.BrandAiProductsParams;
 import com.branddev.api.models.brand.BrandRetrieveParams;
 
-BrandRetrieveParams params = BrandAiQueryParams.builder()
-    .domain("domain")
-    .dataToExtract(JsonMissing.of())
+BrandRetrieveParams params = BrandAiProductsParams.builder()
+    .domain(JsonMissing.of())
     .build();
 ```
 

@@ -71,9 +71,9 @@ interface BrandServiceAsync {
         retrieve(BrandRetrieveParams.none(), requestOptions)
 
     /**
-     * Beta feature: Use AI to extract product information from a brand's website. The AI will
-     * analyze the website and return a list of products with details such as name, description,
-     * pricing, features, and more.
+     * Beta feature: Extract product information from a brand's website. Brand.dev will analyze the
+     * website and return a list of products with details such as name, description, image, pricing,
+     * features, and more.
      */
     fun aiProducts(params: BrandAiProductsParams): CompletableFuture<BrandAiProductsResponse> =
         aiProducts(params, RequestOptions.none())

@@ -20,8 +20,8 @@ import java.util.Objects
 import java.util.Optional
 
 /**
- * Beta feature: Use AI to extract product information from a brand's website. The AI will analyze
- * the website and return a list of products with details such as name, description, pricing,
+ * Beta feature: Extract product information from a brand's website. Brand.dev will analyze the
+ * website and return a list of products with details such as name, description, image, pricing,
  * features, and more.
  */
 class BrandAiProductsParams

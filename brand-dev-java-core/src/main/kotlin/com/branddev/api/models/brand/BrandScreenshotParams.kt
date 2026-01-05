@@ -15,10 +15,9 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser view)
- * and full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by
- * using heuristics to find the appropriate URL. Returns a URL to the uploaded screenshot image
- * hosted on our CDN.
+ * Capture a screenshot of a website. Supports both viewport (standard browser view) and full-page
+ * screenshots. Can also screenshot specific page types (login, pricing, etc.) by using heuristics
+ * to find the appropriate URL. Returns a URL to the uploaded screenshot image hosted on our CDN.
  */
 class BrandScreenshotParams
 private constructor(

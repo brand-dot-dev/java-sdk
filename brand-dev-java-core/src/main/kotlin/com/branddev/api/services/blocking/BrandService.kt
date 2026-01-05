@@ -5,6 +5,8 @@ package com.branddev.api.services.blocking
 import com.branddev.api.core.ClientOptions
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
+import com.branddev.api.models.brand.BrandAiProductsParams
+import com.branddev.api.models.brand.BrandAiProductsResponse
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandFontsParams
@@ -68,8 +70,22 @@ interface BrandService {
         retrieve(BrandRetrieveParams.none(), requestOptions)
 
     /**
-     * Beta feature: Use AI to extract specific data points from a brand's website. The AI will
-     * crawl the website and extract the requested information based on the provided data points.
+     * Beta feature: Extract product information from a brand's website. Brand.dev will analyze the
+     * website and return a list of products with details such as name, description, image, pricing,
+     * features, and more.
+     */
+    fun aiProducts(params: BrandAiProductsParams): BrandAiProductsResponse =
+        aiProducts(params, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        params: BrandAiProductsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductsResponse
+
+    /**
+     * Use AI to extract specific data points from a brand's website. The AI will crawl the website
+     * and extract the requested information based on the provided data points.
      */
     fun aiQuery(params: BrandAiQueryParams): BrandAiQueryResponse =
         aiQuery(params, RequestOptions.none())
@@ -81,8 +97,8 @@ interface BrandService {
     ): BrandAiQueryResponse
 
     /**
-     * Beta feature: Extract font information from a brand's website including font families, usage
-     * statistics, fallbacks, and element/word counts.
+     * Extract font information from a brand's website including font families, usage statistics,
+     * fallbacks, and element/word counts.
      */
     fun fonts(params: BrandFontsParams): BrandFontsResponse = fonts(params, RequestOptions.none())
 
@@ -215,10 +231,10 @@ interface BrandService {
     ): BrandRetrieveSimplifiedResponse
 
     /**
-     * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser
-     * view) and full-page screenshots. Can also screenshot specific page types (login, pricing,
-     * etc.) by using heuristics to find the appropriate URL. Returns a URL to the uploaded
-     * screenshot image hosted on our CDN.
+     * Capture a screenshot of a website. Supports both viewport (standard browser view) and
+     * full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by
+     * using heuristics to find the appropriate URL. Returns a URL to the uploaded screenshot image
+     * hosted on our CDN.
      */
     fun screenshot(params: BrandScreenshotParams): BrandScreenshotResponse =
         screenshot(params, RequestOptions.none())
@@ -230,8 +246,8 @@ interface BrandService {
     ): BrandScreenshotResponse
 
     /**
-     * Beta feature: Automatically extract comprehensive design system information from a brand's
-     * website including colors, typography, spacing, shadows, and UI components.
+     * Automatically extract comprehensive design system information from a brand's website
+     * including colors, typography, spacing, shadows, and UI components.
      */
     fun styleguide(params: BrandStyleguideParams): BrandStyleguideResponse =
         styleguide(params, RequestOptions.none())
@@ -277,6 +293,21 @@ interface BrandService {
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<BrandRetrieveResponse> =
             retrieve(BrandRetrieveParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /brand/ai/products`, but is otherwise the same as
+         * [BrandService.aiProducts].
+         */
+        @MustBeClosed
+        fun aiProducts(params: BrandAiProductsParams): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(params, RequestOptions.none())
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            params: BrandAiProductsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductsResponse>
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

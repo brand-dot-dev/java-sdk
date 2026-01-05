@@ -5,6 +5,8 @@ package com.branddev.api.services.async
 import com.branddev.api.core.ClientOptions
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
+import com.branddev.api.models.brand.BrandAiProductsParams
+import com.branddev.api.models.brand.BrandAiProductsResponse
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandAiQueryResponse
 import com.branddev.api.models.brand.BrandFontsParams
@@ -69,8 +71,22 @@ interface BrandServiceAsync {
         retrieve(BrandRetrieveParams.none(), requestOptions)
 
     /**
-     * Beta feature: Use AI to extract specific data points from a brand's website. The AI will
-     * crawl the website and extract the requested information based on the provided data points.
+     * Beta feature: Extract product information from a brand's website. Brand.dev will analyze the
+     * website and return a list of products with details such as name, description, image, pricing,
+     * features, and more.
+     */
+    fun aiProducts(params: BrandAiProductsParams): CompletableFuture<BrandAiProductsResponse> =
+        aiProducts(params, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        params: BrandAiProductsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandAiProductsResponse>
+
+    /**
+     * Use AI to extract specific data points from a brand's website. The AI will crawl the website
+     * and extract the requested information based on the provided data points.
      */
     fun aiQuery(params: BrandAiQueryParams): CompletableFuture<BrandAiQueryResponse> =
         aiQuery(params, RequestOptions.none())
@@ -82,8 +98,8 @@ interface BrandServiceAsync {
     ): CompletableFuture<BrandAiQueryResponse>
 
     /**
-     * Beta feature: Extract font information from a brand's website including font families, usage
-     * statistics, fallbacks, and element/word counts.
+     * Extract font information from a brand's website including font families, usage statistics,
+     * fallbacks, and element/word counts.
      */
     fun fonts(params: BrandFontsParams): CompletableFuture<BrandFontsResponse> =
         fonts(params, RequestOptions.none())
@@ -231,10 +247,10 @@ interface BrandServiceAsync {
     ): CompletableFuture<BrandRetrieveSimplifiedResponse>
 
     /**
-     * Beta feature: Capture a screenshot of a website. Supports both viewport (standard browser
-     * view) and full-page screenshots. Can also screenshot specific page types (login, pricing,
-     * etc.) by using heuristics to find the appropriate URL. Returns a URL to the uploaded
-     * screenshot image hosted on our CDN.
+     * Capture a screenshot of a website. Supports both viewport (standard browser view) and
+     * full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by
+     * using heuristics to find the appropriate URL. Returns a URL to the uploaded screenshot image
+     * hosted on our CDN.
      */
     fun screenshot(params: BrandScreenshotParams): CompletableFuture<BrandScreenshotResponse> =
         screenshot(params, RequestOptions.none())
@@ -246,8 +262,8 @@ interface BrandServiceAsync {
     ): CompletableFuture<BrandScreenshotResponse>
 
     /**
-     * Beta feature: Automatically extract comprehensive design system information from a brand's
-     * website including colors, typography, spacing, shadows, and UI components.
+     * Automatically extract comprehensive design system information from a brand's website
+     * including colors, typography, spacing, shadows, and UI components.
      */
     fun styleguide(params: BrandStyleguideParams): CompletableFuture<BrandStyleguideResponse> =
         styleguide(params, RequestOptions.none())
@@ -294,6 +310,21 @@ interface BrandServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
             retrieve(BrandRetrieveParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /brand/ai/products`, but is otherwise the same as
+         * [BrandServiceAsync.aiProducts].
+         */
+        fun aiProducts(
+            params: BrandAiProductsParams
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(params, RequestOptions.none())
+
+        /** @see aiProducts */
+        fun aiProducts(
+            params: BrandAiProductsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>>
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

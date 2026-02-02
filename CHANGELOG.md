@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.1.0-alpha.27 (2026-02-02)
+
+Full Changelog: [v0.1.0-alpha.26...v0.1.0-alpha.27](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.26...v0.1.0-alpha.27)
+
+### Features
+
+* **api:** api update ([fed044d](https://github.com/brand-dot-dev/java-sdk/commit/fed044d09175f814f8e0bad4df5f9555f6410e15))
+* **client:** add `HttpRequest#url()` method ([6cfde89](https://github.com/brand-dot-dev/java-sdk/commit/6cfde8967d8054950cf7bfb62c3b5e9022f79107))
+* **client:** allow configuring dispatcher executor service ([7eca573](https://github.com/brand-dot-dev/java-sdk/commit/7eca57352b72de96b78b7ee16be87ea844a10f89))
+* **client:** send `X-Stainless-Kotlin-Version` header ([a67a402](https://github.com/brand-dot-dev/java-sdk/commit/a67a40257d88d3d34379b2f704d50958292b04e3))
+
+
+### Bug Fixes
+
+* **client:** disallow coercion from float to int ([f59913f](https://github.com/brand-dot-dev/java-sdk/commit/f59913f9452f71603dac23c42101f5f32696fe06))
+* **client:** fully respect max retries ([a0aa790](https://github.com/brand-dot-dev/java-sdk/commit/a0aa7903dfc548c4dd25ef4985e80937646539de))
+* **client:** preserve time zone in lenient date-time parsing ([615ebc2](https://github.com/brand-dot-dev/java-sdk/commit/615ebc293f66bbdd2ce451b0620a5cd37728212f))
+* **client:** send retry count header for max retries 0 ([a0aa790](https://github.com/brand-dot-dev/java-sdk/commit/a0aa7903dfc548c4dd25ef4985e80937646539de))
+* date time deserialization leniency ([0c299fe](https://github.com/brand-dot-dev/java-sdk/commit/0c299fefeefcbec581ad9c341d0a587eae6d2977))
+* **docs:** fix mcp installation instructions for remote servers ([0241743](https://github.com/brand-dot-dev/java-sdk/commit/02417434d1b53a5458346be5e14512bf5dcf092f))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([b05460b](https://github.com/brand-dot-dev/java-sdk/commit/b05460be067f2336ff4c1aebbd5a29c2b9cdd8db))
+* **ci:** upgrade `actions/setup-java` ([376fbbd](https://github.com/brand-dot-dev/java-sdk/commit/376fbbd3410d63bd7306bba1ccde2d264fa0cd3b))
+* **internal:** allow passing args to `./scripts/test` ([e27c90d](https://github.com/brand-dot-dev/java-sdk/commit/e27c90dd180ba3a7cea0e0082f484138f07175a1))
+* **internal:** clean up maven repo artifact script and add html documentation to repo root ([4718679](https://github.com/brand-dot-dev/java-sdk/commit/47186793b72b219c12faa54c3e3b54197880ff5a))
+* **internal:** correct cache invalidation for `SKIP_MOCK_TESTS` ([0b13154](https://github.com/brand-dot-dev/java-sdk/commit/0b13154ffa5b630ca445371d68b676bc5eadcea3))
+* **internal:** depend on packages directly in example ([a0aa790](https://github.com/brand-dot-dev/java-sdk/commit/a0aa7903dfc548c4dd25ef4985e80937646539de))
+* **internal:** improve maven repo docs ([0e378d5](https://github.com/brand-dot-dev/java-sdk/commit/0e378d5bf0f3016be36b8ca0189d1ee9614bbd1b))
+* **internal:** support uploading Maven repo artifacts to stainless package server ([95ab800](https://github.com/brand-dot-dev/java-sdk/commit/95ab800f7fd4ce873d638764f1c86ab6d1d427c1))
+* **internal:** update `actions/checkout` version ([fec5d3a](https://github.com/brand-dot-dev/java-sdk/commit/fec5d3a47682efc4f92c4b9890de7fbf6588b906))
+* **internal:** update maven repo doc to include authentication ([b1ed94c](https://github.com/brand-dot-dev/java-sdk/commit/b1ed94ce0d3afefc3597f5978bafa9adecc0ff20))
+* test on Jackson 2.14.0 to avoid encountering FasterXML/jackson-databind[#3240](https://github.com/brand-dot-dev/java-sdk/issues/3240) in tests ([0c299fe](https://github.com/brand-dot-dev/java-sdk/commit/0c299fefeefcbec581ad9c341d0a587eae6d2977))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([18a0348](https://github.com/brand-dot-dev/java-sdk/commit/18a03480949d4afc6d8ed4a45a55c84094aadae6))
+
 ## 0.1.0-alpha.26 (2026-01-05)
 
 Full Changelog: [v0.1.0-alpha.25...v0.1.0-alpha.26](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.25...v0.1.0-alpha.26)

@@ -43,10 +43,10 @@ internal class BrandRetrieveParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = BrandRetrieveParams.builder().build()
+        val params = BrandRetrieveParams.builder().domain("domain").build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
+        assertThat(queryParams).isEqualTo(QueryParams.builder().put("domain", "domain").build())
     }
 }

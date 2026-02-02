@@ -53,22 +53,14 @@ interface BrandServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandServiceAsync
 
     /** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
-    fun retrieve(): CompletableFuture<BrandRetrieveResponse> = retrieve(BrandRetrieveParams.none())
+    fun retrieve(params: BrandRetrieveParams): CompletableFuture<BrandRetrieveResponse> =
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
-        params: BrandRetrieveParams = BrandRetrieveParams.none(),
+        params: BrandRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandRetrieveResponse>
-
-    /** @see retrieve */
-    fun retrieve(
-        params: BrandRetrieveParams = BrandRetrieveParams.none()
-    ): CompletableFuture<BrandRetrieveResponse> = retrieve(params, RequestOptions.none())
-
-    /** @see retrieve */
-    fun retrieve(requestOptions: RequestOptions): CompletableFuture<BrandRetrieveResponse> =
-        retrieve(BrandRetrieveParams.none(), requestOptions)
 
     /**
      * Beta feature: Extract product information from a brand's website. Brand.dev will analyze the
@@ -290,26 +282,16 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/retrieve`, but is otherwise the same as
          * [BrandServiceAsync.retrieve].
          */
-        fun retrieve(): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
-            retrieve(BrandRetrieveParams.none())
-
-        /** @see retrieve */
         fun retrieve(
-            params: BrandRetrieveParams = BrandRetrieveParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
-
-        /** @see retrieve */
-        fun retrieve(
-            params: BrandRetrieveParams = BrandRetrieveParams.none()
+            params: BrandRetrieveParams
         ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
-            requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>> =
-            retrieve(BrandRetrieveParams.none(), requestOptions)
+            params: BrandRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandRetrieveResponse>>
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/products`, but is otherwise the same as

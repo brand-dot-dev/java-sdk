@@ -5,6 +5,7 @@ package com.branddev.api.models.brand
 import com.branddev.api.core.Enum
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.Params
+import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import com.branddev.api.errors.BrandDevInvalidDataException
@@ -16,7 +17,7 @@ import kotlin.jvm.optionals.getOrNull
 /** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
 class BrandRetrieveParams
 private constructor(
-    private val domain: String?,
+    private val domain: String,
     private val forceLanguage: ForceLanguage?,
     private val maxSpeed: Boolean?,
     private val timeoutMs: Long?,
@@ -28,7 +29,7 @@ private constructor(
      * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be used
      * with name or ticker parameters.
      */
-    fun domain(): Optional<String> = Optional.ofNullable(domain)
+    fun domain(): String = domain
 
     /**
      * Optional parameter to force the language of the retrieved brand data. Works with all three
@@ -60,9 +61,14 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): BrandRetrieveParams = builder().build()
-
-        /** Returns a mutable builder for constructing an instance of [BrandRetrieveParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [BrandRetrieveParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .domain()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -90,10 +96,7 @@ private constructor(
          * Domain name to retrieve brand data for (e.g., 'example.com', 'google.com'). Cannot be
          * used with name or ticker parameters.
          */
-        fun domain(domain: String?) = apply { this.domain = domain }
-
-        /** Alias for calling [Builder.domain] with `domain.orElse(null)`. */
-        fun domain(domain: Optional<String>) = domain(domain.getOrNull())
+        fun domain(domain: String) = apply { this.domain = domain }
 
         /**
          * Optional parameter to force the language of the retrieved brand data. Works with all
@@ -243,10 +246,17 @@ private constructor(
          * Returns an immutable instance of [BrandRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .domain()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): BrandRetrieveParams =
             BrandRetrieveParams(
-                domain,
+                checkRequired("domain", domain),
                 forceLanguage,
                 maxSpeed,
                 timeoutMs,
@@ -260,7 +270,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                domain?.let { put("domain", it) }
+                put("domain", domain)
                 forceLanguage?.let { put("force_language", it.toString()) }
                 maxSpeed?.let { put("maxSpeed", it.toString()) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }

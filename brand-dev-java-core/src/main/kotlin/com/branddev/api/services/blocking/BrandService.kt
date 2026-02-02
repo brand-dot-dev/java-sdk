@@ -53,21 +53,14 @@ interface BrandService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): BrandService
 
     /** Retrieve logos, backdrops, colors, industry, description, and more from any domain */
-    fun retrieve(): BrandRetrieveResponse = retrieve(BrandRetrieveParams.none())
-
-    /** @see retrieve */
-    fun retrieve(
-        params: BrandRetrieveParams = BrandRetrieveParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): BrandRetrieveResponse
-
-    /** @see retrieve */
-    fun retrieve(params: BrandRetrieveParams = BrandRetrieveParams.none()): BrandRetrieveResponse =
+    fun retrieve(params: BrandRetrieveParams): BrandRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
-    fun retrieve(requestOptions: RequestOptions): BrandRetrieveResponse =
-        retrieve(BrandRetrieveParams.none(), requestOptions)
+    fun retrieve(
+        params: BrandRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandRetrieveResponse
 
     /**
      * Beta feature: Extract product information from a brand's website. Brand.dev will analyze the
@@ -273,26 +266,15 @@ interface BrandService {
          * [BrandService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(): HttpResponseFor<BrandRetrieveResponse> =
-            retrieve(BrandRetrieveParams.none())
+        fun retrieve(params: BrandRetrieveParams): HttpResponseFor<BrandRetrieveResponse> =
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
-            params: BrandRetrieveParams = BrandRetrieveParams.none(),
+            params: BrandRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandRetrieveResponse>
-
-        /** @see retrieve */
-        @MustBeClosed
-        fun retrieve(
-            params: BrandRetrieveParams = BrandRetrieveParams.none()
-        ): HttpResponseFor<BrandRetrieveResponse> = retrieve(params, RequestOptions.none())
-
-        /** @see retrieve */
-        @MustBeClosed
-        fun retrieve(requestOptions: RequestOptions): HttpResponseFor<BrandRetrieveResponse> =
-            retrieve(BrandRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/products`, but is otherwise the same as

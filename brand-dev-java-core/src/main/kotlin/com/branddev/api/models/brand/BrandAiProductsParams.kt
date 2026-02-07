@@ -7,7 +7,6 @@ import com.branddev.api.core.JsonField
 import com.branddev.api.core.JsonMissing
 import com.branddev.api.core.JsonValue
 import com.branddev.api.core.Params
-import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import com.branddev.api.errors.BrandDevInvalidDataException
@@ -32,12 +31,23 @@ private constructor(
 ) : Params {
 
     /**
-     * The domain name to analyze
+     * A specific URL to use directly as the starting point for extraction without domain
+     * resolution. Useful when you want to extract products from a specific page rather than
+     * discovering the site's product pages automatically. Either 'domain' or 'directUrl' must be
+     * provided, but not both.
      *
-     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun domain(): String = body.domain()
+    fun directUrl(): Optional<String> = body.directUrl()
+
+    /**
+     * The domain name to analyze. Either 'domain' or 'directUrl' must be provided, but not both.
+     *
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun domain(): Optional<String> = body.domain()
 
     /**
      * Maximum number of products to extract.
@@ -56,6 +66,13 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun timeoutMs(): Optional<Long> = body.timeoutMs()
+
+    /**
+     * Returns the raw JSON value of [directUrl].
+     *
+     * Unlike [directUrl], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _directUrl(): JsonField<String> = body._directUrl()
 
     /**
      * Returns the raw JSON value of [domain].
@@ -90,14 +107,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [BrandAiProductsParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .domain()
-         * ```
-         */
+        @JvmStatic fun none(): BrandAiProductsParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [BrandAiProductsParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -120,13 +132,34 @@ private constructor(
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [directUrl]
          * - [domain]
          * - [maxProducts]
          * - [timeoutMs]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** The domain name to analyze */
+        /**
+         * A specific URL to use directly as the starting point for extraction without domain
+         * resolution. Useful when you want to extract products from a specific page rather than
+         * discovering the site's product pages automatically. Either 'domain' or 'directUrl' must
+         * be provided, but not both.
+         */
+        fun directUrl(directUrl: String) = apply { body.directUrl(directUrl) }
+
+        /**
+         * Sets [Builder.directUrl] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.directUrl] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun directUrl(directUrl: JsonField<String>) = apply { body.directUrl(directUrl) }
+
+        /**
+         * The domain name to analyze. Either 'domain' or 'directUrl' must be provided, but not
+         * both.
+         */
         fun domain(domain: String) = apply { body.domain(domain) }
 
         /**
@@ -285,13 +318,6 @@ private constructor(
          * Returns an immutable instance of [BrandAiProductsParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .domain()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): BrandAiProductsParams =
             BrandAiProductsParams(
@@ -310,6 +336,7 @@ private constructor(
     class Body
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val directUrl: JsonField<String>,
         private val domain: JsonField<String>,
         private val maxProducts: JsonField<Long>,
         private val timeoutMs: JsonField<Long>,
@@ -318,20 +345,35 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("directUrl")
+            @ExcludeMissing
+            directUrl: JsonField<String> = JsonMissing.of(),
             @JsonProperty("domain") @ExcludeMissing domain: JsonField<String> = JsonMissing.of(),
             @JsonProperty("maxProducts")
             @ExcludeMissing
             maxProducts: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("timeoutMS") @ExcludeMissing timeoutMs: JsonField<Long> = JsonMissing.of(),
-        ) : this(domain, maxProducts, timeoutMs, mutableMapOf())
+        ) : this(directUrl, domain, maxProducts, timeoutMs, mutableMapOf())
 
         /**
-         * The domain name to analyze
+         * A specific URL to use directly as the starting point for extraction without domain
+         * resolution. Useful when you want to extract products from a specific page rather than
+         * discovering the site's product pages automatically. Either 'domain' or 'directUrl' must
+         * be provided, but not both.
          *
-         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
          */
-        fun domain(): String = domain.getRequired("domain")
+        fun directUrl(): Optional<String> = directUrl.getOptional("directUrl")
+
+        /**
+         * The domain name to analyze. Either 'domain' or 'directUrl' must be provided, but not
+         * both.
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun domain(): Optional<String> = domain.getOptional("domain")
 
         /**
          * Maximum number of products to extract.
@@ -350,6 +392,13 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun timeoutMs(): Optional<Long> = timeoutMs.getOptional("timeoutMS")
+
+        /**
+         * Returns the raw JSON value of [directUrl].
+         *
+         * Unlike [directUrl], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("directUrl") @ExcludeMissing fun _directUrl(): JsonField<String> = directUrl
 
         /**
          * Returns the raw JSON value of [domain].
@@ -388,34 +437,49 @@ private constructor(
 
         companion object {
 
-            /**
-             * Returns a mutable builder for constructing an instance of [Body].
-             *
-             * The following fields are required:
-             * ```java
-             * .domain()
-             * ```
-             */
+            /** Returns a mutable builder for constructing an instance of [Body]. */
             @JvmStatic fun builder() = Builder()
         }
 
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
-            private var domain: JsonField<String>? = null
+            private var directUrl: JsonField<String> = JsonMissing.of()
+            private var domain: JsonField<String> = JsonMissing.of()
             private var maxProducts: JsonField<Long> = JsonMissing.of()
             private var timeoutMs: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
+                directUrl = body.directUrl
                 domain = body.domain
                 maxProducts = body.maxProducts
                 timeoutMs = body.timeoutMs
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** The domain name to analyze */
+            /**
+             * A specific URL to use directly as the starting point for extraction without domain
+             * resolution. Useful when you want to extract products from a specific page rather than
+             * discovering the site's product pages automatically. Either 'domain' or 'directUrl'
+             * must be provided, but not both.
+             */
+            fun directUrl(directUrl: String) = directUrl(JsonField.of(directUrl))
+
+            /**
+             * Sets [Builder.directUrl] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.directUrl] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun directUrl(directUrl: JsonField<String>) = apply { this.directUrl = directUrl }
+
+            /**
+             * The domain name to analyze. Either 'domain' or 'directUrl' must be provided, but not
+             * both.
+             */
             fun domain(domain: String) = domain(JsonField.of(domain))
 
             /**
@@ -478,21 +542,9 @@ private constructor(
              * Returns an immutable instance of [Body].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .domain()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Body =
-                Body(
-                    checkRequired("domain", domain),
-                    maxProducts,
-                    timeoutMs,
-                    additionalProperties.toMutableMap(),
-                )
+                Body(directUrl, domain, maxProducts, timeoutMs, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -502,6 +554,7 @@ private constructor(
                 return@apply
             }
 
+            directUrl()
             domain()
             maxProducts()
             timeoutMs()
@@ -524,7 +577,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (domain.asKnown().isPresent) 1 else 0) +
+            (if (directUrl.asKnown().isPresent) 1 else 0) +
+                (if (domain.asKnown().isPresent) 1 else 0) +
                 (if (maxProducts.asKnown().isPresent) 1 else 0) +
                 (if (timeoutMs.asKnown().isPresent) 1 else 0)
 
@@ -534,6 +588,7 @@ private constructor(
             }
 
             return other is Body &&
+                directUrl == other.directUrl &&
                 domain == other.domain &&
                 maxProducts == other.maxProducts &&
                 timeoutMs == other.timeoutMs &&
@@ -541,13 +596,13 @@ private constructor(
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(domain, maxProducts, timeoutMs, additionalProperties)
+            Objects.hash(directUrl, domain, maxProducts, timeoutMs, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{domain=$domain, maxProducts=$maxProducts, timeoutMs=$timeoutMs, additionalProperties=$additionalProperties}"
+            "Body{directUrl=$directUrl, domain=$domain, maxProducts=$maxProducts, timeoutMs=$timeoutMs, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

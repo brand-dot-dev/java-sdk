@@ -64,6 +64,7 @@ internal class BrandServiceAsyncTest {
         val responseFuture =
             brandServiceAsync.aiProducts(
                 BrandAiProductsParams.builder()
+                    .directUrl("https://example.com")
                     .domain("domain")
                     .maxProducts(1L)
                     .timeoutMs(1L)

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.28 (2026-02-07)
+
+Full Changelog: [v0.1.0-alpha.27...v0.1.0-alpha.28](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.27...v0.1.0-alpha.28)
+
+### Features
+
+* **api:** api update ([e826166](https://github.com/brand-dot-dev/java-sdk/commit/e826166942dc6320cfdce18d760785d60eb83bb0))
+
+
+### Chores
+
+* **internal:** upgrade AssertJ ([2656e0a](https://github.com/brand-dot-dev/java-sdk/commit/2656e0ae35284ad0f03187f0d58134162ab81a01))
+
 ## 0.1.0-alpha.27 (2026-02-02)
 
 Full Changelog: [v0.1.0-alpha.26...v0.1.0-alpha.27](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.26...v0.1.0-alpha.27)

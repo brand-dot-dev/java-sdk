@@ -10,10 +10,13 @@ internal class BrandAiProductsParamsTest {
     @Test
     fun create() {
         BrandAiProductsParams.builder()
-            .directUrl("https://example.com")
-            .domain("domain")
-            .maxProducts(1L)
-            .timeoutMs(1L)
+            .body(
+                BrandAiProductsParams.Body.ByDomain.builder()
+                    .domain("domain")
+                    .maxProducts(1L)
+                    .timeoutMs(1L)
+                    .build()
+            )
             .build()
     }
 
@@ -21,24 +24,43 @@ internal class BrandAiProductsParamsTest {
     fun body() {
         val params =
             BrandAiProductsParams.builder()
-                .directUrl("https://example.com")
-                .domain("domain")
-                .maxProducts(1L)
-                .timeoutMs(1L)
+                .body(
+                    BrandAiProductsParams.Body.ByDomain.builder()
+                        .domain("domain")
+                        .maxProducts(1L)
+                        .timeoutMs(1L)
+                        .build()
+                )
                 .build()
 
         val body = params._body()
 
-        assertThat(body.directUrl()).contains("https://example.com")
-        assertThat(body.domain()).contains("domain")
-        assertThat(body.maxProducts()).contains(1L)
-        assertThat(body.timeoutMs()).contains(1L)
+        assertThat(body)
+            .isEqualTo(
+                BrandAiProductsParams.Body.ofByDomain(
+                    BrandAiProductsParams.Body.ByDomain.builder()
+                        .domain("domain")
+                        .maxProducts(1L)
+                        .timeoutMs(1L)
+                        .build()
+                )
+            )
     }
 
     @Test
     fun bodyWithoutOptionalFields() {
-        val params = BrandAiProductsParams.builder().build()
+        val params =
+            BrandAiProductsParams.builder()
+                .body(BrandAiProductsParams.Body.ByDomain.builder().domain("domain").build())
+                .build()
 
         val body = params._body()
+
+        assertThat(body)
+            .isEqualTo(
+                BrandAiProductsParams.Body.ofByDomain(
+                    BrandAiProductsParams.Body.ByDomain.builder().domain("domain").build()
+                )
+            )
     }
 }

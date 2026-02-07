@@ -67,22 +67,14 @@ interface BrandService {
      * website and return a list of products with details such as name, description, image, pricing,
      * features, and more.
      */
-    fun aiProducts(): BrandAiProductsResponse = aiProducts(BrandAiProductsParams.none())
+    fun aiProducts(params: BrandAiProductsParams): BrandAiProductsResponse =
+        aiProducts(params, RequestOptions.none())
 
     /** @see aiProducts */
     fun aiProducts(
-        params: BrandAiProductsParams = BrandAiProductsParams.none(),
+        params: BrandAiProductsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandAiProductsResponse
-
-    /** @see aiProducts */
-    fun aiProducts(
-        params: BrandAiProductsParams = BrandAiProductsParams.none()
-    ): BrandAiProductsResponse = aiProducts(params, RequestOptions.none())
-
-    /** @see aiProducts */
-    fun aiProducts(requestOptions: RequestOptions): BrandAiProductsResponse =
-        aiProducts(BrandAiProductsParams.none(), requestOptions)
 
     /**
      * Use AI to extract specific data points from a brand's website. The AI will crawl the website
@@ -289,26 +281,15 @@ interface BrandService {
          * [BrandService.aiProducts].
          */
         @MustBeClosed
-        fun aiProducts(): HttpResponseFor<BrandAiProductsResponse> =
-            aiProducts(BrandAiProductsParams.none())
+        fun aiProducts(params: BrandAiProductsParams): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(params, RequestOptions.none())
 
         /** @see aiProducts */
         @MustBeClosed
         fun aiProducts(
-            params: BrandAiProductsParams = BrandAiProductsParams.none(),
+            params: BrandAiProductsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandAiProductsResponse>
-
-        /** @see aiProducts */
-        @MustBeClosed
-        fun aiProducts(
-            params: BrandAiProductsParams = BrandAiProductsParams.none()
-        ): HttpResponseFor<BrandAiProductsResponse> = aiProducts(params, RequestOptions.none())
-
-        /** @see aiProducts */
-        @MustBeClosed
-        fun aiProducts(requestOptions: RequestOptions): HttpResponseFor<BrandAiProductsResponse> =
-            aiProducts(BrandAiProductsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

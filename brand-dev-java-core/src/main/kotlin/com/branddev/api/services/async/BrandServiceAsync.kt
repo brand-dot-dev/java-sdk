@@ -67,23 +67,14 @@ interface BrandServiceAsync {
      * website and return a list of products with details such as name, description, image, pricing,
      * features, and more.
      */
-    fun aiProducts(): CompletableFuture<BrandAiProductsResponse> =
-        aiProducts(BrandAiProductsParams.none())
+    fun aiProducts(params: BrandAiProductsParams): CompletableFuture<BrandAiProductsResponse> =
+        aiProducts(params, RequestOptions.none())
 
     /** @see aiProducts */
     fun aiProducts(
-        params: BrandAiProductsParams = BrandAiProductsParams.none(),
+        params: BrandAiProductsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandAiProductsResponse>
-
-    /** @see aiProducts */
-    fun aiProducts(
-        params: BrandAiProductsParams = BrandAiProductsParams.none()
-    ): CompletableFuture<BrandAiProductsResponse> = aiProducts(params, RequestOptions.none())
-
-    /** @see aiProducts */
-    fun aiProducts(requestOptions: RequestOptions): CompletableFuture<BrandAiProductsResponse> =
-        aiProducts(BrandAiProductsParams.none(), requestOptions)
 
     /**
      * Use AI to extract specific data points from a brand's website. The AI will crawl the website
@@ -306,26 +297,16 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `post /brand/ai/products`, but is otherwise the same as
          * [BrandServiceAsync.aiProducts].
          */
-        fun aiProducts(): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
-            aiProducts(BrandAiProductsParams.none())
-
-        /** @see aiProducts */
         fun aiProducts(
-            params: BrandAiProductsParams = BrandAiProductsParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>>
-
-        /** @see aiProducts */
-        fun aiProducts(
-            params: BrandAiProductsParams = BrandAiProductsParams.none()
+            params: BrandAiProductsParams
         ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
             aiProducts(params, RequestOptions.none())
 
         /** @see aiProducts */
         fun aiProducts(
-            requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
-            aiProducts(BrandAiProductsParams.none(), requestOptions)
+            params: BrandAiProductsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>>
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

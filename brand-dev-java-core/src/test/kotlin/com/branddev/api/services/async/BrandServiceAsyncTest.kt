@@ -64,10 +64,13 @@ internal class BrandServiceAsyncTest {
         val responseFuture =
             brandServiceAsync.aiProducts(
                 BrandAiProductsParams.builder()
-                    .directUrl("https://example.com")
-                    .domain("domain")
-                    .maxProducts(1L)
-                    .timeoutMs(1L)
+                    .body(
+                        BrandAiProductsParams.Body.ByDomain.builder()
+                            .domain("domain")
+                            .maxProducts(1L)
+                            .timeoutMs(1L)
+                            .build()
+                    )
                     .build()
             )
 

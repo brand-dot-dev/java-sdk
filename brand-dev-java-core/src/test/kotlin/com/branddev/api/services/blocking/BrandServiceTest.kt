@@ -5,6 +5,7 @@ package com.branddev.api.services.blocking
 import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClient
 import com.branddev.api.core.JsonValue
+import com.branddev.api.models.brand.BrandAiProductParams
 import com.branddev.api.models.brand.BrandAiProductsParams
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandFontsParams
@@ -48,6 +49,24 @@ internal class BrandServiceTest {
             )
 
         brand.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun aiProduct() {
+        val client =
+            BrandDevOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.aiProduct(
+                BrandAiProductParams.builder().url("https://example.com").timeoutMs(1L).build()
+            )
+
+        response.validate()
     }
 
     @Disabled("Prism tests are disabled")

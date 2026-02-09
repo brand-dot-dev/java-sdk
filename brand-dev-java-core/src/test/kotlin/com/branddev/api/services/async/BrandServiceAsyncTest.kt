@@ -5,6 +5,7 @@ package com.branddev.api.services.async
 import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
 import com.branddev.api.core.JsonValue
+import com.branddev.api.models.brand.BrandAiProductParams
 import com.branddev.api.models.brand.BrandAiProductsParams
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandFontsParams
@@ -49,6 +50,25 @@ internal class BrandServiceAsyncTest {
 
         val brand = brandFuture.get()
         brand.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun aiProduct() {
+        val client =
+            BrandDevOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.aiProduct(
+                BrandAiProductParams.builder().url("https://example.com").timeoutMs(1L).build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 
     @Disabled("Prism tests are disabled")

@@ -9,17 +9,17 @@ internal class BrandPrefetchParamsTest {
 
     @Test
     fun create() {
-        BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+        BrandPrefetchParams.builder().domain("domain").timeoutMs(1000L).build()
     }
 
     @Test
     fun body() {
-        val params = BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+        val params = BrandPrefetchParams.builder().domain("domain").timeoutMs(1000L).build()
 
         val body = params._body()
 
         assertThat(body.domain()).isEqualTo("domain")
-        assertThat(body.timeoutMs()).contains(1L)
+        assertThat(body.timeoutMs()).contains(1000L)
     }
 
     @Test

@@ -9,18 +9,18 @@ internal class BrandPrefetchByEmailParamsTest {
 
     @Test
     fun create() {
-        BrandPrefetchByEmailParams.builder().email("dev@stainless.com").timeoutMs(1L).build()
+        BrandPrefetchByEmailParams.builder().email("dev@stainless.com").timeoutMs(1000L).build()
     }
 
     @Test
     fun body() {
         val params =
-            BrandPrefetchByEmailParams.builder().email("dev@stainless.com").timeoutMs(1L).build()
+            BrandPrefetchByEmailParams.builder().email("dev@stainless.com").timeoutMs(1000L).build()
 
         val body = params._body()
 
         assertThat(body.email()).isEqualTo("dev@stainless.com")
-        assertThat(body.timeoutMs()).contains(1L)
+        assertThat(body.timeoutMs()).contains(1000L)
     }
 
     @Test

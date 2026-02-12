@@ -15,7 +15,7 @@ internal class BrandRetrieveByTickerParamsTest {
             .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
             .maxSpeed(true)
             .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
-            .timeoutMs(1L)
+            .timeoutMs(1000L)
             .build()
     }
 
@@ -27,7 +27,7 @@ internal class BrandRetrieveByTickerParamsTest {
                 .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
                 .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
-                .timeoutMs(1L)
+                .timeoutMs(1000L)
                 .build()
 
         val queryParams = params._queryParams()
@@ -39,7 +39,7 @@ internal class BrandRetrieveByTickerParamsTest {
                     .put("force_language", "albanian")
                     .put("maxSpeed", "true")
                     .put("ticker_exchange", "AMEX")
-                    .put("timeoutMS", "1")
+                    .put("timeoutMS", "1000")
                     .build()
             )
     }

@@ -14,7 +14,7 @@ internal class BrandRetrieveNaicsParamsTest {
             .input("input")
             .maxResults(1L)
             .minResults(1L)
-            .timeoutMs(1L)
+            .timeoutMs(1000L)
             .build()
     }
 
@@ -25,7 +25,7 @@ internal class BrandRetrieveNaicsParamsTest {
                 .input("input")
                 .maxResults(1L)
                 .minResults(1L)
-                .timeoutMs(1L)
+                .timeoutMs(1000L)
                 .build()
 
         val queryParams = params._queryParams()
@@ -36,7 +36,7 @@ internal class BrandRetrieveNaicsParamsTest {
                     .put("input", "input")
                     .put("maxResults", "1")
                     .put("minResults", "1")
-                    .put("timeoutMS", "1")
+                    .put("timeoutMS", "1000")
                     .build()
             )
     }

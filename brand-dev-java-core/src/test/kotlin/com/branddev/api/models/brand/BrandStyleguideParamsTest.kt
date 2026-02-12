@@ -13,7 +13,7 @@ internal class BrandStyleguideParamsTest {
         BrandStyleguideParams.builder()
             .domain("domain")
             .prioritize(BrandStyleguideParams.Prioritize.SPEED)
-            .timeoutMs(1L)
+            .timeoutMs(1000L)
             .build()
     }
 
@@ -23,7 +23,7 @@ internal class BrandStyleguideParamsTest {
             BrandStyleguideParams.builder()
                 .domain("domain")
                 .prioritize(BrandStyleguideParams.Prioritize.SPEED)
-                .timeoutMs(1L)
+                .timeoutMs(1000L)
                 .build()
 
         val queryParams = params._queryParams()
@@ -33,7 +33,7 @@ internal class BrandStyleguideParamsTest {
                 QueryParams.builder()
                     .put("domain", "domain")
                     .put("prioritize", "speed")
-                    .put("timeoutMS", "1")
+                    .put("timeoutMS", "1000")
                     .build()
             )
     }

@@ -44,7 +44,7 @@ internal class BrandServiceAsyncTest {
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -64,7 +64,7 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.aiProduct(
-                BrandAiProductParams.builder().url("https://example.com").timeoutMs(1L).build()
+                BrandAiProductParams.builder().url("https://example.com").timeoutMs(1000L).build()
             )
 
         val response = responseFuture.get()
@@ -88,7 +88,7 @@ internal class BrandServiceAsyncTest {
                         BrandAiProductsParams.Body.ByDomain.builder()
                             .domain("domain")
                             .maxProducts(1L)
-                            .timeoutMs(1L)
+                            .timeoutMs(1000L)
                             .build()
                     )
                     .build()
@@ -148,7 +148,7 @@ internal class BrandServiceAsyncTest {
                             .termsAndConditions(true)
                             .build()
                     )
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -168,7 +168,7 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.fonts(
-                BrandFontsParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandFontsParams.builder().domain("domain").timeoutMs(1000L).build()
             )
 
         val response = responseFuture.get()
@@ -195,7 +195,7 @@ internal class BrandServiceAsyncTest {
                     .maxSpeed(true)
                     .mcc("mcc")
                     .phone(0.0)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -215,7 +215,7 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.prefetch(
-                BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandPrefetchParams.builder().domain("domain").timeoutMs(1000L).build()
             )
 
         val response = responseFuture.get()
@@ -236,7 +236,7 @@ internal class BrandServiceAsyncTest {
             brandServiceAsync.prefetchByEmail(
                 BrandPrefetchByEmailParams.builder()
                     .email("dev@stainless.com")
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -260,7 +260,7 @@ internal class BrandServiceAsyncTest {
                     .email("dev@stainless.com")
                     .forceLanguage(BrandRetrieveByEmailParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -284,7 +284,7 @@ internal class BrandServiceAsyncTest {
                     .isin("SE60513A9993")
                     .forceLanguage(BrandRetrieveByIsinParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -308,7 +308,7 @@ internal class BrandServiceAsyncTest {
                     .name("xxx")
                     .forceLanguage(BrandRetrieveByNameParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -333,7 +333,7 @@ internal class BrandServiceAsyncTest {
                     .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
                     .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -357,7 +357,7 @@ internal class BrandServiceAsyncTest {
                     .input("input")
                     .maxResults(1L)
                     .minResults(1L)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -377,7 +377,7 @@ internal class BrandServiceAsyncTest {
 
         val responseFuture =
             brandServiceAsync.retrieveSimplified(
-                BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1000L).build()
             )
 
         val response = responseFuture.get()
@@ -423,7 +423,7 @@ internal class BrandServiceAsyncTest {
                 BrandStyleguideParams.builder()
                     .domain("domain")
                     .prioritize(BrandStyleguideParams.Prioritize.SPEED)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 

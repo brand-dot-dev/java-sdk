@@ -18,7 +18,7 @@ internal class BrandIdentifyFromTransactionParamsTest {
             .maxSpeed(true)
             .mcc("mcc")
             .phone(0.0)
-            .timeoutMs(1L)
+            .timeoutMs(1000L)
             .build()
     }
 
@@ -33,7 +33,7 @@ internal class BrandIdentifyFromTransactionParamsTest {
                 .maxSpeed(true)
                 .mcc("mcc")
                 .phone(0.0)
-                .timeoutMs(1L)
+                .timeoutMs(1000L)
                 .build()
 
         val queryParams = params._queryParams()
@@ -48,7 +48,7 @@ internal class BrandIdentifyFromTransactionParamsTest {
                     .put("maxSpeed", "true")
                     .put("mcc", "mcc")
                     .put("phone", "0.0")
-                    .put("timeoutMS", "1")
+                    .put("timeoutMS", "1000")
                     .build()
             )
     }

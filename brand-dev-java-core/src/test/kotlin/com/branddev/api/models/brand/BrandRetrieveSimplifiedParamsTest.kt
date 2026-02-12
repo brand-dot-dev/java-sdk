@@ -10,17 +10,20 @@ internal class BrandRetrieveSimplifiedParamsTest {
 
     @Test
     fun create() {
-        BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1L).build()
+        BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1000L).build()
     }
 
     @Test
     fun queryParams() {
-        val params = BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1L).build()
+        val params =
+            BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1000L).build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("domain", "domain").put("timeoutMS", "1").build())
+            .isEqualTo(
+                QueryParams.builder().put("domain", "domain").put("timeoutMS", "1000").build()
+            )
     }
 
     @Test

@@ -9,17 +9,18 @@ internal class BrandAiProductParamsTest {
 
     @Test
     fun create() {
-        BrandAiProductParams.builder().url("https://example.com").timeoutMs(1L).build()
+        BrandAiProductParams.builder().url("https://example.com").timeoutMs(1000L).build()
     }
 
     @Test
     fun body() {
-        val params = BrandAiProductParams.builder().url("https://example.com").timeoutMs(1L).build()
+        val params =
+            BrandAiProductParams.builder().url("https://example.com").timeoutMs(1000L).build()
 
         val body = params._body()
 
         assertThat(body.url()).isEqualTo("https://example.com")
-        assertThat(body.timeoutMs()).contains(1L)
+        assertThat(body.timeoutMs()).contains(1000L)
     }
 
     @Test

@@ -92,6 +92,39 @@ interface BrandService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandAiProductsResponse
 
+    /** @see aiProducts */
+    fun aiProducts(
+        body: BrandAiProductsParams.Body,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductsResponse =
+        aiProducts(BrandAiProductsParams.builder().body(body).build(), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(body: BrandAiProductsParams.Body): BrandAiProductsResponse =
+        aiProducts(body, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDomain: BrandAiProductsParams.Body.ByDomain,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductsResponse =
+        aiProducts(BrandAiProductsParams.Body.ofByDomain(byDomain), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(byDomain: BrandAiProductsParams.Body.ByDomain): BrandAiProductsResponse =
+        aiProducts(byDomain, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductsResponse =
+        aiProducts(BrandAiProductsParams.Body.ofByDirectUrl(byDirectUrl), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl): BrandAiProductsResponse =
+        aiProducts(byDirectUrl, RequestOptions.none())
+
     /**
      * Use AI to extract specific data points from a brand's website. The AI will crawl the website
      * and extract the requested information based on the provided data points.
@@ -321,6 +354,47 @@ interface BrandService {
             params: BrandAiProductsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandAiProductsResponse>
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            body: BrandAiProductsParams.Body,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(BrandAiProductsParams.builder().body(body).build(), requestOptions)
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(body: BrandAiProductsParams.Body): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(body, RequestOptions.none())
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDomain: BrandAiProductsParams.Body.ByDomain,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(BrandAiProductsParams.Body.ofByDomain(byDomain), requestOptions)
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDomain: BrandAiProductsParams.Body.ByDomain
+        ): HttpResponseFor<BrandAiProductsResponse> = aiProducts(byDomain, RequestOptions.none())
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(BrandAiProductsParams.Body.ofByDirectUrl(byDirectUrl), requestOptions)
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl
+        ): HttpResponseFor<BrandAiProductsResponse> = aiProducts(byDirectUrl, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

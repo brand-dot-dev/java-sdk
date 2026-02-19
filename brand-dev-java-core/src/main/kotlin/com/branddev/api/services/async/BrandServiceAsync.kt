@@ -92,6 +92,41 @@ interface BrandServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandAiProductsResponse>
 
+    /** @see aiProducts */
+    fun aiProducts(
+        body: BrandAiProductsParams.Body,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandAiProductsResponse> =
+        aiProducts(BrandAiProductsParams.builder().body(body).build(), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(body: BrandAiProductsParams.Body): CompletableFuture<BrandAiProductsResponse> =
+        aiProducts(body, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDomain: BrandAiProductsParams.Body.ByDomain,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandAiProductsResponse> =
+        aiProducts(BrandAiProductsParams.Body.ofByDomain(byDomain), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDomain: BrandAiProductsParams.Body.ByDomain
+    ): CompletableFuture<BrandAiProductsResponse> = aiProducts(byDomain, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BrandAiProductsResponse> =
+        aiProducts(BrandAiProductsParams.Body.ofByDirectUrl(byDirectUrl), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl
+    ): CompletableFuture<BrandAiProductsResponse> = aiProducts(byDirectUrl, RequestOptions.none())
+
     /**
      * Use AI to extract specific data points from a brand's website. The AI will crawl the website
      * and extract the requested information based on the provided data points.
@@ -338,6 +373,45 @@ interface BrandServiceAsync {
             params: BrandAiProductsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>>
+
+        /** @see aiProducts */
+        fun aiProducts(
+            body: BrandAiProductsParams.Body,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(BrandAiProductsParams.builder().body(body).build(), requestOptions)
+
+        /** @see aiProducts */
+        fun aiProducts(
+            body: BrandAiProductsParams.Body
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(body, RequestOptions.none())
+
+        /** @see aiProducts */
+        fun aiProducts(
+            byDomain: BrandAiProductsParams.Body.ByDomain,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(BrandAiProductsParams.Body.ofByDomain(byDomain), requestOptions)
+
+        /** @see aiProducts */
+        fun aiProducts(
+            byDomain: BrandAiProductsParams.Body.ByDomain
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(byDomain, RequestOptions.none())
+
+        /** @see aiProducts */
+        fun aiProducts(
+            byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(BrandAiProductsParams.Body.ofByDirectUrl(byDirectUrl), requestOptions)
+
+        /** @see aiProducts */
+        fun aiProducts(
+            byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl
+        ): CompletableFuture<HttpResponseFor<BrandAiProductsResponse>> =
+            aiProducts(byDirectUrl, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

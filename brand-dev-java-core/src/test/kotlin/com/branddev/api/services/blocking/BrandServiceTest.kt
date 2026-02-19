@@ -81,14 +81,10 @@ internal class BrandServiceTest {
 
         val response =
             brandService.aiProducts(
-                BrandAiProductsParams.builder()
-                    .body(
-                        BrandAiProductsParams.Body.ByDomain.builder()
-                            .domain("domain")
-                            .maxProducts(1L)
-                            .timeoutMs(1000L)
-                            .build()
-                    )
+                BrandAiProductsParams.Body.ByDomain.builder()
+                    .domain("domain")
+                    .maxProducts(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 

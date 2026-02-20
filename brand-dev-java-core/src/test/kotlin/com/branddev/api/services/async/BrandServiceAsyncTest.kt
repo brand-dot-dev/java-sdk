@@ -2,7 +2,6 @@
 
 package com.branddev.api.services.async
 
-import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
 import com.branddev.api.core.JsonValue
 import com.branddev.api.models.brand.BrandAiProductParams
@@ -23,19 +22,13 @@ import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandStyleguideParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class BrandServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val brandFuture =
@@ -55,11 +48,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun aiProduct() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -74,11 +63,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun aiProducts() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -97,11 +82,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun aiQuery() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -155,11 +136,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun fonts() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -174,11 +151,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun identifyFromTransaction() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -202,11 +175,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun prefetch() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -221,11 +190,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun prefetchByEmail() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -243,11 +208,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieveByEmail() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -267,11 +228,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieveByIsin() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -291,11 +248,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieveByName() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -315,11 +268,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieveByTicker() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -340,11 +289,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieveNaics() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -364,11 +309,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieveSimplified() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -383,11 +324,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun screenshot() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -407,11 +344,7 @@ internal class BrandServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun styleguide() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =

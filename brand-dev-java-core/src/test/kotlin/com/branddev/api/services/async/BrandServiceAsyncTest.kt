@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 
 internal class BrandServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -45,7 +45,7 @@ internal class BrandServiceAsyncTest {
         brand.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiProduct() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -60,7 +60,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiProducts() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -79,7 +79,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiQuery() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -133,7 +133,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun fonts() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -148,7 +148,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun identifyFromTransaction() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -172,7 +172,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun prefetch() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -187,7 +187,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun prefetchByEmail() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -205,7 +205,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByEmail() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -225,7 +225,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByIsin() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -245,7 +245,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByName() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -265,7 +265,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByTicker() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -286,7 +286,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveNaics() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -306,7 +306,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveSimplified() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -321,7 +321,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun screenshot() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -341,7 +341,7 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun styleguide() {
         val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()

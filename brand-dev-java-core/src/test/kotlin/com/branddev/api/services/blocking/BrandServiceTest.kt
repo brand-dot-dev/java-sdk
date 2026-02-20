@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 
 internal class BrandServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -44,7 +44,7 @@ internal class BrandServiceTest {
         brand.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiProduct() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -58,7 +58,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiProducts() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -76,7 +76,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiQuery() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -129,7 +129,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun fonts() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -141,7 +141,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun identifyFromTransaction() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -164,7 +164,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun prefetch() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -178,7 +178,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun prefetchByEmail() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -195,7 +195,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByEmail() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -214,7 +214,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByIsin() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -233,7 +233,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByName() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -252,7 +252,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByTicker() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -272,7 +272,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveNaics() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -291,7 +291,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveSimplified() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -305,7 +305,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun screenshot() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
@@ -324,7 +324,7 @@ internal class BrandServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun styleguide() {
         val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()

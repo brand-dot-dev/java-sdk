@@ -169,6 +169,7 @@ private constructor(
     private constructor(
         private val description: JsonField<String>,
         private val features: JsonField<List<String>>,
+        private val images: JsonField<List<String>>,
         private val name: JsonField<String>,
         private val tags: JsonField<List<String>>,
         private val targetAudience: JsonField<List<String>>,
@@ -190,6 +191,9 @@ private constructor(
             @JsonProperty("features")
             @ExcludeMissing
             features: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("images")
+            @ExcludeMissing
+            images: JsonField<List<String>> = JsonMissing.of(),
             @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
             @JsonProperty("tags") @ExcludeMissing tags: JsonField<List<String>> = JsonMissing.of(),
             @JsonProperty("target_audience")
@@ -215,6 +219,7 @@ private constructor(
         ) : this(
             description,
             features,
+            images,
             name,
             tags,
             targetAudience,
@@ -243,6 +248,14 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun features(): List<String> = features.getRequired("features")
+
+        /**
+         * URLs to product images on the page (up to 7)
+         *
+         * @throws BrandDevInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun images(): List<String> = images.getRequired("images")
 
         /**
          * Name of the product
@@ -344,6 +357,13 @@ private constructor(
         fun _features(): JsonField<List<String>> = features
 
         /**
+         * Returns the raw JSON value of [images].
+         *
+         * Unlike [images], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("images") @ExcludeMissing fun _images(): JsonField<List<String>> = images
+
+        /**
          * Returns the raw JSON value of [name].
          *
          * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
@@ -443,6 +463,7 @@ private constructor(
              * ```java
              * .description()
              * .features()
+             * .images()
              * .name()
              * .tags()
              * .targetAudience()
@@ -456,6 +477,7 @@ private constructor(
 
             private var description: JsonField<String>? = null
             private var features: JsonField<MutableList<String>>? = null
+            private var images: JsonField<MutableList<String>>? = null
             private var name: JsonField<String>? = null
             private var tags: JsonField<MutableList<String>>? = null
             private var targetAudience: JsonField<MutableList<String>>? = null
@@ -472,6 +494,7 @@ private constructor(
             internal fun from(product: Product) = apply {
                 description = product.description
                 features = product.features.map { it.toMutableList() }
+                images = product.images.map { it.toMutableList() }
                 name = product.name
                 tags = product.tags.map { it.toMutableList() }
                 targetAudience = product.targetAudience.map { it.toMutableList() }
@@ -522,6 +545,32 @@ private constructor(
                 features =
                     (features ?: JsonField.of(mutableListOf())).also {
                         checkKnown("features", it).add(feature)
+                    }
+            }
+
+            /** URLs to product images on the page (up to 7) */
+            fun images(images: List<String>) = images(JsonField.of(images))
+
+            /**
+             * Sets [Builder.images] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.images] with a well-typed `List<String>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun images(images: JsonField<List<String>>) = apply {
+                this.images = images.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [String] to [images].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addImage(image: String) = apply {
+                images =
+                    (images ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("images", it).add(image)
                     }
             }
 
@@ -738,6 +787,7 @@ private constructor(
              * ```java
              * .description()
              * .features()
+             * .images()
              * .name()
              * .tags()
              * .targetAudience()
@@ -749,6 +799,7 @@ private constructor(
                 Product(
                     checkRequired("description", description),
                     checkRequired("features", features).map { it.toImmutable() },
+                    checkRequired("images", images).map { it.toImmutable() },
                     checkRequired("name", name),
                     checkRequired("tags", tags).map { it.toImmutable() },
                     checkRequired("targetAudience", targetAudience).map { it.toImmutable() },
@@ -772,6 +823,7 @@ private constructor(
 
             description()
             features()
+            images()
             name()
             tags()
             targetAudience()
@@ -803,6 +855,7 @@ private constructor(
         internal fun validity(): Int =
             (if (description.asKnown().isPresent) 1 else 0) +
                 (features.asKnown().getOrNull()?.size ?: 0) +
+                (images.asKnown().getOrNull()?.size ?: 0) +
                 (if (name.asKnown().isPresent) 1 else 0) +
                 (tags.asKnown().getOrNull()?.size ?: 0) +
                 (targetAudience.asKnown().getOrNull()?.size ?: 0) +
@@ -1118,6 +1171,7 @@ private constructor(
             return other is Product &&
                 description == other.description &&
                 features == other.features &&
+                images == other.images &&
                 name == other.name &&
                 tags == other.tags &&
                 targetAudience == other.targetAudience &&
@@ -1135,6 +1189,7 @@ private constructor(
             Objects.hash(
                 description,
                 features,
+                images,
                 name,
                 tags,
                 targetAudience,
@@ -1152,7 +1207,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Product{description=$description, features=$features, name=$name, tags=$tags, targetAudience=$targetAudience, billingFrequency=$billingFrequency, category=$category, currency=$currency, imageUrl=$imageUrl, price=$price, pricingModel=$pricingModel, url=$url, additionalProperties=$additionalProperties}"
+            "Product{description=$description, features=$features, images=$images, name=$name, tags=$tags, targetAudience=$targetAudience, billingFrequency=$billingFrequency, category=$category, currency=$currency, imageUrl=$imageUrl, price=$price, pricingModel=$pricingModel, url=$url, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

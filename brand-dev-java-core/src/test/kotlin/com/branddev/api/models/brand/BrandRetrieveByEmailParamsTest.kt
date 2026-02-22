@@ -14,7 +14,7 @@ internal class BrandRetrieveByEmailParamsTest {
             .email("dev@stainless.com")
             .forceLanguage(BrandRetrieveByEmailParams.ForceLanguage.ALBANIAN)
             .maxSpeed(true)
-            .timeoutMs(1L)
+            .timeoutMs(1000L)
             .build()
     }
 
@@ -25,7 +25,7 @@ internal class BrandRetrieveByEmailParamsTest {
                 .email("dev@stainless.com")
                 .forceLanguage(BrandRetrieveByEmailParams.ForceLanguage.ALBANIAN)
                 .maxSpeed(true)
-                .timeoutMs(1L)
+                .timeoutMs(1000L)
                 .build()
 
         val queryParams = params._queryParams()
@@ -36,7 +36,7 @@ internal class BrandRetrieveByEmailParamsTest {
                     .put("email", "dev@stainless.com")
                     .put("force_language", "albanian")
                     .put("maxSpeed", "true")
-                    .put("timeoutMS", "1")
+                    .put("timeoutMS", "1000")
                     .build()
             )
     }

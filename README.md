@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.29)
-[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.29/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.29)
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.30)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.30/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.30)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Brand Dev MCP Server to enable AI assistants to interact with this API, 
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.brand.dev](https://docs.brand.dev/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.29).
+The REST API documentation can be found on [docs.brand.dev](https://docs.brand.dev/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.30).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [docs.brand.dev](https://docs.brand.d
 ### Gradle
 
 ```kotlin
-implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.29")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.30")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.29")
 <dependency>
   <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.1.0-alpha.29</version>
+  <version>0.1.0-alpha.30</version>
 </dependency>
 ```
 
@@ -355,6 +355,25 @@ BrandDevClient client = BrandDevOkHttpClient.builder()
     ))
     .build();
 ```
+
+### Connection pooling
+
+To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
+
+```java
+import com.branddev.api.client.BrandDevClient;
+import com.branddev.api.client.okhttp.BrandDevOkHttpClient;
+import java.time.Duration;
+
+BrandDevClient client = BrandDevOkHttpClient.builder()
+    .fromEnv()
+    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.
+    .maxIdleConnections(10)
+    .keepAliveDuration(Duration.ofMinutes(2))
+    .build();
+```
+
+If both options are unset, OkHttp's default connection pool settings are used.
 
 ### HTTPS
 

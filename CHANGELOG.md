@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0-alpha.30 (2026-02-22)
+
+Full Changelog: [v0.1.0-alpha.29...v0.1.0-alpha.30](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.29...v0.1.0-alpha.30)
+
+### Features
+
+* **api:** api update ([e09f05c](https://github.com/brand-dot-dev/java-sdk/commit/e09f05c64e70af02954b142ea11b42983a7758d1))
+* **api:** api update ([176daa6](https://github.com/brand-dot-dev/java-sdk/commit/176daa6ade5920957e1afb073ab0f14b2dc93705))
+* **api:** manual updates ([8588622](https://github.com/brand-dot-dev/java-sdk/commit/8588622a8b75ea541a9be7fc2a47a4ddd1554416))
+* **client:** add connection pooling option ([50588f3](https://github.com/brand-dot-dev/java-sdk/commit/50588f3d193a48d8e764c93e72f579649f189558))
+* **client:** add more convenience service method overloads ([63d98a3](https://github.com/brand-dot-dev/java-sdk/commit/63d98a3572690648e96e2a16a8bc06874887cdcf))
+
+
+### Chores
+
+* **internal:** make `OkHttp` constructor internal ([7176a5a](https://github.com/brand-dot-dev/java-sdk/commit/7176a5a3d63596c1f550864a28e4aedc1f751976))
+* **internal:** remove mock server code ([34d975a](https://github.com/brand-dot-dev/java-sdk/commit/34d975a09009a15f51c843d4c4f3e3ad8822109a))
+* **internal:** update `TestServerExtension` comment ([8ec7bbb](https://github.com/brand-dot-dev/java-sdk/commit/8ec7bbbdf6d8c8a3e62817f69120817f85a89f9f))
+* update mock server docs ([e7cf423](https://github.com/brand-dot-dev/java-sdk/commit/e7cf4232d2397f736fce8b3dbecc80bfde182144))
+
 ## 0.1.0-alpha.29 (2026-02-07)
 
 Full Changelog: [v0.1.0-alpha.28...v0.1.0-alpha.29](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.28...v0.1.0-alpha.29)

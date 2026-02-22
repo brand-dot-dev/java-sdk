@@ -5,6 +5,8 @@ package com.branddev.api.services.blocking
 import com.branddev.api.core.ClientOptions
 import com.branddev.api.core.RequestOptions
 import com.branddev.api.core.http.HttpResponseFor
+import com.branddev.api.models.brand.BrandAiProductParams
+import com.branddev.api.models.brand.BrandAiProductResponse
 import com.branddev.api.models.brand.BrandAiProductsParams
 import com.branddev.api.models.brand.BrandAiProductsResponse
 import com.branddev.api.models.brand.BrandAiQueryParams
@@ -63,6 +65,20 @@ interface BrandService {
     ): BrandRetrieveResponse
 
     /**
+     * Beta feature: Given a single URL, determines if it is a product detail page, classifies the
+     * platform/product type, and extracts the product information. Supports Amazon, TikTok Shop,
+     * Etsy, and generic ecommerce sites.
+     */
+    fun aiProduct(params: BrandAiProductParams): BrandAiProductResponse =
+        aiProduct(params, RequestOptions.none())
+
+    /** @see aiProduct */
+    fun aiProduct(
+        params: BrandAiProductParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductResponse
+
+    /**
      * Beta feature: Extract product information from a brand's website. Brand.dev will analyze the
      * website and return a list of products with details such as name, description, image, pricing,
      * features, and more.
@@ -75,6 +91,39 @@ interface BrandService {
         params: BrandAiProductsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandAiProductsResponse
+
+    /** @see aiProducts */
+    fun aiProducts(
+        body: BrandAiProductsParams.Body,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductsResponse =
+        aiProducts(BrandAiProductsParams.builder().body(body).build(), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(body: BrandAiProductsParams.Body): BrandAiProductsResponse =
+        aiProducts(body, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDomain: BrandAiProductsParams.Body.ByDomain,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductsResponse =
+        aiProducts(BrandAiProductsParams.Body.ofByDomain(byDomain), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(byDomain: BrandAiProductsParams.Body.ByDomain): BrandAiProductsResponse =
+        aiProducts(byDomain, RequestOptions.none())
+
+    /** @see aiProducts */
+    fun aiProducts(
+        byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandAiProductsResponse =
+        aiProducts(BrandAiProductsParams.Body.ofByDirectUrl(byDirectUrl), requestOptions)
+
+    /** @see aiProducts */
+    fun aiProducts(byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl): BrandAiProductsResponse =
+        aiProducts(byDirectUrl, RequestOptions.none())
 
     /**
      * Use AI to extract specific data points from a brand's website. The AI will crawl the website
@@ -277,6 +326,21 @@ interface BrandService {
         ): HttpResponseFor<BrandRetrieveResponse>
 
         /**
+         * Returns a raw HTTP response for `post /brand/ai/product`, but is otherwise the same as
+         * [BrandService.aiProduct].
+         */
+        @MustBeClosed
+        fun aiProduct(params: BrandAiProductParams): HttpResponseFor<BrandAiProductResponse> =
+            aiProduct(params, RequestOptions.none())
+
+        /** @see aiProduct */
+        @MustBeClosed
+        fun aiProduct(
+            params: BrandAiProductParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductResponse>
+
+        /**
          * Returns a raw HTTP response for `post /brand/ai/products`, but is otherwise the same as
          * [BrandService.aiProducts].
          */
@@ -290,6 +354,47 @@ interface BrandService {
             params: BrandAiProductsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandAiProductsResponse>
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            body: BrandAiProductsParams.Body,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(BrandAiProductsParams.builder().body(body).build(), requestOptions)
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(body: BrandAiProductsParams.Body): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(body, RequestOptions.none())
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDomain: BrandAiProductsParams.Body.ByDomain,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(BrandAiProductsParams.Body.ofByDomain(byDomain), requestOptions)
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDomain: BrandAiProductsParams.Body.ByDomain
+        ): HttpResponseFor<BrandAiProductsResponse> = aiProducts(byDomain, RequestOptions.none())
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandAiProductsResponse> =
+            aiProducts(BrandAiProductsParams.Body.ofByDirectUrl(byDirectUrl), requestOptions)
+
+        /** @see aiProducts */
+        @MustBeClosed
+        fun aiProducts(
+            byDirectUrl: BrandAiProductsParams.Body.ByDirectUrl
+        ): HttpResponseFor<BrandAiProductsResponse> = aiProducts(byDirectUrl, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `post /brand/ai/query`, but is otherwise the same as

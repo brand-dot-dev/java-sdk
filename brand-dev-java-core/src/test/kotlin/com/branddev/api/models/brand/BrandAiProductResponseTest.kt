@@ -4,50 +4,54 @@ package com.branddev.api.models.brand
 
 import com.branddev.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class BrandAiProductsResponseTest {
+internal class BrandAiProductResponseTest {
 
     @Test
     fun create() {
-        val brandAiProductsResponse =
-            BrandAiProductsResponse.builder()
-                .addProduct(
-                    BrandAiProductsResponse.Product.builder()
+        val brandAiProductResponse =
+            BrandAiProductResponse.builder()
+                .isProductPage(true)
+                .platform(BrandAiProductResponse.Platform.AMAZON)
+                .product(
+                    BrandAiProductResponse.Product.builder()
                         .description("description")
                         .addFeature("string")
                         .addImage("string")
                         .name("name")
                         .addTag("string")
                         .addTargetAudience("string")
-                        .billingFrequency(BrandAiProductsResponse.Product.BillingFrequency.MONTHLY)
+                        .billingFrequency(BrandAiProductResponse.Product.BillingFrequency.MONTHLY)
                         .category("category")
                         .currency("currency")
                         .imageUrl("image_url")
                         .price(0.0)
-                        .pricingModel(BrandAiProductsResponse.Product.PricingModel.PER_SEAT)
+                        .pricingModel(BrandAiProductResponse.Product.PricingModel.PER_SEAT)
                         .url("url")
                         .build()
                 )
                 .build()
 
-        assertThat(brandAiProductsResponse.products().getOrNull())
-            .containsExactly(
-                BrandAiProductsResponse.Product.builder()
+        assertThat(brandAiProductResponse.isProductPage()).contains(true)
+        assertThat(brandAiProductResponse.platform())
+            .contains(BrandAiProductResponse.Platform.AMAZON)
+        assertThat(brandAiProductResponse.product())
+            .contains(
+                BrandAiProductResponse.Product.builder()
                     .description("description")
                     .addFeature("string")
                     .addImage("string")
                     .name("name")
                     .addTag("string")
                     .addTargetAudience("string")
-                    .billingFrequency(BrandAiProductsResponse.Product.BillingFrequency.MONTHLY)
+                    .billingFrequency(BrandAiProductResponse.Product.BillingFrequency.MONTHLY)
                     .category("category")
                     .currency("currency")
                     .imageUrl("image_url")
                     .price(0.0)
-                    .pricingModel(BrandAiProductsResponse.Product.PricingModel.PER_SEAT)
+                    .pricingModel(BrandAiProductResponse.Product.PricingModel.PER_SEAT)
                     .url("url")
                     .build()
             )
@@ -56,33 +60,35 @@ internal class BrandAiProductsResponseTest {
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val brandAiProductsResponse =
-            BrandAiProductsResponse.builder()
-                .addProduct(
-                    BrandAiProductsResponse.Product.builder()
+        val brandAiProductResponse =
+            BrandAiProductResponse.builder()
+                .isProductPage(true)
+                .platform(BrandAiProductResponse.Platform.AMAZON)
+                .product(
+                    BrandAiProductResponse.Product.builder()
                         .description("description")
                         .addFeature("string")
                         .addImage("string")
                         .name("name")
                         .addTag("string")
                         .addTargetAudience("string")
-                        .billingFrequency(BrandAiProductsResponse.Product.BillingFrequency.MONTHLY)
+                        .billingFrequency(BrandAiProductResponse.Product.BillingFrequency.MONTHLY)
                         .category("category")
                         .currency("currency")
                         .imageUrl("image_url")
                         .price(0.0)
-                        .pricingModel(BrandAiProductsResponse.Product.PricingModel.PER_SEAT)
+                        .pricingModel(BrandAiProductResponse.Product.PricingModel.PER_SEAT)
                         .url("url")
                         .build()
                 )
                 .build()
 
-        val roundtrippedBrandAiProductsResponse =
+        val roundtrippedBrandAiProductResponse =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(brandAiProductsResponse),
-                jacksonTypeRef<BrandAiProductsResponse>(),
+                jsonMapper.writeValueAsString(brandAiProductResponse),
+                jacksonTypeRef<BrandAiProductResponse>(),
             )
 
-        assertThat(roundtrippedBrandAiProductsResponse).isEqualTo(brandAiProductsResponse)
+        assertThat(roundtrippedBrandAiProductResponse).isEqualTo(brandAiProductResponse)
     }
 }

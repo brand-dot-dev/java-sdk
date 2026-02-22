@@ -2,9 +2,9 @@
 
 package com.branddev.api.services.async
 
-import com.branddev.api.TestServerExtension
 import com.branddev.api.client.okhttp.BrandDevOkHttpClientAsync
 import com.branddev.api.core.JsonValue
+import com.branddev.api.models.brand.BrandAiProductParams
 import com.branddev.api.models.brand.BrandAiProductsParams
 import com.branddev.api.models.brand.BrandAiQueryParams
 import com.branddev.api.models.brand.BrandFontsParams
@@ -22,19 +22,13 @@ import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandStyleguideParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class BrandServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val brandFuture =
@@ -43,7 +37,7 @@ internal class BrandServiceAsyncTest {
                     .domain("domain")
                     .forceLanguage(BrandRetrieveParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -51,26 +45,33 @@ internal class BrandServiceAsyncTest {
         brand.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun aiProduct() {
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.aiProduct(
+                BrandAiProductParams.builder().url("https://example.com").timeoutMs(1000L).build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiProducts() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
             brandServiceAsync.aiProducts(
-                BrandAiProductsParams.builder()
-                    .body(
-                        BrandAiProductsParams.Body.ByDomain.builder()
-                            .domain("domain")
-                            .maxProducts(1L)
-                            .timeoutMs(1L)
-                            .build()
-                    )
+                BrandAiProductsParams.Body.ByDomain.builder()
+                    .domain("domain")
+                    .maxProducts(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -78,14 +79,10 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun aiQuery() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -128,7 +125,7 @@ internal class BrandServiceAsyncTest {
                             .termsAndConditions(true)
                             .build()
                     )
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -136,33 +133,25 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun fonts() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
             brandServiceAsync.fonts(
-                BrandFontsParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandFontsParams.builder().domain("domain").timeoutMs(1000L).build()
             )
 
         val response = responseFuture.get()
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun identifyFromTransaction() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -175,7 +164,7 @@ internal class BrandServiceAsyncTest {
                     .maxSpeed(true)
                     .mcc("mcc")
                     .phone(0.0)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -183,40 +172,32 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun prefetch() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
             brandServiceAsync.prefetch(
-                BrandPrefetchParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandPrefetchParams.builder().domain("domain").timeoutMs(1000L).build()
             )
 
         val response = responseFuture.get()
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun prefetchByEmail() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
             brandServiceAsync.prefetchByEmail(
                 BrandPrefetchByEmailParams.builder()
                     .email("dev@stainless.com")
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -224,14 +205,10 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByEmail() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -240,7 +217,7 @@ internal class BrandServiceAsyncTest {
                     .email("dev@stainless.com")
                     .forceLanguage(BrandRetrieveByEmailParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -248,14 +225,10 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByIsin() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -264,7 +237,7 @@ internal class BrandServiceAsyncTest {
                     .isin("SE60513A9993")
                     .forceLanguage(BrandRetrieveByIsinParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -272,14 +245,10 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByName() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -288,7 +257,7 @@ internal class BrandServiceAsyncTest {
                     .name("xxx")
                     .forceLanguage(BrandRetrieveByNameParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -296,14 +265,10 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveByTicker() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -313,7 +278,7 @@ internal class BrandServiceAsyncTest {
                     .forceLanguage(BrandRetrieveByTickerParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
                     .tickerExchange(BrandRetrieveByTickerParams.TickerExchange.AMEX)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -321,14 +286,10 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveNaics() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -337,7 +298,7 @@ internal class BrandServiceAsyncTest {
                     .input("input")
                     .maxResults(1L)
                     .minResults(1L)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 
@@ -345,33 +306,25 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveSimplified() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
             brandServiceAsync.retrieveSimplified(
-                BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1L).build()
+                BrandRetrieveSimplifiedParams.builder().domain("domain").timeoutMs(1000L).build()
             )
 
         val response = responseFuture.get()
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun screenshot() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -388,14 +341,10 @@ internal class BrandServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun styleguide() {
-        val client =
-            BrandDevOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
         val brandServiceAsync = client.brand()
 
         val responseFuture =
@@ -403,7 +352,7 @@ internal class BrandServiceAsyncTest {
                 BrandStyleguideParams.builder()
                     .domain("domain")
                     .prioritize(BrandStyleguideParams.Prioritize.SPEED)
-                    .timeoutMs(1L)
+                    .timeoutMs(1000L)
                     .build()
             )
 

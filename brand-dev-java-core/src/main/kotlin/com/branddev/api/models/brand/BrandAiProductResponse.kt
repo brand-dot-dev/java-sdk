@@ -20,34 +20,70 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-class BrandAiProductsResponse
+class BrandAiProductResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val products: JsonField<List<Product>>,
+    private val isProductPage: JsonField<Boolean>,
+    private val platform: JsonField<Platform>,
+    private val product: JsonField<Product>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("products")
+        @JsonProperty("is_product_page")
         @ExcludeMissing
-        products: JsonField<List<Product>> = JsonMissing.of()
-    ) : this(products, mutableMapOf())
+        isProductPage: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("platform") @ExcludeMissing platform: JsonField<Platform> = JsonMissing.of(),
+        @JsonProperty("product") @ExcludeMissing product: JsonField<Product> = JsonMissing.of(),
+    ) : this(isProductPage, platform, product, mutableMapOf())
 
     /**
-     * Array of products extracted from the website
+     * Whether the given URL is a product detail page
      *
      * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun products(): Optional<List<Product>> = products.getOptional("products")
+    fun isProductPage(): Optional<Boolean> = isProductPage.getOptional("is_product_page")
 
     /**
-     * Returns the raw JSON value of [products].
+     * The detected ecommerce platform, or null if not a product page
      *
-     * Unlike [products], this method doesn't throw if the JSON field has an unexpected type.
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    @JsonProperty("products") @ExcludeMissing fun _products(): JsonField<List<Product>> = products
+    fun platform(): Optional<Platform> = platform.getOptional("platform")
+
+    /**
+     * The extracted product data, or null if not a product page
+     *
+     * @throws BrandDevInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun product(): Optional<Product> = product.getOptional("product")
+
+    /**
+     * Returns the raw JSON value of [isProductPage].
+     *
+     * Unlike [isProductPage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("is_product_page")
+    @ExcludeMissing
+    fun _isProductPage(): JsonField<Boolean> = isProductPage
+
+    /**
+     * Returns the raw JSON value of [platform].
+     *
+     * Unlike [platform], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("platform") @ExcludeMissing fun _platform(): JsonField<Platform> = platform
+
+    /**
+     * Returns the raw JSON value of [product].
+     *
+     * Unlike [product], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("product") @ExcludeMissing fun _product(): JsonField<Product> = product
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -63,47 +99,68 @@ private constructor(
 
     companion object {
 
-        /** Returns a mutable builder for constructing an instance of [BrandAiProductsResponse]. */
+        /** Returns a mutable builder for constructing an instance of [BrandAiProductResponse]. */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [BrandAiProductsResponse]. */
+    /** A builder for [BrandAiProductResponse]. */
     class Builder internal constructor() {
 
-        private var products: JsonField<MutableList<Product>>? = null
+        private var isProductPage: JsonField<Boolean> = JsonMissing.of()
+        private var platform: JsonField<Platform> = JsonMissing.of()
+        private var product: JsonField<Product> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(brandAiProductsResponse: BrandAiProductsResponse) = apply {
-            products = brandAiProductsResponse.products.map { it.toMutableList() }
-            additionalProperties = brandAiProductsResponse.additionalProperties.toMutableMap()
+        internal fun from(brandAiProductResponse: BrandAiProductResponse) = apply {
+            isProductPage = brandAiProductResponse.isProductPage
+            platform = brandAiProductResponse.platform
+            product = brandAiProductResponse.product
+            additionalProperties = brandAiProductResponse.additionalProperties.toMutableMap()
         }
 
-        /** Array of products extracted from the website */
-        fun products(products: List<Product>) = products(JsonField.of(products))
+        /** Whether the given URL is a product detail page */
+        fun isProductPage(isProductPage: Boolean) = isProductPage(JsonField.of(isProductPage))
 
         /**
-         * Sets [Builder.products] to an arbitrary JSON value.
+         * Sets [Builder.isProductPage] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.products] with a well-typed `List<Product>` value
+         * You should usually call [Builder.isProductPage] with a well-typed [Boolean] value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun products(products: JsonField<List<Product>>) = apply {
-            this.products = products.map { it.toMutableList() }
+        fun isProductPage(isProductPage: JsonField<Boolean>) = apply {
+            this.isProductPage = isProductPage
         }
 
+        /** The detected ecommerce platform, or null if not a product page */
+        fun platform(platform: Platform?) = platform(JsonField.ofNullable(platform))
+
+        /** Alias for calling [Builder.platform] with `platform.orElse(null)`. */
+        fun platform(platform: Optional<Platform>) = platform(platform.getOrNull())
+
         /**
-         * Adds a single [Product] to [products].
+         * Sets [Builder.platform] to an arbitrary JSON value.
          *
-         * @throws IllegalStateException if the field was previously set to a non-list.
+         * You should usually call [Builder.platform] with a well-typed [Platform] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun addProduct(product: Product) = apply {
-            products =
-                (products ?: JsonField.of(mutableListOf())).also {
-                    checkKnown("products", it).add(product)
-                }
-        }
+        fun platform(platform: JsonField<Platform>) = apply { this.platform = platform }
+
+        /** The extracted product data, or null if not a product page */
+        fun product(product: Product?) = product(JsonField.ofNullable(product))
+
+        /** Alias for calling [Builder.product] with `product.orElse(null)`. */
+        fun product(product: Optional<Product>) = product(product.getOrNull())
+
+        /**
+         * Sets [Builder.product] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.product] with a well-typed [Product] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun product(product: JsonField<Product>) = apply { this.product = product }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -125,25 +182,29 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [BrandAiProductsResponse].
+         * Returns an immutable instance of [BrandAiProductResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): BrandAiProductsResponse =
-            BrandAiProductsResponse(
-                (products ?: JsonMissing.of()).map { it.toImmutable() },
+        fun build(): BrandAiProductResponse =
+            BrandAiProductResponse(
+                isProductPage,
+                platform,
+                product,
                 additionalProperties.toMutableMap(),
             )
     }
 
     private var validated: Boolean = false
 
-    fun validate(): BrandAiProductsResponse = apply {
+    fun validate(): BrandAiProductResponse = apply {
         if (validated) {
             return@apply
         }
 
-        products().ifPresent { it.forEach { it.validate() } }
+        isProductPage()
+        platform().ifPresent { it.validate() }
+        product().ifPresent { it.validate() }
         validated = true
     }
 
@@ -162,8 +223,151 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (products.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+        (if (isProductPage.asKnown().isPresent) 1 else 0) +
+            (platform.asKnown().getOrNull()?.validity() ?: 0) +
+            (product.asKnown().getOrNull()?.validity() ?: 0)
 
+    /** The detected ecommerce platform, or null if not a product page */
+    class Platform @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val AMAZON = of("amazon")
+
+            @JvmField val TIKTOK_SHOP = of("tiktok_shop")
+
+            @JvmField val ETSY = of("etsy")
+
+            @JvmField val GENERIC = of("generic")
+
+            @JvmStatic fun of(value: String) = Platform(JsonField.of(value))
+        }
+
+        /** An enum containing [Platform]'s known values. */
+        enum class Known {
+            AMAZON,
+            TIKTOK_SHOP,
+            ETSY,
+            GENERIC,
+        }
+
+        /**
+         * An enum containing [Platform]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Platform] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            AMAZON,
+            TIKTOK_SHOP,
+            ETSY,
+            GENERIC,
+            /** An enum member indicating that [Platform] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                AMAZON -> Value.AMAZON
+                TIKTOK_SHOP -> Value.TIKTOK_SHOP
+                ETSY -> Value.ETSY
+                GENERIC -> Value.GENERIC
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws BrandDevInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                AMAZON -> Known.AMAZON
+                TIKTOK_SHOP -> Known.TIKTOK_SHOP
+                ETSY -> Known.ETSY
+                GENERIC -> Known.GENERIC
+                else -> throw BrandDevInvalidDataException("Unknown Platform: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws BrandDevInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                BrandDevInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): Platform = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: BrandDevInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Platform && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** The extracted product data, or null if not a product page */
     class Product
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
@@ -1215,15 +1419,19 @@ private constructor(
             return true
         }
 
-        return other is BrandAiProductsResponse &&
-            products == other.products &&
+        return other is BrandAiProductResponse &&
+            isProductPage == other.isProductPage &&
+            platform == other.platform &&
+            product == other.product &&
             additionalProperties == other.additionalProperties
     }
 
-    private val hashCode: Int by lazy { Objects.hash(products, additionalProperties) }
+    private val hashCode: Int by lazy {
+        Objects.hash(isProductPage, platform, product, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BrandAiProductsResponse{products=$products, additionalProperties=$additionalProperties}"
+        "BrandAiProductResponse{isProductPage=$isProductPage, platform=$platform, product=$product, additionalProperties=$additionalProperties}"
 }

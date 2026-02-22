@@ -10,17 +10,19 @@ internal class BrandFontsParamsTest {
 
     @Test
     fun create() {
-        BrandFontsParams.builder().domain("domain").timeoutMs(1L).build()
+        BrandFontsParams.builder().domain("domain").timeoutMs(1000L).build()
     }
 
     @Test
     fun queryParams() {
-        val params = BrandFontsParams.builder().domain("domain").timeoutMs(1L).build()
+        val params = BrandFontsParams.builder().domain("domain").timeoutMs(1000L).build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("domain", "domain").put("timeoutMS", "1").build())
+            .isEqualTo(
+                QueryParams.builder().put("domain", "domain").put("timeoutMS", "1000").build()
+            )
     }
 
     @Test

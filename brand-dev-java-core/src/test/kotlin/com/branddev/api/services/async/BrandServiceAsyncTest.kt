@@ -20,6 +20,10 @@ import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandStyleguideParams
+import com.branddev.api.models.brand.BrandWebScrapeHtmlParams
+import com.branddev.api.models.brand.BrandWebScrapeImagesParams
+import com.branddev.api.models.brand.BrandWebScrapeMdParams
+import com.branddev.api.models.brand.BrandWebScrapeSitemapParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -354,6 +358,70 @@ internal class BrandServiceAsyncTest {
                     .prioritize(BrandStyleguideParams.Prioritize.SPEED)
                     .timeoutMs(1000L)
                     .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeHtml() {
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.webScrapeHtml(
+                BrandWebScrapeHtmlParams.builder().url("https://example.com").build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeImages() {
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.webScrapeImages(
+                BrandWebScrapeImagesParams.builder().url("https://example.com").build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeMd() {
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.webScrapeMd(
+                BrandWebScrapeMdParams.builder()
+                    .url("https://example.com")
+                    .includeImages(true)
+                    .includeLinks(true)
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeSitemap() {
+        val client = BrandDevOkHttpClientAsync.builder().apiKey("My API Key").build()
+        val brandServiceAsync = client.brand()
+
+        val responseFuture =
+            brandServiceAsync.webScrapeSitemap(
+                BrandWebScrapeSitemapParams.builder().domain("domain").build()
             )
 
         val response = responseFuture.get()

@@ -37,6 +37,14 @@ import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandStyleguideParams
 import com.branddev.api.models.brand.BrandStyleguideResponse
+import com.branddev.api.models.brand.BrandWebScrapeHtmlParams
+import com.branddev.api.models.brand.BrandWebScrapeHtmlResponse
+import com.branddev.api.models.brand.BrandWebScrapeImagesParams
+import com.branddev.api.models.brand.BrandWebScrapeImagesResponse
+import com.branddev.api.models.brand.BrandWebScrapeMdParams
+import com.branddev.api.models.brand.BrandWebScrapeMdResponse
+import com.branddev.api.models.brand.BrandWebScrapeSitemapParams
+import com.branddev.api.models.brand.BrandWebScrapeSitemapResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -299,6 +307,59 @@ interface BrandService {
         params: BrandStyleguideParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandStyleguideResponse
+
+    /**
+     * Scrapes the given URL and returns the raw HTML content of the page. Uses automatic proxy
+     * escalation to handle blocked sites.
+     */
+    fun webScrapeHtml(params: BrandWebScrapeHtmlParams): BrandWebScrapeHtmlResponse =
+        webScrapeHtml(params, RequestOptions.none())
+
+    /** @see webScrapeHtml */
+    fun webScrapeHtml(
+        params: BrandWebScrapeHtmlParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandWebScrapeHtmlResponse
+
+    /**
+     * Scrapes all images from the given URL. Extracts images from img, svg, picture/source, link,
+     * and video elements including inline SVGs, base64 data URIs, and standard URLs.
+     */
+    fun webScrapeImages(params: BrandWebScrapeImagesParams): BrandWebScrapeImagesResponse =
+        webScrapeImages(params, RequestOptions.none())
+
+    /** @see webScrapeImages */
+    fun webScrapeImages(
+        params: BrandWebScrapeImagesParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandWebScrapeImagesResponse
+
+    /**
+     * Scrapes the given URL, converts the HTML content to GitHub Flavored Markdown (GFM), and
+     * returns the result. Uses automatic proxy escalation to handle blocked sites.
+     */
+    fun webScrapeMd(params: BrandWebScrapeMdParams): BrandWebScrapeMdResponse =
+        webScrapeMd(params, RequestOptions.none())
+
+    /** @see webScrapeMd */
+    fun webScrapeMd(
+        params: BrandWebScrapeMdParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandWebScrapeMdResponse
+
+    /**
+     * Crawls the sitemap of the given domain and returns all discovered page URLs. Supports sitemap
+     * index files (recursive), parallel fetching with concurrency control, deduplication, and
+     * filters out non-page resources (images, PDFs, etc.).
+     */
+    fun webScrapeSitemap(params: BrandWebScrapeSitemapParams): BrandWebScrapeSitemapResponse =
+        webScrapeSitemap(params, RequestOptions.none())
+
+    /** @see webScrapeSitemap */
+    fun webScrapeSitemap(
+        params: BrandWebScrapeSitemapParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BrandWebScrapeSitemapResponse
 
     /** A view of [BrandService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -606,5 +667,71 @@ interface BrandService {
             params: BrandStyleguideParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandStyleguideResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /web/scrape/html`, but is otherwise the same as
+         * [BrandService.webScrapeHtml].
+         */
+        @MustBeClosed
+        fun webScrapeHtml(
+            params: BrandWebScrapeHtmlParams
+        ): HttpResponseFor<BrandWebScrapeHtmlResponse> =
+            webScrapeHtml(params, RequestOptions.none())
+
+        /** @see webScrapeHtml */
+        @MustBeClosed
+        fun webScrapeHtml(
+            params: BrandWebScrapeHtmlParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandWebScrapeHtmlResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /web/scrape/images`, but is otherwise the same as
+         * [BrandService.webScrapeImages].
+         */
+        @MustBeClosed
+        fun webScrapeImages(
+            params: BrandWebScrapeImagesParams
+        ): HttpResponseFor<BrandWebScrapeImagesResponse> =
+            webScrapeImages(params, RequestOptions.none())
+
+        /** @see webScrapeImages */
+        @MustBeClosed
+        fun webScrapeImages(
+            params: BrandWebScrapeImagesParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandWebScrapeImagesResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /web/scrape/markdown`, but is otherwise the same as
+         * [BrandService.webScrapeMd].
+         */
+        @MustBeClosed
+        fun webScrapeMd(params: BrandWebScrapeMdParams): HttpResponseFor<BrandWebScrapeMdResponse> =
+            webScrapeMd(params, RequestOptions.none())
+
+        /** @see webScrapeMd */
+        @MustBeClosed
+        fun webScrapeMd(
+            params: BrandWebScrapeMdParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandWebScrapeMdResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /web/scrape/sitemap`, but is otherwise the same as
+         * [BrandService.webScrapeSitemap].
+         */
+        @MustBeClosed
+        fun webScrapeSitemap(
+            params: BrandWebScrapeSitemapParams
+        ): HttpResponseFor<BrandWebScrapeSitemapResponse> =
+            webScrapeSitemap(params, RequestOptions.none())
+
+        /** @see webScrapeSitemap */
+        @MustBeClosed
+        fun webScrapeSitemap(
+            params: BrandWebScrapeSitemapParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BrandWebScrapeSitemapResponse>
     }
 }

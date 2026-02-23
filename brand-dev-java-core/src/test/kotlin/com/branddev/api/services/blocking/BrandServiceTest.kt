@@ -20,6 +20,10 @@ import com.branddev.api.models.brand.BrandRetrieveParams
 import com.branddev.api.models.brand.BrandRetrieveSimplifiedParams
 import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandStyleguideParams
+import com.branddev.api.models.brand.BrandWebScrapeHtmlParams
+import com.branddev.api.models.brand.BrandWebScrapeImagesParams
+import com.branddev.api.models.brand.BrandWebScrapeMdParams
+import com.branddev.api.models.brand.BrandWebScrapeSitemapParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -337,6 +341,66 @@ internal class BrandServiceTest {
                     .prioritize(BrandStyleguideParams.Prioritize.SPEED)
                     .timeoutMs(1000L)
                     .build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeHtml() {
+        val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.webScrapeHtml(
+                BrandWebScrapeHtmlParams.builder().url("https://example.com").build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeImages() {
+        val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.webScrapeImages(
+                BrandWebScrapeImagesParams.builder().url("https://example.com").build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeMd() {
+        val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.webScrapeMd(
+                BrandWebScrapeMdParams.builder()
+                    .url("https://example.com")
+                    .includeImages(true)
+                    .includeLinks(true)
+                    .build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Mock server tests are disabled")
+    @Test
+    fun webScrapeSitemap() {
+        val client = BrandDevOkHttpClient.builder().apiKey("My API Key").build()
+        val brandService = client.brand()
+
+        val response =
+            brandService.webScrapeSitemap(
+                BrandWebScrapeSitemapParams.builder().domain("domain").build()
             )
 
         response.validate()

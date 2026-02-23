@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.31 (2026-02-23)
+
+Full Changelog: [v0.1.0-alpha.30...v0.1.0-alpha.31](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.30...v0.1.0-alpha.31)
+
+### Features
+
+* **api:** manual updates ([18be8f5](https://github.com/brand-dot-dev/java-sdk/commit/18be8f5ca8d7c94220db6bca788537116da14505))
+
 ## 0.1.0-alpha.30 (2026-02-22)
 
 Full Changelog: [v0.1.0-alpha.29...v0.1.0-alpha.30](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.29...v0.1.0-alpha.30)

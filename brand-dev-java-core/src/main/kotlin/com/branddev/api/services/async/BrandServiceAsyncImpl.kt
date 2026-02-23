@@ -47,6 +47,14 @@ import com.branddev.api.models.brand.BrandScreenshotParams
 import com.branddev.api.models.brand.BrandScreenshotResponse
 import com.branddev.api.models.brand.BrandStyleguideParams
 import com.branddev.api.models.brand.BrandStyleguideResponse
+import com.branddev.api.models.brand.BrandWebScrapeHtmlParams
+import com.branddev.api.models.brand.BrandWebScrapeHtmlResponse
+import com.branddev.api.models.brand.BrandWebScrapeImagesParams
+import com.branddev.api.models.brand.BrandWebScrapeImagesResponse
+import com.branddev.api.models.brand.BrandWebScrapeMdParams
+import com.branddev.api.models.brand.BrandWebScrapeMdResponse
+import com.branddev.api.models.brand.BrandWebScrapeSitemapParams
+import com.branddev.api.models.brand.BrandWebScrapeSitemapResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -173,6 +181,34 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<BrandStyleguideResponse> =
         // get /brand/styleguide
         withRawResponse().styleguide(params, requestOptions).thenApply { it.parse() }
+
+    override fun webScrapeHtml(
+        params: BrandWebScrapeHtmlParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandWebScrapeHtmlResponse> =
+        // get /web/scrape/html
+        withRawResponse().webScrapeHtml(params, requestOptions).thenApply { it.parse() }
+
+    override fun webScrapeImages(
+        params: BrandWebScrapeImagesParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandWebScrapeImagesResponse> =
+        // get /web/scrape/images
+        withRawResponse().webScrapeImages(params, requestOptions).thenApply { it.parse() }
+
+    override fun webScrapeMd(
+        params: BrandWebScrapeMdParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandWebScrapeMdResponse> =
+        // get /web/scrape/markdown
+        withRawResponse().webScrapeMd(params, requestOptions).thenApply { it.parse() }
+
+    override fun webScrapeSitemap(
+        params: BrandWebScrapeSitemapParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BrandWebScrapeSitemapResponse> =
+        // get /web/scrape/sitemap
+        withRawResponse().webScrapeSitemap(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         BrandServiceAsync.WithRawResponse {
@@ -663,6 +699,126 @@ class BrandServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     errorHandler.handle(response).parseable {
                         response
                             .use { styleguideHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val webScrapeHtmlHandler: Handler<BrandWebScrapeHtmlResponse> =
+            jsonHandler<BrandWebScrapeHtmlResponse>(clientOptions.jsonMapper)
+
+        override fun webScrapeHtml(
+            params: BrandWebScrapeHtmlParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandWebScrapeHtmlResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("web", "scrape", "html")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { webScrapeHtmlHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val webScrapeImagesHandler: Handler<BrandWebScrapeImagesResponse> =
+            jsonHandler<BrandWebScrapeImagesResponse>(clientOptions.jsonMapper)
+
+        override fun webScrapeImages(
+            params: BrandWebScrapeImagesParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandWebScrapeImagesResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("web", "scrape", "images")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { webScrapeImagesHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val webScrapeMdHandler: Handler<BrandWebScrapeMdResponse> =
+            jsonHandler<BrandWebScrapeMdResponse>(clientOptions.jsonMapper)
+
+        override fun webScrapeMd(
+            params: BrandWebScrapeMdParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandWebScrapeMdResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("web", "scrape", "markdown")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { webScrapeMdHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val webScrapeSitemapHandler: Handler<BrandWebScrapeSitemapResponse> =
+            jsonHandler<BrandWebScrapeSitemapResponse>(clientOptions.jsonMapper)
+
+        override fun webScrapeSitemap(
+            params: BrandWebScrapeSitemapParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BrandWebScrapeSitemapResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("web", "scrape", "sitemap")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { webScrapeSitemapHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

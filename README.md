@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.30)
-[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.30/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.30)
+[![Maven Central](https://img.shields.io/maven-central/v/com.branddev.api/brand-dev-java)](https://central.sonatype.com/artifact/com.branddev.api/brand-dev-java/0.1.0-alpha.31)
+[![javadoc](https://javadoc.io/badge2/com.branddev.api/brand-dev-java/0.1.0-alpha.31/javadoc.svg)](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.31)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Brand Dev MCP Server to enable AI assistants to interact with this API, 
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.brand.dev](https://docs.brand.dev/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.30).
+The REST API documentation can be found on [docs.brand.dev](https://docs.brand.dev/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.branddev.api/brand-dev-java/0.1.0-alpha.31).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [docs.brand.dev](https://docs.brand.d
 ### Gradle
 
 ```kotlin
-implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.30")
+implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.31")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("com.branddev.api:brand-dev-java:0.1.0-alpha.30")
 <dependency>
   <groupId>com.branddev.api</groupId>
   <artifactId>brand-dev-java</artifactId>
-  <version>0.1.0-alpha.30</version>
+  <version>0.1.0-alpha.31</version>
 </dependency>
 ```
 

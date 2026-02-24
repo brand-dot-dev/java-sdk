@@ -337,6 +337,7 @@ internal class BrandServiceTest {
         val response =
             brandService.styleguide(
                 BrandStyleguideParams.builder()
+                    .directUrl("https://example.com")
                     .domain("domain")
                     .prioritize(BrandStyleguideParams.Prioritize.SPEED)
                     .timeoutMs(1000L)

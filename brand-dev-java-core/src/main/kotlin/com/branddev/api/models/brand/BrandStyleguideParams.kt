@@ -5,7 +5,6 @@ package com.branddev.api.models.brand
 import com.branddev.api.core.Enum
 import com.branddev.api.core.JsonField
 import com.branddev.api.core.Params
-import com.branddev.api.core.checkRequired
 import com.branddev.api.core.http.Headers
 import com.branddev.api.core.http.QueryParams
 import com.branddev.api.errors.BrandDevInvalidDataException
@@ -16,11 +15,13 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Automatically extract comprehensive design system information from a brand's website including
- * colors, typography, spacing, shadows, and UI components.
+ * colors, typography, spacing, shadows, and UI components. Either 'domain' or 'directUrl' must be
+ * provided as a query parameter, but not both.
  */
 class BrandStyleguideParams
 private constructor(
-    private val domain: String,
+    private val directUrl: String?,
+    private val domain: String?,
     private val prioritize: Prioritize?,
     private val timeoutMs: Long?,
     private val additionalHeaders: Headers,
@@ -28,10 +29,16 @@ private constructor(
 ) : Params {
 
     /**
+     * A specific URL to fetch the styleguide from directly, bypassing domain resolution (e.g.,
+     * 'https://example.com/design-system').
+     */
+    fun directUrl(): Optional<String> = Optional.ofNullable(directUrl)
+
+    /**
      * Domain name to extract styleguide from (e.g., 'example.com', 'google.com'). The domain will
      * be automatically normalized and validated.
      */
-    fun domain(): String = domain
+    fun domain(): Optional<String> = Optional.ofNullable(domain)
 
     /**
      * Optional parameter to prioritize screenshot capture for styleguide extraction. If 'speed',
@@ -57,20 +64,16 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [BrandStyleguideParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .domain()
-         * ```
-         */
+        @JvmStatic fun none(): BrandStyleguideParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [BrandStyleguideParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
     /** A builder for [BrandStyleguideParams]. */
     class Builder internal constructor() {
 
+        private var directUrl: String? = null
         private var domain: String? = null
         private var prioritize: Prioritize? = null
         private var timeoutMs: Long? = null
@@ -79,6 +82,7 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(brandStyleguideParams: BrandStyleguideParams) = apply {
+            directUrl = brandStyleguideParams.directUrl
             domain = brandStyleguideParams.domain
             prioritize = brandStyleguideParams.prioritize
             timeoutMs = brandStyleguideParams.timeoutMs
@@ -87,10 +91,22 @@ private constructor(
         }
 
         /**
+         * A specific URL to fetch the styleguide from directly, bypassing domain resolution (e.g.,
+         * 'https://example.com/design-system').
+         */
+        fun directUrl(directUrl: String?) = apply { this.directUrl = directUrl }
+
+        /** Alias for calling [Builder.directUrl] with `directUrl.orElse(null)`. */
+        fun directUrl(directUrl: Optional<String>) = directUrl(directUrl.getOrNull())
+
+        /**
          * Domain name to extract styleguide from (e.g., 'example.com', 'google.com'). The domain
          * will be automatically normalized and validated.
          */
-        fun domain(domain: String) = apply { this.domain = domain }
+        fun domain(domain: String?) = apply { this.domain = domain }
+
+        /** Alias for calling [Builder.domain] with `domain.orElse(null)`. */
+        fun domain(domain: Optional<String>) = domain(domain.getOrNull())
 
         /**
          * Optional parameter to prioritize screenshot capture for styleguide extraction. If
@@ -221,17 +237,11 @@ private constructor(
          * Returns an immutable instance of [BrandStyleguideParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .domain()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): BrandStyleguideParams =
             BrandStyleguideParams(
-                checkRequired("domain", domain),
+                directUrl,
+                domain,
                 prioritize,
                 timeoutMs,
                 additionalHeaders.build(),
@@ -244,7 +254,8 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                put("domain", domain)
+                directUrl?.let { put("directUrl", it) }
+                domain?.let { put("domain", it) }
                 prioritize?.let { put("prioritize", it.toString()) }
                 timeoutMs?.let { put("timeoutMS", it.toString()) }
                 putAll(additionalQueryParams)
@@ -391,6 +402,7 @@ private constructor(
         }
 
         return other is BrandStyleguideParams &&
+            directUrl == other.directUrl &&
             domain == other.domain &&
             prioritize == other.prioritize &&
             timeoutMs == other.timeoutMs &&
@@ -399,8 +411,15 @@ private constructor(
     }
 
     override fun hashCode(): Int =
-        Objects.hash(domain, prioritize, timeoutMs, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            directUrl,
+            domain,
+            prioritize,
+            timeoutMs,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
-        "BrandStyleguideParams{domain=$domain, prioritize=$prioritize, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandStyleguideParams{directUrl=$directUrl, domain=$domain, prioritize=$prioritize, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -297,16 +297,25 @@ interface BrandService {
 
     /**
      * Automatically extract comprehensive design system information from a brand's website
-     * including colors, typography, spacing, shadows, and UI components.
+     * including colors, typography, spacing, shadows, and UI components. Either 'domain' or
+     * 'directUrl' must be provided as a query parameter, but not both.
      */
-    fun styleguide(params: BrandStyleguideParams): BrandStyleguideResponse =
-        styleguide(params, RequestOptions.none())
+    fun styleguide(): BrandStyleguideResponse = styleguide(BrandStyleguideParams.none())
 
     /** @see styleguide */
     fun styleguide(
-        params: BrandStyleguideParams,
+        params: BrandStyleguideParams = BrandStyleguideParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BrandStyleguideResponse
+
+    /** @see styleguide */
+    fun styleguide(
+        params: BrandStyleguideParams = BrandStyleguideParams.none()
+    ): BrandStyleguideResponse = styleguide(params, RequestOptions.none())
+
+    /** @see styleguide */
+    fun styleguide(requestOptions: RequestOptions): BrandStyleguideResponse =
+        styleguide(BrandStyleguideParams.none(), requestOptions)
 
     /**
      * Scrapes the given URL and returns the raw HTML content of the page. Uses automatic proxy
@@ -658,15 +667,26 @@ interface BrandService {
          * [BrandService.styleguide].
          */
         @MustBeClosed
-        fun styleguide(params: BrandStyleguideParams): HttpResponseFor<BrandStyleguideResponse> =
-            styleguide(params, RequestOptions.none())
+        fun styleguide(): HttpResponseFor<BrandStyleguideResponse> =
+            styleguide(BrandStyleguideParams.none())
 
         /** @see styleguide */
         @MustBeClosed
         fun styleguide(
-            params: BrandStyleguideParams,
+            params: BrandStyleguideParams = BrandStyleguideParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BrandStyleguideResponse>
+
+        /** @see styleguide */
+        @MustBeClosed
+        fun styleguide(
+            params: BrandStyleguideParams = BrandStyleguideParams.none()
+        ): HttpResponseFor<BrandStyleguideResponse> = styleguide(params, RequestOptions.none())
+
+        /** @see styleguide */
+        @MustBeClosed
+        fun styleguide(requestOptions: RequestOptions): HttpResponseFor<BrandStyleguideResponse> =
+            styleguide(BrandStyleguideParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /web/scrape/html`, but is otherwise the same as

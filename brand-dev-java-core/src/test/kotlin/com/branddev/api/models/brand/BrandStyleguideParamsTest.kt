@@ -11,6 +11,7 @@ internal class BrandStyleguideParamsTest {
     @Test
     fun create() {
         BrandStyleguideParams.builder()
+            .directUrl("https://example.com")
             .domain("domain")
             .prioritize(BrandStyleguideParams.Prioritize.SPEED)
             .timeoutMs(1000L)
@@ -21,6 +22,7 @@ internal class BrandStyleguideParamsTest {
     fun queryParams() {
         val params =
             BrandStyleguideParams.builder()
+                .directUrl("https://example.com")
                 .domain("domain")
                 .prioritize(BrandStyleguideParams.Prioritize.SPEED)
                 .timeoutMs(1000L)
@@ -31,6 +33,7 @@ internal class BrandStyleguideParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("directUrl", "https://example.com")
                     .put("domain", "domain")
                     .put("prioritize", "speed")
                     .put("timeoutMS", "1000")
@@ -40,10 +43,10 @@ internal class BrandStyleguideParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = BrandStyleguideParams.builder().domain("domain").build()
+        val params = BrandStyleguideParams.builder().build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams).isEqualTo(QueryParams.builder().put("domain", "domain").build())
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

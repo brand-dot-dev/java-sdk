@@ -314,16 +314,26 @@ interface BrandServiceAsync {
 
     /**
      * Automatically extract comprehensive design system information from a brand's website
-     * including colors, typography, spacing, shadows, and UI components.
+     * including colors, typography, spacing, shadows, and UI components. Either 'domain' or
+     * 'directUrl' must be provided as a query parameter, but not both.
      */
-    fun styleguide(params: BrandStyleguideParams): CompletableFuture<BrandStyleguideResponse> =
-        styleguide(params, RequestOptions.none())
+    fun styleguide(): CompletableFuture<BrandStyleguideResponse> =
+        styleguide(BrandStyleguideParams.none())
 
     /** @see styleguide */
     fun styleguide(
-        params: BrandStyleguideParams,
+        params: BrandStyleguideParams = BrandStyleguideParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BrandStyleguideResponse>
+
+    /** @see styleguide */
+    fun styleguide(
+        params: BrandStyleguideParams = BrandStyleguideParams.none()
+    ): CompletableFuture<BrandStyleguideResponse> = styleguide(params, RequestOptions.none())
+
+    /** @see styleguide */
+    fun styleguide(requestOptions: RequestOptions): CompletableFuture<BrandStyleguideResponse> =
+        styleguide(BrandStyleguideParams.none(), requestOptions)
 
     /**
      * Scrapes the given URL and returns the raw HTML content of the page. Uses automatic proxy
@@ -663,16 +673,26 @@ interface BrandServiceAsync {
          * Returns a raw HTTP response for `get /brand/styleguide`, but is otherwise the same as
          * [BrandServiceAsync.styleguide].
          */
+        fun styleguide(): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>> =
+            styleguide(BrandStyleguideParams.none())
+
+        /** @see styleguide */
         fun styleguide(
-            params: BrandStyleguideParams
+            params: BrandStyleguideParams = BrandStyleguideParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>>
+
+        /** @see styleguide */
+        fun styleguide(
+            params: BrandStyleguideParams = BrandStyleguideParams.none()
         ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>> =
             styleguide(params, RequestOptions.none())
 
         /** @see styleguide */
         fun styleguide(
-            params: BrandStyleguideParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<BrandStyleguideResponse>> =
+            styleguide(BrandStyleguideParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /web/scrape/html`, but is otherwise the same as

@@ -354,6 +354,7 @@ internal class BrandServiceAsyncTest {
         val responseFuture =
             brandServiceAsync.styleguide(
                 BrandStyleguideParams.builder()
+                    .directUrl("https://example.com")
                     .domain("domain")
                     .prioritize(BrandStyleguideParams.Prioritize.SPEED)
                     .timeoutMs(1000L)

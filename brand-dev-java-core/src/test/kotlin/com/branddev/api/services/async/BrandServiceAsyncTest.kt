@@ -165,6 +165,7 @@ internal class BrandServiceAsyncTest {
                     .city("city")
                     .countryGl(BrandIdentifyFromTransactionParams.CountryGl.AD)
                     .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+                    .highConfidenceOnly(true)
                     .maxSpeed(true)
                     .mcc("mcc")
                     .phone(0.0)

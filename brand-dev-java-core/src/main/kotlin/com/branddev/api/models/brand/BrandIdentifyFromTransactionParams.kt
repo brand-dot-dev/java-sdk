@@ -24,6 +24,7 @@ private constructor(
     private val city: String?,
     private val countryGl: CountryGl?,
     private val forceLanguage: ForceLanguage?,
+    private val highConfidenceOnly: Boolean?,
     private val maxSpeed: Boolean?,
     private val mcc: String?,
     private val phone: Double?,
@@ -46,6 +47,12 @@ private constructor(
 
     /** Optional parameter to force the language of the retrieved brand data. */
     fun forceLanguage(): Optional<ForceLanguage> = Optional.ofNullable(forceLanguage)
+
+    /**
+     * When set to true, the API will perform an additional verification steps to ensure the
+     * identified brand matches the transaction with high confidence. Defaults to false.
+     */
+    fun highConfidenceOnly(): Optional<Boolean> = Optional.ofNullable(highConfidenceOnly)
 
     /**
      * Optional parameter to optimize the API call for maximum speed. When set to true, the API will
@@ -95,6 +102,7 @@ private constructor(
         private var city: String? = null
         private var countryGl: CountryGl? = null
         private var forceLanguage: ForceLanguage? = null
+        private var highConfidenceOnly: Boolean? = null
         private var maxSpeed: Boolean? = null
         private var mcc: String? = null
         private var phone: Double? = null
@@ -109,6 +117,7 @@ private constructor(
                 city = brandIdentifyFromTransactionParams.city
                 countryGl = brandIdentifyFromTransactionParams.countryGl
                 forceLanguage = brandIdentifyFromTransactionParams.forceLanguage
+                highConfidenceOnly = brandIdentifyFromTransactionParams.highConfidenceOnly
                 maxSpeed = brandIdentifyFromTransactionParams.maxSpeed
                 mcc = brandIdentifyFromTransactionParams.mcc
                 phone = brandIdentifyFromTransactionParams.phone
@@ -146,6 +155,28 @@ private constructor(
         /** Alias for calling [Builder.forceLanguage] with `forceLanguage.orElse(null)`. */
         fun forceLanguage(forceLanguage: Optional<ForceLanguage>) =
             forceLanguage(forceLanguage.getOrNull())
+
+        /**
+         * When set to true, the API will perform an additional verification steps to ensure the
+         * identified brand matches the transaction with high confidence. Defaults to false.
+         */
+        fun highConfidenceOnly(highConfidenceOnly: Boolean?) = apply {
+            this.highConfidenceOnly = highConfidenceOnly
+        }
+
+        /**
+         * Alias for [Builder.highConfidenceOnly].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun highConfidenceOnly(highConfidenceOnly: Boolean) =
+            highConfidenceOnly(highConfidenceOnly as Boolean?)
+
+        /**
+         * Alias for calling [Builder.highConfidenceOnly] with `highConfidenceOnly.orElse(null)`.
+         */
+        fun highConfidenceOnly(highConfidenceOnly: Optional<Boolean>) =
+            highConfidenceOnly(highConfidenceOnly.getOrNull())
 
         /**
          * Optional parameter to optimize the API call for maximum speed. When set to true, the API
@@ -318,6 +349,7 @@ private constructor(
                 city,
                 countryGl,
                 forceLanguage,
+                highConfidenceOnly,
                 maxSpeed,
                 mcc,
                 phone,
@@ -336,6 +368,7 @@ private constructor(
                 city?.let { put("city", it) }
                 countryGl?.let { put("country_gl", it.toString()) }
                 forceLanguage?.let { put("force_language", it.toString()) }
+                highConfidenceOnly?.let { put("high_confidence_only", it.toString()) }
                 maxSpeed?.let { put("maxSpeed", it.toString()) }
                 mcc?.let { put("mcc", it) }
                 phone?.let { put("phone", it.toString()) }
@@ -2341,6 +2374,7 @@ private constructor(
             city == other.city &&
             countryGl == other.countryGl &&
             forceLanguage == other.forceLanguage &&
+            highConfidenceOnly == other.highConfidenceOnly &&
             maxSpeed == other.maxSpeed &&
             mcc == other.mcc &&
             phone == other.phone &&
@@ -2355,6 +2389,7 @@ private constructor(
             city,
             countryGl,
             forceLanguage,
+            highConfidenceOnly,
             maxSpeed,
             mcc,
             phone,
@@ -2364,5 +2399,5 @@ private constructor(
         )
 
     override fun toString() =
-        "BrandIdentifyFromTransactionParams{transactionInfo=$transactionInfo, city=$city, countryGl=$countryGl, forceLanguage=$forceLanguage, maxSpeed=$maxSpeed, mcc=$mcc, phone=$phone, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandIdentifyFromTransactionParams{transactionInfo=$transactionInfo, city=$city, countryGl=$countryGl, forceLanguage=$forceLanguage, highConfidenceOnly=$highConfidenceOnly, maxSpeed=$maxSpeed, mcc=$mcc, phone=$phone, timeoutMs=$timeoutMs, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

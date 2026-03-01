@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0-alpha.33 (2026-03-01)
+
+Full Changelog: [v0.1.0-alpha.32...v0.1.0-alpha.33](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.32...v0.1.0-alpha.33)
+
+### Features
+
+* **api:** api update ([7f56da8](https://github.com/brand-dot-dev/java-sdk/commit/7f56da898aa51a5576b2cadf7d95be401fda890d))
+* **api:** api update ([baa01e1](https://github.com/brand-dot-dev/java-sdk/commit/baa01e1ffa1dc0dbfa5ddaaf623df46582f7dd2e))
+
+
+### Chores
+
+* drop apache dependency ([d693eb2](https://github.com/brand-dot-dev/java-sdk/commit/d693eb2fca1cd1f130904a332a6cd356ee30c8d7))
+* **internal:** expand imports ([caab6c9](https://github.com/brand-dot-dev/java-sdk/commit/caab6c944576df1b9771cb85375b2432608e8ce0))
+* make `Properties` more resilient to `null` ([8f82431](https://github.com/brand-dot-dev/java-sdk/commit/8f8243195fa1c48d4129d2c9ebaf0e5b1a80adf4))
+
 ## 0.1.0-alpha.32 (2026-02-24)
 
 Full Changelog: [v0.1.0-alpha.31...v0.1.0-alpha.32](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.31...v0.1.0-alpha.32)

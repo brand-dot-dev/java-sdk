@@ -388,6 +388,7 @@ internal class BrandServiceTest {
                     .url("https://example.com")
                     .includeImages(true)
                     .includeLinks(true)
+                    .shortenBase64Images(true)
                     .build()
             )
 

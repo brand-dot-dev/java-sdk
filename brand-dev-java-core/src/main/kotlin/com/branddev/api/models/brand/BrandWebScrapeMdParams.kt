@@ -19,6 +19,7 @@ private constructor(
     private val url: String,
     private val includeImages: Boolean?,
     private val includeLinks: Boolean?,
+    private val shortenBase64Images: Boolean?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -31,6 +32,9 @@ private constructor(
 
     /** Preserve hyperlinks in Markdown output */
     fun includeLinks(): Optional<Boolean> = Optional.ofNullable(includeLinks)
+
+    /** Shorten base64-encoded image data in the Markdown output */
+    fun shortenBase64Images(): Optional<Boolean> = Optional.ofNullable(shortenBase64Images)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -59,6 +63,7 @@ private constructor(
         private var url: String? = null
         private var includeImages: Boolean? = null
         private var includeLinks: Boolean? = null
+        private var shortenBase64Images: Boolean? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -67,6 +72,7 @@ private constructor(
             url = brandWebScrapeMdParams.url
             includeImages = brandWebScrapeMdParams.includeImages
             includeLinks = brandWebScrapeMdParams.includeLinks
+            shortenBase64Images = brandWebScrapeMdParams.shortenBase64Images
             additionalHeaders = brandWebScrapeMdParams.additionalHeaders.toBuilder()
             additionalQueryParams = brandWebScrapeMdParams.additionalQueryParams.toBuilder()
         }
@@ -102,6 +108,25 @@ private constructor(
 
         /** Alias for calling [Builder.includeLinks] with `includeLinks.orElse(null)`. */
         fun includeLinks(includeLinks: Optional<Boolean>) = includeLinks(includeLinks.getOrNull())
+
+        /** Shorten base64-encoded image data in the Markdown output */
+        fun shortenBase64Images(shortenBase64Images: Boolean?) = apply {
+            this.shortenBase64Images = shortenBase64Images
+        }
+
+        /**
+         * Alias for [Builder.shortenBase64Images].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun shortenBase64Images(shortenBase64Images: Boolean) =
+            shortenBase64Images(shortenBase64Images as Boolean?)
+
+        /**
+         * Alias for calling [Builder.shortenBase64Images] with `shortenBase64Images.orElse(null)`.
+         */
+        fun shortenBase64Images(shortenBase64Images: Optional<Boolean>) =
+            shortenBase64Images(shortenBase64Images.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -218,6 +243,7 @@ private constructor(
                 checkRequired("url", url),
                 includeImages,
                 includeLinks,
+                shortenBase64Images,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -231,6 +257,7 @@ private constructor(
                 put("url", url)
                 includeImages?.let { put("includeImages", it.toString()) }
                 includeLinks?.let { put("includeLinks", it.toString()) }
+                shortenBase64Images?.let { put("shortenBase64Images", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -244,13 +271,21 @@ private constructor(
             url == other.url &&
             includeImages == other.includeImages &&
             includeLinks == other.includeLinks &&
+            shortenBase64Images == other.shortenBase64Images &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(url, includeImages, includeLinks, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            url,
+            includeImages,
+            includeLinks,
+            shortenBase64Images,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
-        "BrandWebScrapeMdParams{url=$url, includeImages=$includeImages, includeLinks=$includeLinks, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "BrandWebScrapeMdParams{url=$url, includeImages=$includeImages, includeLinks=$includeLinks, shortenBase64Images=$shortenBase64Images, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

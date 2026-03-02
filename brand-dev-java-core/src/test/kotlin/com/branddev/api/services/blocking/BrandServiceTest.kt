@@ -158,6 +158,7 @@ internal class BrandServiceTest {
                     .city("city")
                     .countryGl(BrandIdentifyFromTransactionParams.CountryGl.AD)
                     .forceLanguage(BrandIdentifyFromTransactionParams.ForceLanguage.ALBANIAN)
+                    .highConfidenceOnly(true)
                     .maxSpeed(true)
                     .mcc("mcc")
                     .phone(0.0)
@@ -387,6 +388,7 @@ internal class BrandServiceTest {
                     .url("https://example.com")
                     .includeImages(true)
                     .includeLinks(true)
+                    .shortenBase64Images(true)
                     .build()
             )
 

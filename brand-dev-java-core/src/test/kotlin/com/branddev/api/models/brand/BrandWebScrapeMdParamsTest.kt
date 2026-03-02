@@ -14,6 +14,7 @@ internal class BrandWebScrapeMdParamsTest {
             .url("https://example.com")
             .includeImages(true)
             .includeLinks(true)
+            .shortenBase64Images(true)
             .build()
     }
 
@@ -24,6 +25,7 @@ internal class BrandWebScrapeMdParamsTest {
                 .url("https://example.com")
                 .includeImages(true)
                 .includeLinks(true)
+                .shortenBase64Images(true)
                 .build()
 
         val queryParams = params._queryParams()
@@ -34,6 +36,7 @@ internal class BrandWebScrapeMdParamsTest {
                     .put("url", "https://example.com")
                     .put("includeImages", "true")
                     .put("includeLinks", "true")
+                    .put("shortenBase64Images", "true")
                     .build()
             )
     }

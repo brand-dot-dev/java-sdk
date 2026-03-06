@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.34 (2026-03-06)
+
+Full Changelog: [v0.1.0-alpha.33...v0.1.0-alpha.34](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.33...v0.1.0-alpha.34)
+
+### Chores
+
+* **internal:** bump palantir-java-format ([a0b7293](https://github.com/brand-dot-dev/java-sdk/commit/a0b7293dd2b70262c25ba82ede465e9dcfec3c68))
+* **internal:** codegen related update ([0d5dbf7](https://github.com/brand-dot-dev/java-sdk/commit/0d5dbf7c4b9b344b2ce649bad9857eb292a9731c))
+
 ## 0.1.0-alpha.33 (2026-03-01)
 
 Full Changelog: [v0.1.0-alpha.32...v0.1.0-alpha.33](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.32...v0.1.0-alpha.33)

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.35 (2026-03-07)
+
+Full Changelog: [v0.1.0-alpha.34...v0.1.0-alpha.35](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.34...v0.1.0-alpha.35)
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([b29f6e7](https://github.com/brand-dot-dev/java-sdk/commit/b29f6e7d8e8904a89ac4c41fae1460bd6623b518))
+
 ## 0.1.0-alpha.34 (2026-03-06)
 
 Full Changelog: [v0.1.0-alpha.33...v0.1.0-alpha.34](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.33...v0.1.0-alpha.34)

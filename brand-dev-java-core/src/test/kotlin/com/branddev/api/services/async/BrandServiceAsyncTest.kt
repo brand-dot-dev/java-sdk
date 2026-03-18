@@ -260,6 +260,7 @@ internal class BrandServiceAsyncTest {
             brandServiceAsync.retrieveByName(
                 BrandRetrieveByNameParams.builder()
                     .name("xxx")
+                    .countryGl(BrandRetrieveByNameParams.CountryGl.AD)
                     .forceLanguage(BrandRetrieveByNameParams.ForceLanguage.ALBANIAN)
                     .maxSpeed(true)
                     .timeoutMs(1000L)

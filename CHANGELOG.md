@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0-alpha.36 (2026-03-18)
+
+Full Changelog: [v0.1.0-alpha.35...v0.1.0-alpha.36](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.35...v0.1.0-alpha.36)
+
+### Features
+
+* **api:** api update ([2684d41](https://github.com/brand-dot-dev/java-sdk/commit/2684d410059e02e7dd09c288bd19e707a7221108))
+
+
+### Bug Fixes
+
+* **client:** incorrect `Retry-After` parsing ([95a5a2b](https://github.com/brand-dot-dev/java-sdk/commit/95a5a2b76191203166974e66729cd1142cf0fb4a))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([7ab78d8](https://github.com/brand-dot-dev/java-sdk/commit/7ab78d8b427c70f67f20bd77b02e36d0ccf6d84b))
+
 ## 0.1.0-alpha.35 (2026-03-07)
 
 Full Changelog: [v0.1.0-alpha.34...v0.1.0-alpha.35](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.34...v0.1.0-alpha.35)

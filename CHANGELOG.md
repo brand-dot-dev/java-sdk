@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0-alpha.37 (2026-03-20)
+
+Full Changelog: [v0.1.0-alpha.36...v0.1.0-alpha.37](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.36...v0.1.0-alpha.37)
+
+### Features
+
+* **api:** api update ([55370b0](https://github.com/brand-dot-dev/java-sdk/commit/55370b0403061c15f1d20350f4f82c12de8212bd))
+
+
+### Bug Fixes
+
+* **client:** allow updating header/query affecting fields in `toBuilder()` ([f2b664a](https://github.com/brand-dot-dev/java-sdk/commit/f2b664a8fe0a14e40d39744eb997dd977bdb8dfc))
+
+
+### Chores
+
+* **internal:** bump ktfmt ([787dd90](https://github.com/brand-dot-dev/java-sdk/commit/787dd90a803475074b3f2203e8d0b91175343460))
+* **internal:** update retry delay tests ([bab2317](https://github.com/brand-dot-dev/java-sdk/commit/bab2317ae040c7bb94d252c5fc682c3898674f93))
+
 ## 0.1.0-alpha.36 (2026-03-18)
 
 Full Changelog: [v0.1.0-alpha.35...v0.1.0-alpha.36](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.35...v0.1.0-alpha.36)

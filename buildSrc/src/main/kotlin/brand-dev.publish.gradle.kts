@@ -22,7 +22,7 @@ configure<PublishingExtension> {
                 developers {
                     developer {
                         name.set("Brand Dev")
-                        email.set("hello@brand.dev")
+                        email.set("hello@context.dev")
                     }
                 }
 

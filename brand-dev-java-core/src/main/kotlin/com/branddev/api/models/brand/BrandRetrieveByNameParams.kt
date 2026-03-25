@@ -1875,6 +1875,8 @@ private constructor(
 
             @JvmField val BULGARIAN = of("bulgarian")
 
+            @JvmField val CANTONESE = of("cantonese")
+
             @JvmField val CEBUANO = of("cebuano")
 
             @JvmField val CROATIAN = of("croatian")
@@ -1912,6 +1914,8 @@ private constructor(
             @JvmField val ITALIAN = of("italian")
 
             @JvmField val KAZAKH = of("kazakh")
+
+            @JvmField val KOREAN = of("korean")
 
             @JvmField val KYRGYZ = of("kyrgyz")
 
@@ -1957,6 +1961,8 @@ private constructor(
 
             @JvmField val TAGALOG = of("tagalog")
 
+            @JvmField val THAI = of("thai")
+
             @JvmField val TURKISH = of("turkish")
 
             @JvmField val UKRAINIAN = of("ukrainian")
@@ -1979,6 +1985,7 @@ private constructor(
             AZERI,
             BENGALI,
             BULGARIAN,
+            CANTONESE,
             CEBUANO,
             CROATIAN,
             CZECH,
@@ -1998,6 +2005,7 @@ private constructor(
             INDONESIAN,
             ITALIAN,
             KAZAKH,
+            KOREAN,
             KYRGYZ,
             LATIN,
             LATVIAN,
@@ -2020,6 +2028,7 @@ private constructor(
             SWAHILI,
             SWEDISH,
             TAGALOG,
+            THAI,
             TURKISH,
             UKRAINIAN,
             URDU,
@@ -2043,6 +2052,7 @@ private constructor(
             AZERI,
             BENGALI,
             BULGARIAN,
+            CANTONESE,
             CEBUANO,
             CROATIAN,
             CZECH,
@@ -2062,6 +2072,7 @@ private constructor(
             INDONESIAN,
             ITALIAN,
             KAZAKH,
+            KOREAN,
             KYRGYZ,
             LATIN,
             LATVIAN,
@@ -2084,6 +2095,7 @@ private constructor(
             SWAHILI,
             SWEDISH,
             TAGALOG,
+            THAI,
             TURKISH,
             UKRAINIAN,
             URDU,
@@ -2111,6 +2123,7 @@ private constructor(
                 AZERI -> Value.AZERI
                 BENGALI -> Value.BENGALI
                 BULGARIAN -> Value.BULGARIAN
+                CANTONESE -> Value.CANTONESE
                 CEBUANO -> Value.CEBUANO
                 CROATIAN -> Value.CROATIAN
                 CZECH -> Value.CZECH
@@ -2130,6 +2143,7 @@ private constructor(
                 INDONESIAN -> Value.INDONESIAN
                 ITALIAN -> Value.ITALIAN
                 KAZAKH -> Value.KAZAKH
+                KOREAN -> Value.KOREAN
                 KYRGYZ -> Value.KYRGYZ
                 LATIN -> Value.LATIN
                 LATVIAN -> Value.LATVIAN
@@ -2152,6 +2166,7 @@ private constructor(
                 SWAHILI -> Value.SWAHILI
                 SWEDISH -> Value.SWEDISH
                 TAGALOG -> Value.TAGALOG
+                THAI -> Value.THAI
                 TURKISH -> Value.TURKISH
                 UKRAINIAN -> Value.UKRAINIAN
                 URDU -> Value.URDU
@@ -2177,6 +2192,7 @@ private constructor(
                 AZERI -> Known.AZERI
                 BENGALI -> Known.BENGALI
                 BULGARIAN -> Known.BULGARIAN
+                CANTONESE -> Known.CANTONESE
                 CEBUANO -> Known.CEBUANO
                 CROATIAN -> Known.CROATIAN
                 CZECH -> Known.CZECH
@@ -2196,6 +2212,7 @@ private constructor(
                 INDONESIAN -> Known.INDONESIAN
                 ITALIAN -> Known.ITALIAN
                 KAZAKH -> Known.KAZAKH
+                KOREAN -> Known.KOREAN
                 KYRGYZ -> Known.KYRGYZ
                 LATIN -> Known.LATIN
                 LATVIAN -> Known.LATVIAN
@@ -2218,6 +2235,7 @@ private constructor(
                 SWAHILI -> Known.SWAHILI
                 SWEDISH -> Known.SWEDISH
                 TAGALOG -> Known.TAGALOG
+                THAI -> Known.THAI
                 TURKISH -> Known.TURKISH
                 UKRAINIAN -> Known.UKRAINIAN
                 URDU -> Known.URDU

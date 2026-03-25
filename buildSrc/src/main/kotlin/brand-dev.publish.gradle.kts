@@ -22,14 +22,14 @@ configure<PublishingExtension> {
                 developers {
                     developer {
                         name.set("Brand Dev")
-                        email.set("hello@brand.dev")
+                        email.set("hello@context.dev")
                     }
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/brand-dot-dev/java-sdk.git")
-                    developerConnection.set("scm:git:git://github.com/brand-dot-dev/java-sdk.git")
-                    url.set("https://github.com/brand-dot-dev/java-sdk")
+                    connection.set("scm:git:git://github.com/context-dot-dev/deprecated-brand-java-sdk.git")
+                    developerConnection.set("scm:git:git://github.com/context-dot-dev/deprecated-brand-java-sdk.git")
+                    url.set("https://github.com/context-dot-dev/deprecated-brand-java-sdk")
                 }
 
                 versionMapping {

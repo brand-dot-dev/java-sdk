@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.0-alpha.37 (2026-03-25)
+
+Full Changelog: [v0.1.0-alpha.36...v0.1.0-alpha.37](https://github.com/context-dot-dev/deprecated-brand-java-sdk/compare/v0.1.0-alpha.36...v0.1.0-alpha.37)
+
+### Features
+
+* **api:** api update ([da6510c](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/da6510c03615228a1c05508fbbccfd9f7c618023))
+* **api:** api update ([55370b0](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/55370b0403061c15f1d20350f4f82c12de8212bd))
+* **api:** manual updates ([02ac048](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/02ac0482c8630ea51fc9d0d4c4a1893bd08c591d))
+
+
+### Bug Fixes
+
+* **client:** allow updating header/query affecting fields in `toBuilder()` ([f2b664a](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/f2b664a8fe0a14e40d39744eb997dd977bdb8dfc))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([1c9813d](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/1c9813d43fa8422c69acd1d1f8c9bd8dc479f6c0))
+* **internal:** bump ktfmt ([787dd90](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/787dd90a803475074b3f2203e8d0b91175343460))
+* **internal:** update gitignore ([7005bfc](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/7005bfc80459ed57218d9c747af73fd96d73f4f7))
+* **internal:** update retry delay tests ([bab2317](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/bab2317ae040c7bb94d252c5fc682c3898674f93))
+* update SDK settings ([dd97e0f](https://github.com/context-dot-dev/deprecated-brand-java-sdk/commit/dd97e0ff82d3d133019fad1697edb9a32f74bd5e))
+
 ## 0.1.0-alpha.36 (2026-03-18)
 
 Full Changelog: [v0.1.0-alpha.35...v0.1.0-alpha.36](https://github.com/brand-dot-dev/java-sdk/compare/v0.1.0-alpha.35...v0.1.0-alpha.36)
